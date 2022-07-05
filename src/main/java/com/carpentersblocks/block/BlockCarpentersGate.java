@@ -1,5 +1,11 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.data.Barrier;
+import com.carpentersblocks.data.Gate;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,17 +17,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.data.Barrier;
-import com.carpentersblocks.data.Gate;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersGate extends BlockCoverable {
 
-    public BlockCarpentersGate(Material material)
-    {
+    public BlockCarpentersGate(Material material) {
         super(material);
     }
 
@@ -29,8 +28,7 @@ public class BlockCarpentersGate extends BlockCoverable {
     /**
      * Alters gate type or sub-type and returns result.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         int type = Gate.getType(TE);
 
         if (entityPlayer.isSneaking()) {
@@ -54,7 +52,6 @@ public class BlockCarpentersGate extends BlockCoverable {
             } else if (++type > Gate.TYPE_WALL) {
                 type = Gate.TYPE_VANILLA;
             }
-
         }
 
         Gate.setType(TE, type);
@@ -66,8 +63,14 @@ public class BlockCarpentersGate extends BlockCoverable {
     /**
      * Opens or closes gate on right click.
      */
-    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ, ActionResult actionResult)
-    {
+    protected void postOnBlockActivated(
+            TEBase TE,
+            EntityPlayer entityPlayer,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            ActionResult actionResult) {
         if (Gate.getState(TE) == Gate.STATE_OPEN) {
 
             Gate.setState(TE, Gate.STATE_CLOSED, true);
@@ -85,7 +88,6 @@ public class BlockCarpentersGate extends BlockCoverable {
             }
 
             cycleNeighborGate(TE, TE.getWorldObj(), TE.xCoord, TE.yCoord, TE.zCoord);
-
         }
 
         actionResult.setAltered().setNoSound();
@@ -95,8 +97,7 @@ public class BlockCarpentersGate extends BlockCoverable {
     /**
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
      */
-    public boolean canPlaceBlockAt(World world, int x, int y, int z)
-    {
+    public boolean canPlaceBlockAt(World world, int x, int y, int z) {
         return !world.getBlock(x, y - 1, z).getMaterial().isSolid() ? false : super.canPlaceBlockAt(world, x, y, z);
     }
 
@@ -105,8 +106,7 @@ public class BlockCarpentersGate extends BlockCoverable {
      * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
      * cleared to be reused)
      */
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         TEBase TE = getTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -126,7 +126,6 @@ public class BlockCarpentersGate extends BlockCoverable {
                     return AxisAlignedBB.getBoundingBox(x, y, z + 0.375F, x + 1.0F, y + 1.5F, z + 0.625F);
                 }
             }
-
         }
 
         return null;
@@ -136,8 +135,7 @@ public class BlockCarpentersGate extends BlockCoverable {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -155,15 +153,13 @@ public class BlockCarpentersGate extends BlockCoverable {
                     setBlockBounds(0.0F, 0.0F, 0.375F, 1.0F, 1.0F, 0.625F);
                 }
             }
-
         }
     }
 
     /**
      * Opens or closes one neighboring gate above or below block.
      */
-    private void cycleNeighborGate(TEBase TE, World world, int x, int y, int z)
-    {
+    private void cycleNeighborGate(TEBase TE, World world, int x, int y, int z) {
         boolean isGateBelow = world.getBlock(x, y - 1, z).equals(this);
         boolean isGateAbove = world.getBlock(x, y + 1, z).equals(this);
 
@@ -186,7 +182,6 @@ public class BlockCarpentersGate extends BlockCoverable {
                 Gate.setDirOpen(TE_YP, Gate.getDirOpen(TE));
                 Gate.setState(TE_YP, Gate.getState(TE), false);
             }
-
         }
     }
 
@@ -194,8 +189,7 @@ public class BlockCarpentersGate extends BlockCoverable {
     /**
      * Called when the block is placed in the world.
      */
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
-    {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
 
         TEBase TE = getTileEntity(world, x, y, z);
@@ -221,11 +215,8 @@ public class BlockCarpentersGate extends BlockCoverable {
                     } else if (block.equals(BlockRegistry.blockCarpentersGate)) {
                         Gate.setType(TE, Barrier.getType(TE_current));
                     }
-
                 }
-
             }
-
         }
     }
 
@@ -234,8 +225,7 @@ public class BlockCarpentersGate extends BlockCoverable {
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor blockID
      */
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if (!world.isRemote) {
 
             TEBase TE = getTileEntity(world, x, y, z);
@@ -244,8 +234,7 @@ public class BlockCarpentersGate extends BlockCoverable {
 
                 boolean isPowered = world.isBlockIndirectlyGettingPowered(x, y, z);
 
-                if (isPowered || block != null && block.canProvidePower())
-                {
+                if (isPowered || block != null && block.canProvidePower()) {
                     int state = Gate.getState(TE);
 
                     if (isPowered && state == Gate.STATE_CLOSED) {
@@ -256,9 +245,7 @@ public class BlockCarpentersGate extends BlockCoverable {
                         cycleNeighborGate(TE, world, x, y, z);
                     }
                 }
-
             }
-
         }
 
         super.onNeighborBlockChange(world, x, y, z, block);
@@ -270,8 +257,7 @@ public class BlockCarpentersGate extends BlockCoverable {
      * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
      * coordinates.  Args: world, x, y, z, side
      */
-    public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
-    {
+    public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
         return true;
     }
 
@@ -279,39 +265,40 @@ public class BlockCarpentersGate extends BlockCoverable {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersGateRenderID;
     }
 
     @Override
-    public ForgeDirection[] getValidRotations(World worldObj, int x, int y,int z)
-    {
+    public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
         ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
         return axises;
     }
 
     @Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
-    {
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
         // if Axis is UP, block rotates to the right:  north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TEBase)
-        {
-            TEBase cbTile = (TEBase)tile;
+        if (tile != null && tile instanceof TEBase) {
+            TEBase cbTile = (TEBase) tile;
             int facing = Gate.getFacing(cbTile);
-            switch (facing)
-            {
-                case 0:{Gate.setFacing(cbTile, 1); break;}
-                case 1:{Gate.setFacing(cbTile, 0); break;}
-                default: return false;
+            switch (facing) {
+                case 0: {
+                    Gate.setFacing(cbTile, 1);
+                    break;
+                }
+                case 1: {
+                    Gate.setFacing(cbTile, 0);
+                    break;
+                }
+                default:
+                    return false;
             }
             return true;
         }
         return false;
     }
-
 }

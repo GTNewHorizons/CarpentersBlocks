@@ -4,10 +4,11 @@ import static com.carpentersblocks.renderer.helper.VertexHelper.BOTTOM_LEFT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.BOTTOM_RIGHT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_LEFT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_RIGHT;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
 @SideOnly(Side.CLIENT)
 public abstract class BlockHandlerSloped extends BlockHandlerBase {
@@ -34,8 +35,7 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
      * Sets renderID to identify which RenderHelper to use
      * and passes control to delegateSideRender().
      */
-    protected final void setIDAndRender(ItemStack itemStack, int renderID, int x, int y, int z, int side)
-    {
+    protected final void setIDAndRender(ItemStack itemStack, int renderID, int x, int y, int z, int side) {
         this.renderID = renderID;
         delegateSideRender(itemStack, x, y, z, side);
     }
@@ -43,8 +43,7 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
     /**
      * Prepares lighting for block and offset faces.
      */
-    protected void prepareLighting(ItemStack itemStack, int x, int y, int z)
-    {
+    protected void prepareLighting(ItemStack itemStack, int x, int y, int z) {
         for (int side = 0; side < 6; ++side) {
             populateLighting(itemStack, x, y, z, side);
             populateOffsetLighting(itemStack, x, y, z, side);
@@ -54,10 +53,8 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
     /**
      * Fills ambient occlusion and brightness tables.
      */
-    private void populateLighting(ItemStack itemStack, int x, int y, int z, int side)
-    {
-        switch (side)
-        {
+    private void populateLighting(ItemStack itemStack, int x, int y, int z, int side) {
+        switch (side) {
             case DOWN:
                 lightingHelper.setupLightingYNeg(itemStack, x, y, z);
                 break;
@@ -78,8 +75,7 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
                 break;
         }
 
-        if (renderBlocks.enableAO)
-        {
+        if (renderBlocks.enableAO) {
             ao[side][0] = lightingHelper.ao[TOP_LEFT];
             ao[side][1] = lightingHelper.ao[BOTTOM_LEFT];
             ao[side][2] = lightingHelper.ao[BOTTOM_RIGHT];
@@ -94,12 +90,10 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
     /**
      * Fills ambient occlusion and brightness tables for offset block coordinates.
      */
-    private void populateOffsetLighting(ItemStack itemStack, int x, int y, int z, int side)
-    {
+    private void populateOffsetLighting(ItemStack itemStack, int x, int y, int z, int side) {
         double renderTemp;
 
-        switch (side)
-        {
+        switch (side) {
             case DOWN:
                 renderTemp = renderBlocks.renderMinY;
                 renderBlocks.renderMinY = 0.0D;
@@ -138,8 +132,7 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
                 break;
         }
 
-        if (renderBlocks.enableAO)
-        {
+        if (renderBlocks.enableAO) {
             offset_ao[side][0] = lightingHelper.ao[TOP_LEFT];
             offset_ao[side][1] = lightingHelper.ao[BOTTOM_LEFT];
             offset_ao[side][2] = lightingHelper.ao[BOTTOM_RIGHT];
@@ -160,8 +153,7 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
     /**
      * Renders side.
      */
-    protected final void render(int x, int y, int z, int side, IIcon icon)
-    {
+    protected final void render(int x, int y, int z, int side, IIcon icon) {
         if (coverRendering != 6) {
             super.render(x, y, z, side, icon);
         } else {
@@ -178,13 +170,11 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
     /**
      * Renders the block.
      */
-    protected final void renderBlock(ItemStack itemStack, int x, int y, int z)
-    {
+    protected final void renderBlock(ItemStack itemStack, int x, int y, int z) {
         if (coverRendering != 6) {
             super.renderBlock(itemStack, x, y, z);
         } else {
             renderBaseBlock(itemStack, x, y, z);
         }
     }
-
 }

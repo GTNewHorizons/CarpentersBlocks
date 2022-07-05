@@ -1,5 +1,15 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Lever;
+import com.carpentersblocks.data.Lever.Axis;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.EntityLivingUtil;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,23 +21,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Lever;
-import com.carpentersblocks.data.Lever.Axis;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.EntityLivingUtil;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersLever extends BlockSided {
 
     private static Lever data = new Lever();
 
-    public BlockCarpentersLever(Material material)
-    {
+    public BlockCarpentersLever(Material material) {
         super(material, data);
     }
 
@@ -37,8 +36,7 @@ public class BlockCarpentersLever extends BlockSided {
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
      */
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         IconRegistry.icon_lever = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "lever/lever");
     }
 
@@ -47,8 +45,7 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * Returns the icon on the side given the block metadata.
      */
-    public IIcon getIcon(int side, int metadata)
-    {
+    public IIcon getIcon(int side, int metadata) {
         return IconRegistry.icon_lever;
     }
 
@@ -57,8 +54,7 @@ public class BlockCarpentersLever extends BlockSided {
      * Alters polarity.
      * Handled differently for Levers since type is split into sub-components.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int polarity = data.getPolarity(TE) == data.POLARITY_POSITIVE ? data.POLARITY_NEGATIVE : data.POLARITY_POSITIVE;
 
         data.setPolarity(TE, polarity);
@@ -77,8 +73,7 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * Called when the block is placed in the world.
      */
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
-    {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
 
         TEBase TE = getTileEntity(world, x, y, z);
@@ -103,8 +98,7 @@ public class BlockCarpentersLever extends BlockSided {
      * cleared to be reused)
      */
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         return null;
     }
 
@@ -112,8 +106,7 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -142,7 +135,6 @@ public class BlockCarpentersLever extends BlockSided {
                     setBlockBounds(0.5F - offset, 0.2F, 0.0F, 0.5F + offset, 0.8F, offset, side);
                     break;
             }
-
         }
     }
 
@@ -150,8 +142,14 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * Called upon block activation.
      */
-    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ, ActionResult actionResult)
-    {
+    protected void postOnBlockActivated(
+            TEBase TE,
+            EntityPlayer entityPlayer,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            ActionResult actionResult) {
         data.setState(TE, isActive(TE) ? data.STATE_OFF : data.STATE_ON, true);
 
         World world = TE.getWorldObj();
@@ -165,8 +163,7 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * Returns whether lever is in active state
      */
-    private boolean isActive(TEBase TE)
-    {
+    private boolean isActive(TEBase TE) {
         return data.getState(TE) == data.STATE_ON;
     }
 
@@ -174,8 +171,7 @@ public class BlockCarpentersLever extends BlockSided {
      * Returns power level (0 or 15)
      */
     @Override
-    public int getPowerOutput(TEBase TE)
-    {
+    public int getPowerOutput(TEBase TE) {
         if (isActive(TE)) {
             return data.getPolarity(TE) == data.POLARITY_POSITIVE ? 15 : 0;
         } else {
@@ -187,8 +183,7 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * Ejects contained items into the world, and notifies neighbours of an update, as appropriate
      */
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
-    {
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
         TEBase TE = getSimpleTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -205,8 +200,7 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * Can this block provide power. Only wire currently seems to have this change based on its state.
      */
-    public boolean canProvidePower()
-    {
+    public boolean canProvidePower() {
         return true;
     }
 
@@ -214,9 +208,7 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersLeverRenderID;
     }
-
 }

@@ -17,8 +17,7 @@ public class TECarpentersFlowerPot extends TEBase {
      * @param net The NetworkManager the packet originated from
      * @param pkt The data packet
      */
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         World world = getWorldObj();
 
         if (world.isRemote) {
@@ -38,8 +37,6 @@ public class TECarpentersFlowerPot extends TEBase {
             if (!wasEnriched && hasAttribute(ATTR_FERTILIZER)) {
                 ItemDye.func_150918_a(world, xCoord, yCoord, zCoord, 15);
             }
-
         }
     }
-
 }

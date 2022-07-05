@@ -1,13 +1,13 @@
 package com.carpentersblocks.renderer;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.data.Gate;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISimpleBlockRenderingHandler {
@@ -21,8 +21,7 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
     private static final int YP = 1;
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
-    {
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks) {
         renderBlocks.setRenderBounds(0.0D, 0.3125D, 0.4375D, 0.125D, 1.0D, 0.5625D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.875D, 0.3125D, 0.4375D, 1.0D, 1.0D, 0.5625D);
@@ -35,8 +34,7 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
     /**
      * Renders gate
      */
-    protected void renderCarpentersBlock(int x, int y, int z)
-    {
+    protected void renderCarpentersBlock(int x, int y, int z) {
         renderBlocks.renderAllFaces = true;
 
         setParams(x, y, z);
@@ -63,14 +61,13 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
     /**
      * Sets up commonly used fields.
      */
-    private void setParams(int x, int y, int z)
-    {
+    private void setParams(int x, int y, int z) {
         type = Gate.getType(TE);
         isOpen = Gate.getState(TE) == Gate.STATE_OPEN;
 
         gate = new boolean[] {
-                renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock),
-                renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)
+            renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock),
+            renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)
         };
 
         if (Gate.getFacing(TE) == Gate.FACING_ON_Z) {
@@ -83,8 +80,7 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
     /**
      * Renders vanilla gate at given coordinates.
      */
-    private void renderTypeVanilla(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeVanilla(ItemStack itemStack, int x, int y, int z) {
         double yMin, yMax;
         double yOffset = type * 0.0625D;
         boolean singlePlank = type == Gate.TYPE_VANILLA_X3;
@@ -121,7 +117,6 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
 
                 renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.0D, 0.9375D, yMax, 0.125D, dir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.875D, 0.9375D, yMax, 1.0D, dir);
-
             }
 
         } else {
@@ -150,17 +145,14 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
                 yMax = gate[YP] ? 1.0D : 0.9375D;
 
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, yMin, 0.125D, 0.5625D, yMax, 0.875D, dir);
-
             }
-
         }
     }
 
     /**
      * Renders picket gate at given coordinates.
      */
-    private void renderTypePicket(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypePicket(ItemStack itemStack, int x, int y, int z) {
         double yMin, yMax;
 
         if (isOpen) {
@@ -218,15 +210,13 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
             renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.4375D, 0.4375D, yMax, 0.5625D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.6875D, 0.625D, yMax, 0.8125D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.6875D, 0.4375D, yMax, 0.8125D, dir);
-
         }
     }
 
     /**
      * Renders shadowbox gate at given coordinates.
      */
-    private void renderTypeShadowbox(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeShadowbox(ItemStack itemStack, int x, int y, int z) {
         if (isOpen) {
 
             if (!gate[YP]) {
@@ -256,15 +246,13 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
             renderBlockWithRotation(itemStack, x, y, z, 0.375D, 0.0D, 0.25D, 0.4375D, 1.0D, 0.5D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.5625D, 0.0D, 0.5D, 0.625D, 1.0D, 0.75D, dir);
             renderBlockWithRotation(itemStack, x, y, z, 0.375D, 0.0D, 0.75D, 0.4375D, 1.0D, 1.0D, dir);
-
         }
     }
 
     /**
      * Renders wall gate at given coordinates.
      */
-    private void renderTypeWall(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeWall(ItemStack itemStack, int x, int y, int z) {
         double yMax = gate[YP] ? 1.0D : 0.8125D;
 
         if (isOpen) {
@@ -274,5 +262,4 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
             renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.0D, 0.0D, 0.5625D, yMax, 1.0D, dir);
         }
     }
-
 }

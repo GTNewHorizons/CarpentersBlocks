@@ -1,12 +1,12 @@
 package com.carpentersblocks.tileentity;
 
+import com.carpentersblocks.data.Torch;
+import com.carpentersblocks.data.Torch.State;
+import com.carpentersblocks.renderer.helper.ParticleHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.IBlockAccess;
-import com.carpentersblocks.data.Torch;
-import com.carpentersblocks.data.Torch.State;
-import com.carpentersblocks.renderer.helper.ParticleHelper;
 
 public class TECarpentersTorch extends TEBase {
 
@@ -20,8 +20,7 @@ public class TECarpentersTorch extends TEBase {
      * @param net The NetworkManager the packet originated from
      * @param pkt The data packet
      */
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         if (getWorldObj().isRemote) {
 
             Torch data = new Torch();
@@ -37,7 +36,6 @@ public class TECarpentersTorch extends TEBase {
             if (data.getState(this).ordinal() > existing_state.ordinal()) {
                 ParticleHelper.spawnTorchBigSmoke(this);
             }
-
         }
     }
 
@@ -54,8 +52,7 @@ public class TECarpentersTorch extends TEBase {
      * @return a light value from 0 to 15
      */
     @Override
-    protected int getDynamicLightValue()
-    {
+    protected int getDynamicLightValue() {
         int value = 0;
 
         // Grab current torch state light value
@@ -73,5 +70,4 @@ public class TECarpentersTorch extends TEBase {
 
         return value;
     }
-
 }

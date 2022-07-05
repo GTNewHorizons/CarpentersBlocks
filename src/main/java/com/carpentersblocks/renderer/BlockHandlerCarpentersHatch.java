@@ -1,14 +1,14 @@
 package com.carpentersblocks.renderer;
 
+import com.carpentersblocks.data.Hatch;
+import com.carpentersblocks.util.registry.IconRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.data.Hatch;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
@@ -18,8 +18,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     private int type;
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
-    {
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks) {
         renderBlocks.setRenderBounds(0.0D, 0.4375D, 0.0D, 1.0D, 0.5625D, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.0625D, 0.5625D, 0.375D, 0.125D, 0.625D, 0.4375D);
@@ -34,8 +33,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     /**
      * Renders block at coordinates.
      */
-    public void renderCarpentersBlock(int x, int y, int z)
-    {
+    public void renderCarpentersBlock(int x, int y, int z) {
         renderBlocks.renderAllFaces = true;
 
         setParams();
@@ -63,8 +61,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     /**
      * Sets up commonly used fields.
      */
-    private void setParams()
-    {
+    private void setParams() {
         type = Hatch.getType(TE);
         isHigh = Hatch.getPos(TE) == Hatch.POSITION_HIGH;
         isOpen = Hatch.getState(TE) == Hatch.STATE_OPEN;
@@ -92,8 +89,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     /**
      * Renders hidden hatch at given coordinates.
      */
-    private void renderTypeHidden(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeHidden(ItemStack itemStack, int x, int y, int z) {
         renderBlockWithRotation(itemStack, x, y, z, 0.0D, 0.0D, 0.875D, 1.0D, 1.0D, 1.0D, side);
         renderPartHandle(new ItemStack(Blocks.iron_block), x, y, z, true, false);
     }
@@ -101,8 +97,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     /**
      * Renders standard 3x3 outer frame.
      */
-    private void renderPartFrame(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderPartFrame(ItemStack itemStack, int x, int y, int z) {
         renderBlockWithRotation(itemStack, x, y, z, 0.0D, 0.0D, 0.8125D, 0.1875D, 1.0D, 1.0D, side);
         renderBlockWithRotation(itemStack, x, y, z, 0.1875D, 0.8125D, 0.8125D, 0.8125D, 1.0D, 1.0D, side);
         renderBlockWithRotation(itemStack, x, y, z, 0.1875D, 0.0D, 0.8125D, 0.8125D, 0.1875D, 1.0D, side);
@@ -112,18 +107,17 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     /**
      * Renders a window or screen hatch at given coordinates.
      */
-    private void renderTypeFrame(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeFrame(ItemStack itemStack, int x, int y, int z) {
         renderPartFrame(itemStack, x, y, z);
-        renderPartPane(type == Hatch.TYPE_SCREEN ? IconRegistry.icon_hatch_screen : IconRegistry.icon_hatch_glass, x, y, z);
+        renderPartPane(
+                type == Hatch.TYPE_SCREEN ? IconRegistry.icon_hatch_screen : IconRegistry.icon_hatch_glass, x, y, z);
         renderPartHandle(new ItemStack(Blocks.iron_block), x, y, z, true, true);
     }
 
     /**
      * Renders a French window hatch at given coordinates.
      */
-    private void renderTypeFrench(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeFrench(ItemStack itemStack, int x, int y, int z) {
         renderBlockWithRotation(itemStack, x, y, z, 0.1875D, 0.4375D, 0.875D, 0.8125D, 0.5625D, 0.9375D, side);
         renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.1875D, 0.875D, 0.5625D, 0.4375D, 0.9375D, side);
         renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.5625D, 0.875D, 0.5625D, 0.8125D, 0.9375D, side);
@@ -135,8 +129,7 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     /**
      * Renders a panel hatch at given coordinates.
      */
-    private void renderTypePanel(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypePanel(ItemStack itemStack, int x, int y, int z) {
         renderBlockWithRotation(itemStack, x, y, z, 0.1875D, 0.1875D, 0.875D, 0.8215D, 0.8215D, 0.9375D, side);
         renderBlockWithRotation(itemStack, x, y, z, 0.3125D, 0.3125D, 0.8125D, 0.6875D, 0.6875D, 1.0D, side);
         renderPartFrame(itemStack, x, y, z);
@@ -146,8 +139,8 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     /**
      * Renders a hatch handle for the given coordinates.
      */
-    private void renderPartHandle(ItemStack itemStack, int x, int y, int z, boolean renderInterior, boolean renderExterior)
-    {
+    private void renderPartHandle(
+            ItemStack itemStack, int x, int y, int z, boolean renderInterior, boolean renderExterior) {
         if (!renderInterior && !renderExterior) {
             return;
         }
@@ -169,18 +162,23 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
                 int yTemp = y - dir.offsetY;
                 int zTemp = z - dir.offsetZ;
 
-                renderBlockWithRotation(itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.9375D, 0.4375D, yMax, 1.0D, dir);
-                renderBlockWithRotation(itemStack, xTemp, yTemp, zTemp, 0.5625D, yMin, 0.9375D, 0.625D, yMax, 1.0D, dir);
-                renderBlockWithRotation(itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.875D, 0.625D, yMax, 0.9375D, dir);
+                renderBlockWithRotation(
+                        itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.9375D, 0.4375D, yMax, 1.0D, dir);
+                renderBlockWithRotation(
+                        itemStack, xTemp, yTemp, zTemp, 0.5625D, yMin, 0.9375D, 0.625D, yMax, 1.0D, dir);
+                renderBlockWithRotation(
+                        itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.875D, 0.625D, yMax, 0.9375D, dir);
 
             } else {
 
                 ForgeDirection dir = isHigh ? baseDir : baseDir.getOpposite();
 
-                renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.9375D - zOffset, 0.4375D, yMax, 1.0D - zOffset, side, dir);
-                renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.9375D - zOffset, 0.625D, yMax, 1.0D - zOffset, side, dir);
-                renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.875D - zOffset, 0.625D, yMax, 0.9375D - zOffset, side, dir);
-
+                renderBlockWithRotation(
+                        itemStack, x, y, z, 0.375D, yMin, 0.9375D - zOffset, 0.4375D, yMax, 1.0D - zOffset, side, dir);
+                renderBlockWithRotation(
+                        itemStack, x, y, z, 0.5625D, yMin, 0.9375D - zOffset, 0.625D, yMax, 1.0D - zOffset, side, dir);
+                renderBlockWithRotation(
+                        itemStack, x, y, z, 0.375D, yMin, 0.875D - zOffset, 0.625D, yMax, 0.9375D - zOffset, side, dir);
             }
         }
 
@@ -188,9 +186,12 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
 
             if (isOpen) {
 
-                renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.9375D - zOffset, 0.4375D, yMax, 1.0D - zOffset, baseDir);
-                renderBlockWithRotation(itemStack, x, y, z, 0.5625D, yMin, 0.9375D - zOffset, 0.625D, yMax, 1.0D - zOffset, baseDir);
-                renderBlockWithRotation(itemStack, x, y, z, 0.375D, yMin, 0.875D - zOffset, 0.625D, yMax, 0.9375D - zOffset, baseDir);
+                renderBlockWithRotation(
+                        itemStack, x, y, z, 0.375D, yMin, 0.9375D - zOffset, 0.4375D, yMax, 1.0D - zOffset, baseDir);
+                renderBlockWithRotation(
+                        itemStack, x, y, z, 0.5625D, yMin, 0.9375D - zOffset, 0.625D, yMax, 1.0D - zOffset, baseDir);
+                renderBlockWithRotation(
+                        itemStack, x, y, z, 0.375D, yMin, 0.875D - zOffset, 0.625D, yMax, 0.9375D - zOffset, baseDir);
 
             } else {
 
@@ -200,17 +201,17 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
                 int yTemp = y - dir1.offsetY;
                 int zTemp = z - dir1.offsetZ;
 
-                renderBlockWithRotation(itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.9375D, 0.4375D, yMax, 1.0D, dir1, dir2);
-                renderBlockWithRotation(itemStack, xTemp, yTemp, zTemp, 0.5625D, yMin, 0.9375D, 0.625D, yMax, 1.0D, dir1, dir2);
-                renderBlockWithRotation(itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.875D, 0.625D, yMax, 0.9375D, dir1, dir2);
-
+                renderBlockWithRotation(
+                        itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.9375D, 0.4375D, yMax, 1.0D, dir1, dir2);
+                renderBlockWithRotation(
+                        itemStack, xTemp, yTemp, zTemp, 0.5625D, yMin, 0.9375D, 0.625D, yMax, 1.0D, dir1, dir2);
+                renderBlockWithRotation(
+                        itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.875D, 0.625D, yMax, 0.9375D, dir1, dir2);
             }
-
         }
 
         suppressDyeColor = false;
         suppressChiselDesign = false;
         suppressOverlay = false;
     }
-
 }

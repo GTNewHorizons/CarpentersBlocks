@@ -17,8 +17,7 @@ public class CollapsibleUtil {
     /**
      * Returns true if fully collapsed.
      */
-    public static boolean isMin(TEBase TE)
-    {
+    public static boolean isMin(TEBase TE) {
         for (int quad = 0; quad < 4; quad++) {
             if (data.getQuadDepth(TE, quad) > 0) {
                 return false;
@@ -31,8 +30,7 @@ public class CollapsibleUtil {
     /**
      * Returns true if a full cube.
      */
-    public static boolean isMax(TEBase TE)
-    {
+    public static boolean isMax(TEBase TE) {
         for (int quad = 0; quad < 4; quad++) {
             if (data.getQuadDepth(TE, quad) < 16) {
                 return false;
@@ -45,8 +43,7 @@ public class CollapsibleUtil {
     /**
      * Fills Y-offsets for each corner and center of block for rendering purposes.
      */
-    public static void computeOffsets(TEBase TE)
-    {
+    public static void computeOffsets(TEBase TE) {
         double BIAS = isMin(TE) ? 1.0D / 1024.0D : 0.0D; /* small offset to prevent Z-fighting at depth 0 */
 
         offset_XZNN = Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNN) / 16.0D + BIAS;
@@ -73,8 +70,7 @@ public class CollapsibleUtil {
     /**
      * Returns block depth determined by the largest quadrant.
      */
-    public static float getBoundsMaxDepth(TEBase TE)
-    {
+    public static float getBoundsMaxDepth(TEBase TE) {
         float maxDepth = 0.0F;
 
         for (int quad = 0; quad < 4; ++quad) {
@@ -90,15 +86,13 @@ public class CollapsibleUtil {
     /**
      * Will generate four boxes with max height represented by largest quadrant depth.
      */
-    public static float[] genBounds(TEBase TE, int quad)
-    {
+    public static float[] genBounds(TEBase TE, int quad) {
         float xMin = 0.0F;
         float zMin = 0.0F;
         float xMax = 1.0F;
         float zMax = 1.0F;
 
-        switch (quad)
-        {
+        switch (quad) {
             case Collapsible.QUAD_XZNN:
                 xMax = 0.5F;
                 zMax = 0.5F;
@@ -125,10 +119,9 @@ public class CollapsibleUtil {
             if (maxDepth - depth > 0.5F) {
                 depth = maxDepth - 0.5F;
             }
-            return new float[] { xMin, 0.0F, zMin, xMax, depth, zMax };
+            return new float[] {xMin, 0.0F, zMin, xMax, depth, zMax};
         } else {
-            return new float[] { xMin, 1.0F - depth, zMin, xMax, 1.0F, zMax };
+            return new float[] {xMin, 1.0F - depth, zMin, xMax, 1.0F, zMax};
         }
     }
-
 }

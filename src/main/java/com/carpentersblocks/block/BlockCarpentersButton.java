@@ -1,5 +1,9 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.data.Button;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -7,17 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import com.carpentersblocks.data.Button;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
 
 public class BlockCarpentersButton extends BlockSided {
 
     private static Button data = new Button();
 
-    public BlockCarpentersButton(Material material)
-    {
+    public BlockCarpentersButton(Material material) {
         super(material, data);
     }
 
@@ -25,8 +24,7 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * Alters polarity.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int polarity = data.getPolarity(TE) == data.POLARITY_POSITIVE ? data.POLARITY_NEGATIVE : data.POLARITY_POSITIVE;
 
         data.setPolarity(TE, polarity);
@@ -46,8 +44,7 @@ public class BlockCarpentersButton extends BlockSided {
      * cleared to be reused)
      */
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         return null;
     }
 
@@ -55,12 +52,18 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
-            setBlockBounds(0.5F - 0.1875F, 0.375F, 0.0F, 0.5F + 0.1875F, 0.625F, isDepressed(TE) ? 0.0625F : 0.125F, data.getDirection(TE));
+            setBlockBounds(
+                    0.5F - 0.1875F,
+                    0.375F,
+                    0.0F,
+                    0.5F + 0.1875F,
+                    0.625F,
+                    isDepressed(TE) ? 0.0625F : 0.125F,
+                    data.getDirection(TE));
         }
     }
 
@@ -68,8 +71,14 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * Called upon block activation (right click on the block.)
      */
-    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ, ActionResult actionResult)
-    {
+    protected void postOnBlockActivated(
+            TEBase TE,
+            EntityPlayer entityPlayer,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            ActionResult actionResult) {
         if (!isDepressed(TE)) {
             World world = TE.getWorldObj();
             data.getDirection(TE);
@@ -84,8 +93,7 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * Ejects contained items into the world, and notifies neighbours of an update, as appropriate
      */
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
-    {
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
         TEBase TE = getSimpleTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -100,8 +108,7 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * Returns whether button is in depressed state
      */
-    private boolean isDepressed(TEBase TE)
-    {
+    private boolean isDepressed(TEBase TE) {
         return data.getState(TE) == data.STATE_ON;
     }
 
@@ -109,8 +116,7 @@ public class BlockCarpentersButton extends BlockSided {
      * Returns power level (0 or 15)
      */
     @Override
-    public int getPowerOutput(TEBase TE)
-    {
+    public int getPowerOutput(TEBase TE) {
         int polarity = data.getPolarity(TE);
 
         if (isDepressed(TE)) {
@@ -124,8 +130,7 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * Can this block provide power. Only wire currently seems to have this change based on its state.
      */
-    public boolean canProvidePower()
-    {
+    public boolean canProvidePower() {
         return true;
     }
 
@@ -133,8 +138,7 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * Ticks the block if it's been scheduled
      */
-    public void updateTick(World world, int x, int y, int z, Random random)
-    {
+    public void updateTick(World world, int x, int y, int z, Random random) {
         if (!world.isRemote) {
             TEBase TE = getTileEntity(world, x, y, z);
             if (TE != null) {
@@ -148,9 +152,7 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersButtonRenderID;
     }
-
 }

@@ -1,15 +1,15 @@
 package com.carpentersblocks.renderer;
 
+import com.carpentersblocks.data.Ladder;
+import com.carpentersblocks.tileentity.TEBase;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.data.Ladder;
-import com.carpentersblocks.tileentity.TEBase;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
@@ -19,8 +19,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
     private ForgeDirection dir;
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
-    {
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks) {
         /* Sides */
 
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.375D, 0.125D, 1.0D, 0.625D);
@@ -44,8 +43,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
     /**
      * Renders ladder.
      */
-    protected void renderCarpentersBlock(int x, int y, int z)
-    {
+    protected void renderCarpentersBlock(int x, int y, int z) {
         renderBlocks.renderAllFaces = true;
 
         ItemStack itemStack = getCoverForRendering();
@@ -54,7 +52,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
         switch (data.getType(TE)) {
             case Ladder.TYPE_DEFAULT:
                 renderTypeDefaultClassic(itemStack, x, y, z); // Classic connects to adjacent ladders
-                //renderTypeDefault(itemStack, x, y, z);
+                // renderTypeDefault(itemStack, x, y, z);
                 break;
             case Ladder.TYPE_RAIL:
                 renderTypeRail(itemStack, x, y, z);
@@ -78,8 +76,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
      * @param y the y coordinate
      * @param z the z coordinate
      */
-    public void renderTypeDefaultClassic(ItemStack itemStack, int x, int y, int z)
-    {
+    public void renderTypeDefaultClassic(ItemStack itemStack, int x, int y, int z) {
         double xLow = 0.0D;
         double xHigh = 1.0D;
         double zLow = 0.0D;
@@ -89,10 +86,14 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
 
         World world = TE.getWorldObj();
 
-        boolean connects_XN = world.getBlock(x - 1, y, z).equals(srcBlock) && data.getDirection((TEBase) world.getTileEntity(x - 1, y, z)).equals(dir);
-        boolean connects_XP = world.getBlock(x + 1, y, z).equals(srcBlock) && data.getDirection((TEBase) world.getTileEntity(x + 1, y, z)).equals(dir);
-        boolean connects_ZN = world.getBlock(x, y, z - 1).equals(srcBlock) && data.getDirection((TEBase) world.getTileEntity(x, y, z - 1)).equals(dir);
-        boolean connects_ZP = world.getBlock(x, y, z + 1).equals(srcBlock) && data.getDirection((TEBase) world.getTileEntity(x, y, z + 1)).equals(dir);
+        boolean connects_XN = world.getBlock(x - 1, y, z).equals(srcBlock)
+                && data.getDirection((TEBase) world.getTileEntity(x - 1, y, z)).equals(dir);
+        boolean connects_XP = world.getBlock(x + 1, y, z).equals(srcBlock)
+                && data.getDirection((TEBase) world.getTileEntity(x + 1, y, z)).equals(dir);
+        boolean connects_ZN = world.getBlock(x, y, z - 1).equals(srcBlock)
+                && data.getDirection((TEBase) world.getTileEntity(x, y, z - 1)).equals(dir);
+        boolean connects_ZP = world.getBlock(x, y, z + 1).equals(srcBlock)
+                && data.getDirection((TEBase) world.getTileEntity(x, y, z + 1)).equals(dir);
 
         switch (dir) {
             case DOWN: // Ladder.DIR_ON_X
@@ -107,7 +108,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                     renderBlock(itemStack, x, y, z);
                 }
 
-                xLow  = connects_XN ? 0.0D : 0.125D;
+                xLow = connects_XN ? 0.0D : 0.125D;
                 xHigh = connects_XP ? 1.0D : 0.875D;
 
                 // Slats
@@ -133,7 +134,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                     renderBlock(itemStack, x, y, z);
                 }
 
-                zLow  = connects_ZN ? 0.0D : 0.125D;
+                zLow = connects_ZN ? 0.0D : 0.125D;
                 zHigh = connects_ZP ? 1.0D : 0.875D;
 
                 // Slats
@@ -159,7 +160,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                     renderBlock(itemStack, x, y, z);
                 }
 
-                xLow  = connects_XN ? 0.0D : 0.125D;
+                xLow = connects_XN ? 0.0D : 0.125D;
                 xHigh = connects_XP ? 1.0D : 0.875D;
 
                 // Slats
@@ -185,7 +186,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                     renderBlock(itemStack, x, y, z);
                 }
 
-                xLow  = connects_XN ? 0.0D : 0.125D;
+                xLow = connects_XN ? 0.0D : 0.125D;
                 xHigh = connects_XP ? 1.0D : 0.875D;
 
                 // Slats
@@ -211,7 +212,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                     renderBlock(itemStack, x, y, z);
                 }
 
-                zLow  = connects_ZN ? 0.0D : 0.125D;
+                zLow = connects_ZN ? 0.0D : 0.125D;
                 zHigh = connects_ZP ? 1.0D : 0.875D;
 
                 // Slats
@@ -237,7 +238,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                     renderBlock(itemStack, x, y, z);
                 }
 
-                zLow  = connects_ZN ? 0.0D : 0.125D;
+                zLow = connects_ZN ? 0.0D : 0.125D;
                 zHigh = connects_ZP ? 1.0D : 0.875D;
 
                 // Slats
@@ -251,7 +252,8 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                 renderBlock(itemStack, x, y, z);
 
                 break;
-            default: {}
+            default: {
+            }
         }
     }
 
@@ -263,8 +265,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
      * @param y the y coordinate
      * @param z the z coordinate
      */
-    public void renderTypeDefault(ItemStack itemStack, int x, int y, int z)
-    {
+    public void renderTypeDefault(ItemStack itemStack, int x, int y, int z) {
         ForgeDirection axisDir = ForgeDirection.SOUTH;
 
         switch (dir) {
@@ -297,8 +298,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
      * @param y the y coordinate
      * @param z the z coordinate
      */
-    public void renderTypeRail(ItemStack itemStack, int x, int y, int z)
-    {
+    public void renderTypeRail(ItemStack itemStack, int x, int y, int z) {
         ForgeDirection axisDir = ForgeDirection.SOUTH;
 
         switch (dir) {
@@ -306,13 +306,17 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                 axisDir = ForgeDirection.WEST;
             case UP: // DIR_ON_Z
                 renderBlockWithRotation(iron, x, y, z, 0.3125D, 0.0D, 0.1875D, 0.375D, 1.0D, 0.25D, axisDir);
-                renderBlockWithRotation(iron, x, y, z, 0.3125D, 0.0D, 0.1875D, 0.375D, 1.0D, 0.25D, axisDir.getOpposite());
+                renderBlockWithRotation(
+                        iron, x, y, z, 0.3125D, 0.0D, 0.1875D, 0.375D, 1.0D, 0.25D, axisDir.getOpposite());
                 renderBlockWithRotation(iron, x, y, z, 0.375D, 0.0D, 0.125D, 0.4375D, 1.0D, 0.25D, axisDir);
-                renderBlockWithRotation(iron, x, y, z, 0.375D, 0.0D, 0.125D, 0.4375D, 1.0D, 0.25D, axisDir.getOpposite());
+                renderBlockWithRotation(
+                        iron, x, y, z, 0.375D, 0.0D, 0.125D, 0.4375D, 1.0D, 0.25D, axisDir.getOpposite());
                 renderBlockWithRotation(iron, x, y, z, 0.625D, 0.0D, 0.1875D, 0.6875D, 1.0D, 0.25D, axisDir);
-                renderBlockWithRotation(iron, x, y, z, 0.625D, 0.0D, 0.1875D, 0.6875D, 1.0D, 0.25D, axisDir.getOpposite());
+                renderBlockWithRotation(
+                        iron, x, y, z, 0.625D, 0.0D, 0.1875D, 0.6875D, 1.0D, 0.25D, axisDir.getOpposite());
                 renderBlockWithRotation(iron, x, y, z, 0.5625D, 0.0D, 0.125D, 0.625D, 1.0D, 0.25D, axisDir);
-                renderBlockWithRotation(iron, x, y, z, 0.5625D, 0.0D, 0.125D, 0.625D, 1.0D, 0.25D, axisDir.getOpposite());
+                renderBlockWithRotation(
+                        iron, x, y, z, 0.5625D, 0.0D, 0.125D, 0.625D, 1.0D, 0.25D, axisDir.getOpposite());
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.125D, 0.0D, 0.5625D, 0.1875D, 1.0D, axisDir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.375D, 0.0D, 0.5625D, 0.4375D, 1.0D, axisDir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.625D, 0.0D, 0.5625D, 0.6875D, 1.0D, axisDir);
@@ -339,8 +343,7 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
      * @param y the y coordinate
      * @param z the z coordinate
      */
-    public void renderTypePole(ItemStack itemStack, int x, int y, int z)
-    {
+    public void renderTypePole(ItemStack itemStack, int x, int y, int z) {
         ForgeDirection axisDir = ForgeDirection.SOUTH;
 
         switch (dir) {
@@ -348,20 +351,24 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
                 axisDir = ForgeDirection.WEST;
             case UP: // DIR_ON_Z
                 renderBlockWithRotation(itemStack, x, y, z, 0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D); // Pole
-                renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.125D, 0.625D, 0.5625D, 0.1875D, 0.9375D, axisDir);
+                renderBlockWithRotation(
+                        itemStack, x, y, z, 0.4375D, 0.125D, 0.625D, 0.5625D, 0.1875D, 0.9375D, axisDir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.1875D, 0.875D, 0.5625D, 0.25D, 0.9375D, axisDir);
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.75D, 0.0625D, 0.5625D, 0.8125D, 0.375D, axisDir);
-                renderBlockWithRotation(itemStack, x, y, z, 0.4375D, 0.8125D, 0.0625D, 0.5625D, 0.875D, 0.125D, axisDir);
+                renderBlockWithRotation(
+                        itemStack, x, y, z, 0.4375D, 0.8125D, 0.0625D, 0.5625D, 0.875D, 0.125D, axisDir);
                 break;
             default:
                 for (double yLow = 0.125D; yLow < 1.0D; yLow += 0.25D) {
                     double yHigh = yLow + 0.0625D;
-                    renderBlockWithRotation(itemStack, x, y, z, 0.125D, yLow, 0.0D, 0.1875D, yHigh, 0.125D, dir); // xLow nub
-                    renderBlockWithRotation(itemStack, x, y, z, 0.8125D, yLow, 0.0D, 0.875D, yHigh, 0.125D, dir); // xHigh nub
-                    renderBlockWithRotation(itemStack, x, y, z, 0.125D, yLow, 0.125D, 0.875D, yHigh, 0.1875D, dir); // Full width
+                    renderBlockWithRotation(
+                            itemStack, x, y, z, 0.125D, yLow, 0.0D, 0.1875D, yHigh, 0.125D, dir); // xLow nub
+                    renderBlockWithRotation(
+                            itemStack, x, y, z, 0.8125D, yLow, 0.0D, 0.875D, yHigh, 0.125D, dir); // xHigh nub
+                    renderBlockWithRotation(
+                            itemStack, x, y, z, 0.125D, yLow, 0.125D, 0.875D, yHigh, 0.1875D, dir); // Full width
                 }
                 break;
         }
     }
-
 }

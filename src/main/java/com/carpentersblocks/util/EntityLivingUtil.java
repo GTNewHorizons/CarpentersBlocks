@@ -15,8 +15,7 @@ public class EntityLivingUtil {
      *
      * @param entityPlayer the {@link EntityPlayer}
      */
-    public static void decrementCurrentSlot(EntityPlayer entityPlayer)
-    {
+    public static void decrementCurrentSlot(EntityPlayer entityPlayer) {
         ItemStack itemStack = entityPlayer.getCurrentEquippedItem();
 
         if (itemStack != null) {
@@ -34,8 +33,7 @@ public class EntityLivingUtil {
      * @param entityLiving the {@link EntityLivingBase}
      * @return the rotation value
      */
-    public static int getRotationValue(EntityLivingBase entity)
-    {
+    public static int getRotationValue(EntityLivingBase entity) {
         return MathHelper.floor_double(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
     }
 
@@ -47,8 +45,7 @@ public class EntityLivingUtil {
      * @param  rot the rotation value
      * @return the {@link ForgeDirection}
      */
-    public static ForgeDirection getRotationFacing(int rot)
-    {
+    public static ForgeDirection getRotationFacing(int rot) {
         return ForgeDirection.getOrientation(Direction.directionToFacing[rot]);
     }
 
@@ -58,10 +55,8 @@ public class EntityLivingUtil {
      * @param  entityPlayer the {@link EntityLivingBase}
      * @return the {@link ForgeDirection}
      */
-    public static ForgeDirection getFacing(EntityLivingBase entity)
-    {
+    public static ForgeDirection getFacing(EntityLivingBase entity) {
         int rot = getRotationValue(entity);
         return getRotationFacing(rot).getOpposite();
     }
-
 }

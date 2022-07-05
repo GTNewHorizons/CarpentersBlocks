@@ -1,8 +1,8 @@
 package com.carpentersblocks.data;
 
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.collapsible.CollapsibleUtil;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class Collapsible implements ISided {
 
@@ -12,19 +12,17 @@ public class Collapsible implements ISided {
      * [000000000] [00000] [00000] [00000] [00000] [000]
      * Unused      XZNN    XZNP    XZPN    XZPP    Dir
      */
+    public static final Collapsible INSTANCE = new Collapsible();
 
-    public final static Collapsible INSTANCE = new Collapsible();
-
-    public final static int QUAD_XZNN = 0;
-    public final static int QUAD_XZNP = 1;
-    public final static int QUAD_XZPN = 2;
-    public final static int QUAD_XZPP = 3;
+    public static final int QUAD_XZNN = 0;
+    public static final int QUAD_XZNP = 1;
+    public static final int QUAD_XZPN = 2;
+    public static final int QUAD_XZPP = 3;
 
     /**
      * Returns corner number.
      */
-    public static int getQuad(double hitX, double hitZ)
-    {
+    public static int getQuad(double hitX, double hitZ) {
         int xOffset = (int) Math.round(hitX);
         int zOffset = (int) Math.round(hitZ);
 
@@ -46,8 +44,7 @@ public class Collapsible implements ISided {
     /**
      * Sets quad depth as value from 0 to 16.
      */
-    public static void setQuadDepth(TEBase TE, int quad, int depth, boolean markDirty)
-    {
+    public static void setQuadDepth(TEBase TE, int quad, int depth, boolean markDirty) {
         if (depth < 0 || depth > 16) {
             return;
         }
@@ -83,8 +80,7 @@ public class Collapsible implements ISided {
     /**
      * Returns quad depth as value from 0 to 16.
      */
-    public static int getQuadDepth(final TEBase TE, int quad)
-    {
+    public static int getQuadDepth(final TEBase TE, int quad) {
         int steps = 0;
 
         int data = TE.getData();
@@ -110,48 +106,49 @@ public class Collapsible implements ISided {
         return steps > 16 ? 16 : steps;
     }
 
-    public static boolean isSideSolid(final TEBase TE, ForgeDirection side)
-    {
-        switch (side)
-        {
+    public static boolean isSideSolid(final TEBase TE, ForgeDirection side) {
+        switch (side) {
             case DOWN:
                 return true;
             case UP:
                 return CollapsibleUtil.isMax(TE);
             case NORTH:
-                return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNN) + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPN) == 32;
+                return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNN)
+                                + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPN)
+                        == 32;
             case SOUTH:
-                return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNP) + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPP) == 32;
+                return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNP)
+                                + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPP)
+                        == 32;
             case WEST:
-                return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNP) + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNN) == 32;
+                return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNP)
+                                + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNN)
+                        == 32;
             case EAST:
-                return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPN) + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPP) == 32;
+                return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPN)
+                                + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPP)
+                        == 32;
             default:
                 return true;
         }
     }
 
-    public boolean match(TEBase TE_1, TEBase TE_2)
-    {
+    public boolean match(TEBase TE_1, TEBase TE_2) {
         return isPositive(TE_1) == isPositive(TE_2);
     }
 
     @Override
-    public boolean setDirection(TEBase TE, ForgeDirection dir)
-    {
+    public boolean setDirection(TEBase TE, ForgeDirection dir) {
         int temp = (TE.getData() & ~0x7) | dir.ordinal();
         return TE.setData(temp);
     }
 
     @Override
-    public ForgeDirection getDirection(TEBase TE)
-    {
+    public ForgeDirection getDirection(TEBase TE) {
         return ForgeDirection.getOrientation(TE.getData() & 0x7);
     }
 
-    public boolean isPositive(TEBase TE)
-    {
+    public boolean isPositive(TEBase TE) {
         return getDirection(TE).equals(ForgeDirection.UP);
     }
-
 }

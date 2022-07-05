@@ -1,5 +1,10 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.data.Hinge;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
@@ -8,16 +13,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import com.carpentersblocks.data.Hinge;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockHinged extends BlockCoverable {
 
-    public BlockHinged(Material material)
-    {
+    public BlockHinged(Material material) {
         super(material);
     }
 
@@ -25,8 +24,7 @@ public class BlockHinged extends BlockCoverable {
      * Determines whether the bottom-most hinge requires a solid block underneath it.
      * @return the result
      */
-    protected boolean requiresFoundation()
-    {
+    protected boolean requiresFoundation() {
         return true;
     }
 
@@ -34,8 +32,7 @@ public class BlockHinged extends BlockCoverable {
     /**
      * Alters hinge side.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int hinge = Hinge.getHinge(TE);
 
         setHingeSide(TE, hinge == Hinge.HINGE_LEFT ? Hinge.HINGE_RIGHT : Hinge.HINGE_LEFT);
@@ -47,8 +44,7 @@ public class BlockHinged extends BlockCoverable {
     /**
      * Alters hinge type and redstone behavior.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         if (entityPlayer.isSneaking()) {
 
             int rigidity = Hinge.getRigidity(TE) == Hinge.HINGED_NONRIGID ? Hinge.HINGED_RIGID : Hinge.HINGED_NONRIGID;
@@ -64,7 +60,6 @@ public class BlockHinged extends BlockCoverable {
             }
 
             return true;
-
         }
 
         return false;
@@ -74,8 +69,14 @@ public class BlockHinged extends BlockCoverable {
     /**
      * Opens or closes hinge on right click.
      */
-    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ, ActionResult actionResult)
-    {
+    protected void postOnBlockActivated(
+            TEBase TE,
+            EntityPlayer entityPlayer,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            ActionResult actionResult) {
         if (!activationRequiresRedstone(TE)) {
             setHingeState(TE, Hinge.getState(TE) == Hinge.STATE_OPEN ? Hinge.STATE_CLOSED : Hinge.STATE_OPEN);
             actionResult.setAltered().setNoSound();
@@ -85,16 +86,14 @@ public class BlockHinged extends BlockCoverable {
     /**
      * Returns whether hinge requires redstone activation.
      */
-    private boolean activationRequiresRedstone(TEBase TE)
-    {
+    private boolean activationRequiresRedstone(TEBase TE) {
         return Hinge.getRigidity(TE) == Hinge.HINGED_RIGID;
     }
 
     /**
      * Returns a list of hinge tile entities that make up either a single hinge or two connected double hinges.
      */
-    private List<TEBase> getHingePieces(TEBase TE)
-    {
+    private List<TEBase> getHingePieces(TEBase TE) {
         List<TEBase> list = new ArrayList<TEBase>();
         World world = TE.getWorldObj();
 
@@ -122,20 +121,22 @@ public class BlockHinged extends BlockCoverable {
         TEBase TE_XN = getTileEntity(world, TE.xCoord - 1, TE.yCoord, TE.zCoord);
         TEBase TE_XP = getTileEntity(world, TE.xCoord + 1, TE.yCoord, TE.zCoord);
 
-        switch (facing)
-        {
+        switch (facing) {
             case Hinge.FACING_XN:
-
                 if (TE_ZN != null) {
-                    if (piece == Hinge.getPiece(TE_ZN) && facing == Hinge.getFacing(TE_ZN) && hinge == Hinge.HINGE_LEFT && Hinge.getHinge(TE_ZN) == Hinge.HINGE_RIGHT)
-                    {
+                    if (piece == Hinge.getPiece(TE_ZN)
+                            && facing == Hinge.getFacing(TE_ZN)
+                            && hinge == Hinge.HINGE_LEFT
+                            && Hinge.getHinge(TE_ZN) == Hinge.HINGE_RIGHT) {
                         list.add(TE_ZN);
                         list.add((TEBase) world.getTileEntity(TE.xCoord, TE.yCoord + neighbor_offset, TE.zCoord - 1));
                     }
                 }
                 if (TE_ZP != null) {
-                    if (piece == Hinge.getPiece(TE_ZP) && facing == Hinge.getFacing(TE_ZP) && hinge == Hinge.HINGE_RIGHT && Hinge.getHinge(TE_ZP) == Hinge.HINGE_LEFT)
-                    {
+                    if (piece == Hinge.getPiece(TE_ZP)
+                            && facing == Hinge.getFacing(TE_ZP)
+                            && hinge == Hinge.HINGE_RIGHT
+                            && Hinge.getHinge(TE_ZP) == Hinge.HINGE_LEFT) {
                         list.add(TE_ZP);
                         list.add((TEBase) world.getTileEntity(TE.xCoord, TE.yCoord + neighbor_offset, TE.zCoord + 1));
                     }
@@ -143,36 +144,41 @@ public class BlockHinged extends BlockCoverable {
                 break;
 
             case Hinge.FACING_XP:
-
                 if (TE_ZN != null) {
-                    if (piece == Hinge.getPiece(TE_ZN) && facing == Hinge.getFacing(TE_ZN) && hinge == Hinge.HINGE_RIGHT && Hinge.getHinge(TE_ZN) == Hinge.HINGE_LEFT)
-                    {
+                    if (piece == Hinge.getPiece(TE_ZN)
+                            && facing == Hinge.getFacing(TE_ZN)
+                            && hinge == Hinge.HINGE_RIGHT
+                            && Hinge.getHinge(TE_ZN) == Hinge.HINGE_LEFT) {
                         list.add(TE_ZN);
                         list.add((TEBase) world.getTileEntity(TE.xCoord, TE.yCoord + neighbor_offset, TE.zCoord - 1));
                     }
                 }
                 if (TE_ZP != null) {
-                    if (piece == Hinge.getPiece(TE_ZP) && facing == Hinge.getFacing(TE_ZP) && hinge == Hinge.HINGE_LEFT && Hinge.getHinge(TE_ZP) == Hinge.HINGE_RIGHT)
-                    {
+                    if (piece == Hinge.getPiece(TE_ZP)
+                            && facing == Hinge.getFacing(TE_ZP)
+                            && hinge == Hinge.HINGE_LEFT
+                            && Hinge.getHinge(TE_ZP) == Hinge.HINGE_RIGHT) {
                         list.add(TE_ZP);
                         list.add((TEBase) world.getTileEntity(TE.xCoord, TE.yCoord + neighbor_offset, TE.zCoord + 1));
                     }
                 }
                 break;
 
-            case Hinge.FACING_ZN:
-            {
-
+            case Hinge.FACING_ZN: {
                 if (TE_XN != null) {
-                    if (piece == Hinge.getPiece(TE_XN) && facing == Hinge.getFacing(TE_XN) && hinge == Hinge.HINGE_RIGHT && Hinge.getHinge(TE_XN) == Hinge.HINGE_LEFT)
-                    {
+                    if (piece == Hinge.getPiece(TE_XN)
+                            && facing == Hinge.getFacing(TE_XN)
+                            && hinge == Hinge.HINGE_RIGHT
+                            && Hinge.getHinge(TE_XN) == Hinge.HINGE_LEFT) {
                         list.add(TE_XN);
                         list.add((TEBase) world.getTileEntity(TE.xCoord - 1, TE.yCoord + neighbor_offset, TE.zCoord));
                     }
                 }
                 if (TE_XP != null) {
-                    if (piece == Hinge.getPiece(TE_XP) && facing == Hinge.getFacing(TE_XP) && hinge == Hinge.HINGE_LEFT && Hinge.getHinge(TE_XP) == Hinge.HINGE_RIGHT)
-                    {
+                    if (piece == Hinge.getPiece(TE_XP)
+                            && facing == Hinge.getFacing(TE_XP)
+                            && hinge == Hinge.HINGE_LEFT
+                            && Hinge.getHinge(TE_XP) == Hinge.HINGE_RIGHT) {
                         list.add(TE_XP);
                         list.add((TEBase) world.getTileEntity(TE.xCoord + 1, TE.yCoord + neighbor_offset, TE.zCoord));
                     }
@@ -180,23 +186,25 @@ public class BlockHinged extends BlockCoverable {
                 break;
             }
             case Hinge.FACING_ZP:
-
                 if (TE_XN != null) {
-                    if (piece == Hinge.getPiece(TE_XN) && facing == Hinge.getFacing(TE_XN) && hinge == Hinge.HINGE_LEFT && Hinge.getHinge(TE_XN) == Hinge.HINGE_RIGHT)
-                    {
+                    if (piece == Hinge.getPiece(TE_XN)
+                            && facing == Hinge.getFacing(TE_XN)
+                            && hinge == Hinge.HINGE_LEFT
+                            && Hinge.getHinge(TE_XN) == Hinge.HINGE_RIGHT) {
                         list.add(TE_XN);
                         list.add((TEBase) world.getTileEntity(TE.xCoord - 1, TE.yCoord + neighbor_offset, TE.zCoord));
                     }
                 }
                 if (TE_XP != null) {
-                    if (piece == Hinge.getPiece(TE_XP) && facing == Hinge.getFacing(TE_XP) && hinge == Hinge.HINGE_RIGHT && Hinge.getHinge(TE_XP) == Hinge.HINGE_LEFT)
-                    {
+                    if (piece == Hinge.getPiece(TE_XP)
+                            && facing == Hinge.getFacing(TE_XP)
+                            && hinge == Hinge.HINGE_RIGHT
+                            && Hinge.getHinge(TE_XP) == Hinge.HINGE_LEFT) {
                         list.add(TE_XP);
                         list.add((TEBase) world.getTileEntity(TE.xCoord + 1, TE.yCoord + neighbor_offset, TE.zCoord));
                     }
                 }
                 break;
-
         }
 
         return list;
@@ -207,8 +215,7 @@ public class BlockHinged extends BlockCoverable {
     /**
      * Returns the bounding box of the wired rectangular prism to render.
      */
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
         if (world.getBlock(x, y, z).equals(this)) {
             setBlockBoundsBasedOnState(world, x, y, z);
         }
@@ -221,8 +228,7 @@ public class BlockHinged extends BlockCoverable {
      * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
      * cleared to be reused)
      */
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         if (world.getBlock(x, y, z).equals(this)) {
             setBlockBoundsBasedOnState(world, x, y, z);
         }
@@ -234,8 +240,7 @@ public class BlockHinged extends BlockCoverable {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -249,8 +254,7 @@ public class BlockHinged extends BlockCoverable {
             float x_high = 1.0F;
             float z_high = 1.0F;
 
-            switch (facing)
-            {
+            switch (facing) {
                 case Hinge.FACING_XN:
                     if (!isOpen) {
                         x_low = 0.8125F;
@@ -290,7 +294,6 @@ public class BlockHinged extends BlockCoverable {
             }
 
             setBlockBounds(x_low, 0.0F, z_low, x_high, 1.0F, z_high);
-
         }
     }
 
@@ -298,8 +301,7 @@ public class BlockHinged extends BlockCoverable {
      * Cycle hinge state.
      * Will update all connecting hinge pieces.
      */
-    public void setHingeState(TEBase TE, int state)
-    {
+    public void setHingeState(TEBase TE, int state) {
         List<TEBase> hingePieces = getHingePieces(TE);
         for (TEBase piece : hingePieces) {
             Hinge.setState(piece, state, piece == TE);
@@ -310,8 +312,7 @@ public class BlockHinged extends BlockCoverable {
      * Updates hinge type.
      * Will also update adjoining hinge piece.
      */
-    public void setHingeType(TEBase TE, int type)
-    {
+    public void setHingeType(TEBase TE, int type) {
         Hinge.setType(TE, type);
         updateAdjoiningPiece(TE);
     }
@@ -320,8 +321,7 @@ public class BlockHinged extends BlockCoverable {
      * Set hinge rigidity.
      * Will update all connecting hinge pieces.
      */
-    public void setHingeRigidity(TEBase TE, int rigidity)
-    {
+    public void setHingeRigidity(TEBase TE, int rigidity) {
         List<TEBase> hingePieces = getHingePieces(TE);
         for (TEBase piece : hingePieces) {
             Hinge.setRigidity(piece, rigidity);
@@ -332,8 +332,7 @@ public class BlockHinged extends BlockCoverable {
      * Updates hinge hinge side.
      * Will also update adjoining hinge piece.
      */
-    public void setHingeSide(TEBase TE, int side)
-    {
+    public void setHingeSide(TEBase TE, int side) {
         Hinge.setHingeSide(TE, side);
         updateAdjoiningPiece(TE);
     }
@@ -343,8 +342,7 @@ public class BlockHinged extends BlockCoverable {
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor blockID
      */
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if (!world.isRemote) {
 
             TEBase TE = getTileEntity(world, x, y, z);
@@ -389,9 +387,7 @@ public class BlockHinged extends BlockCoverable {
                 if (block != null && block.canProvidePower() && isPowered != isOpen) {
                     setHingeState(TE, isOpen ? Hinge.STATE_CLOSED : Hinge.STATE_OPEN);
                 }
-
             }
-
         }
 
         super.onNeighborBlockChange(world, x, y, z, block);
@@ -400,8 +396,7 @@ public class BlockHinged extends BlockCoverable {
     /**
      * Updates state, hinge and type for adjoining hinge piece.
      */
-    private void updateAdjoiningPiece(TEBase TE)
-    {
+    private void updateAdjoiningPiece(TEBase TE) {
         int state = Hinge.getState(TE);
         int hinge = Hinge.getHinge(TE);
         int type = Hinge.getType(TE);
@@ -417,7 +412,7 @@ public class BlockHinged extends BlockCoverable {
         } else {
             TE_adj = (TEBase) world.getTileEntity(TE.xCoord, TE.yCoord + 1, TE.zCoord);
         }
-        
+
         if (TE_adj != null) {
             Hinge.setState(TE_adj, state, false);
             Hinge.setHingeSide(TE_adj, hinge);
@@ -425,5 +420,4 @@ public class BlockHinged extends BlockCoverable {
             Hinge.setRigidity(TE_adj, rigidity);
         }
     }
-
 }

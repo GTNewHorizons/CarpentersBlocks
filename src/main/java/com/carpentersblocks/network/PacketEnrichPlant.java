@@ -1,14 +1,14 @@
 package com.carpentersblocks.network;
 
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.EntityLivingUtil;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
 import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.EntityLivingUtil;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
 
 public class PacketEnrichPlant extends TilePacket {
 
@@ -19,15 +19,13 @@ public class PacketEnrichPlant extends TilePacket {
     /**
      * For the server to examine plant color, since it's a client-side only property.
      */
-    public PacketEnrichPlant(int x, int y, int z, int hexColor)
-    {
+    public PacketEnrichPlant(int x, int y, int z, int hexColor) {
         super(x, y, z);
         this.hexColor = hexColor;
     }
 
     @Override
-    public void processData(EntityPlayer entityPlayer, ByteBufInputStream bbis) throws IOException
-    {
+    public void processData(EntityPlayer entityPlayer, ByteBufInputStream bbis) throws IOException {
         super.processData(entityPlayer, bbis);
         World world = entityPlayer.worldObj;
         hexColor = bbis.readInt();
@@ -43,10 +41,8 @@ public class PacketEnrichPlant extends TilePacket {
     }
 
     @Override
-    public void appendData(ByteBuf buffer) throws IOException
-    {
+    public void appendData(ByteBuf buffer) throws IOException {
         super.appendData(buffer);
         buffer.writeInt(hexColor);
     }
-
 }

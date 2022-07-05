@@ -1,12 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.data.Torch;
 import com.carpentersblocks.renderer.helper.RenderHelper;
 import com.carpentersblocks.renderer.helper.VertexHelper;
@@ -14,6 +7,13 @@ import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.IconRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
@@ -23,8 +23,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
     private ForgeDirection dir;
 
     @Override
-    public boolean shouldRender3DInInventory(int modelId)
-    {
+    public boolean shouldRender3DInInventory(int modelId) {
         return false;
     }
 
@@ -32,8 +31,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
     /**
      * Override to provide custom icons.
      */
-    protected IIcon getUniqueIcon(ItemStack itemStack, int side, IIcon icon)
-    {
+    protected IIcon getUniqueIcon(ItemStack itemStack, int side, IIcon icon) {
         Block block = BlockProperties.toBlock(itemStack);
 
         if (TE.hasAttribute(TE.ATTR_COVER[6])) {
@@ -47,8 +45,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
     /**
      * Renders block
      */
-    protected void renderCarpentersBlock(int x, int y, int z)
-    {
+    protected void renderCarpentersBlock(int x, int y, int z) {
         renderBlocks.renderAllFaces = true;
         disableAO = true;
 
@@ -68,14 +65,14 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
         renderBlocks.renderAllFaces = false;
     }
 
-    private void renderTypeVanilla(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeVanilla(ItemStack itemStack, int x, int y, int z) {
         renderBlocks.setRenderBounds(0.4375D, 0.0D, 0.4375D, 0.5625D, 0.625D, 0.5625D);
 
         /* Render torch head. */
 
         Tessellator tessellator = Tessellator.instance;
-        tessellator.setBrightness(srcBlock.getMixedBrightnessForBlock(renderBlocks.blockAccess, TE.xCoord, TE.yCoord, TE.zCoord));
+        tessellator.setBrightness(
+                srcBlock.getMixedBrightnessForBlock(renderBlocks.blockAccess, TE.xCoord, TE.yCoord, TE.zCoord));
         tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 
         RenderHelper.setFloatingIconLock();
@@ -91,18 +88,19 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
             case UNLIT:
                 icon = IconRegistry.icon_torch_head_unlit;
                 break;
-            default: {}
+            default: {
+            }
         }
 
         vec3 = new Vec3[] {
-                Vec3.createVectorHelper(-0.0625F,   0.5D, -0.0625F),
-                Vec3.createVectorHelper( 0.0625F,   0.5D, -0.0625F),
-                Vec3.createVectorHelper( 0.0625F,   0.5D,  0.0625F),
-                Vec3.createVectorHelper(-0.0625F,   0.5D,  0.0625F),
-                Vec3.createVectorHelper(-0.0625F, 0.625F, -0.0625F),
-                Vec3.createVectorHelper( 0.0625F, 0.625F, -0.0625F),
-                Vec3.createVectorHelper( 0.0625F, 0.625F,  0.0625F),
-                Vec3.createVectorHelper(-0.0625F, 0.625F,  0.0625F)
+            Vec3.createVectorHelper(-0.0625F, 0.5D, -0.0625F),
+            Vec3.createVectorHelper(0.0625F, 0.5D, -0.0625F),
+            Vec3.createVectorHelper(0.0625F, 0.5D, 0.0625F),
+            Vec3.createVectorHelper(-0.0625F, 0.5D, 0.0625F),
+            Vec3.createVectorHelper(-0.0625F, 0.625F, -0.0625F),
+            Vec3.createVectorHelper(0.0625F, 0.625F, -0.0625F),
+            Vec3.createVectorHelper(0.0625F, 0.625F, 0.0625F),
+            Vec3.createVectorHelper(-0.0625F, 0.625F, 0.0625F)
         };
 
         setVanillaRotations(data.getDirection(TE), vec3, x, y, z);
@@ -116,14 +114,14 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
         /* Render torch handle. */
 
         vec3 = new Vec3[] {
-                Vec3.createVectorHelper(-0.0625F, 0.0D, -0.0625F),
-                Vec3.createVectorHelper( 0.0625F, 0.0D, -0.0625F),
-                Vec3.createVectorHelper( 0.0625F, 0.0D,  0.0625F),
-                Vec3.createVectorHelper(-0.0625F, 0.0D,  0.0625F),
-                Vec3.createVectorHelper(-0.0625F, 0.5F, -0.0625F),
-                Vec3.createVectorHelper( 0.0625F, 0.5F, -0.0625F),
-                Vec3.createVectorHelper( 0.0625F, 0.5F,  0.0625F),
-                Vec3.createVectorHelper(-0.0625F, 0.5F,  0.0625F)
+            Vec3.createVectorHelper(-0.0625F, 0.0D, -0.0625F),
+            Vec3.createVectorHelper(0.0625F, 0.0D, -0.0625F),
+            Vec3.createVectorHelper(0.0625F, 0.0D, 0.0625F),
+            Vec3.createVectorHelper(-0.0625F, 0.0D, 0.0625F),
+            Vec3.createVectorHelper(-0.0625F, 0.5F, -0.0625F),
+            Vec3.createVectorHelper(0.0625F, 0.5F, -0.0625F),
+            Vec3.createVectorHelper(0.0625F, 0.5F, 0.0625F),
+            Vec3.createVectorHelper(-0.0625F, 0.5F, 0.0625F)
         };
 
         setVanillaRotations(data.getDirection(TE), vec3, x, y, z);
@@ -147,8 +145,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
         delegateSideRender(itemStack, x, y, z, EAST);
     }
 
-    private void renderTypeLantern(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeLantern(ItemStack itemStack, int x, int y, int z) {
         switch (dir) {
             case UP:
                 renderBlockWithRotation(itemStack, x, y, z, 0.375D, 0.0D, 0.375D, 0.625D, 0.375D, 0.625D);
@@ -168,7 +165,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
             /* Render glass. */
 
             if (facing != dir.ordinal()) {
-                renderBlocks.setRenderBounds (0.375D, 0.375D, 0.3125D, 0.625D, 0.75D, 0.3125D);
+                renderBlocks.setRenderBounds(0.375D, 0.375D, 0.3125D, 0.625D, 0.75D, 0.3125D);
                 rotateBounds(renderBlocks, nextDir);
                 renderPane(IconRegistry.icon_lantern_glass, x, y, z, nextDir.getOpposite(), false, false);
             }
@@ -194,8 +191,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
     /**
      * Renders side.
      */
-    protected void render(int x, int y, int z, int side, IIcon icon)
-    {
+    protected void render(int x, int y, int z, int side, IIcon icon) {
         if (data.getType(TE) == Torch.TYPE_VANILLA) {
             renderVectors(side, icon, true);
         } else {
@@ -203,10 +199,8 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
         }
     }
 
-    private void setVanillaRotations(ForgeDirection dir, Vec3[] vec3, int x, int y, int z)
-    {
-        for (int vecCount = 0; vecCount < 8; ++vecCount)
-        {
+    private void setVanillaRotations(ForgeDirection dir, Vec3[] vec3, int x, int y, int z) {
+        for (int vecCount = 0; vecCount < 8; ++vecCount) {
             switch (dir) {
                 case UP:
                     vec3[vecCount].xCoord += x + 0.5D;
@@ -214,27 +208,27 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
                     vec3[vecCount].zCoord += z + 0.5D;
                     break;
                 default:
-
                     vec3[vecCount].zCoord += 0.0625D;
-                    vec3[vecCount].rotateAroundX(-((float)Math.PI * 3.4F / 9F));
+                    vec3[vecCount].rotateAroundX(-((float) Math.PI * 3.4F / 9F));
 
                     vec3[vecCount].yCoord -= 0.4375D;
-                    vec3[vecCount].rotateAroundX((float)Math.PI / 2F);
+                    vec3[vecCount].rotateAroundX((float) Math.PI / 2F);
 
                     switch (dir) {
                         case NORTH:
                             vec3[vecCount].rotateAroundY(0.0F);
                             break;
                         case SOUTH:
-                            vec3[vecCount].rotateAroundY((float)Math.PI);
+                            vec3[vecCount].rotateAroundY((float) Math.PI);
                             break;
                         case WEST:
-                            vec3[vecCount].rotateAroundY((float)Math.PI / 2F);
+                            vec3[vecCount].rotateAroundY((float) Math.PI / 2F);
                             break;
                         case EAST:
-                            vec3[vecCount].rotateAroundY(-((float)Math.PI / 2F));
+                            vec3[vecCount].rotateAroundY(-((float) Math.PI / 2F));
                             break;
-                        default: {}
+                        default: {
+                        }
                     }
 
                     vec3[vecCount].xCoord += x + 0.5D;
@@ -253,8 +247,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
      * @param  icon the {@link IIcon}
      * @param  isHandle <code>true</code> if handle is drawing
      */
-    private void renderVectors(int side, IIcon icon, boolean isHandle)
-    {
+    private void renderVectors(int side, IIcon icon, boolean isHandle) {
         double uMin, uMax, vMin, vMax;
 
         if (isHandle) {
@@ -328,5 +321,4 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
         VertexHelper.drawVertex(renderBlocks, vertex3.xCoord, vertex3.yCoord, vertex3.zCoord, uMax, vMin);
         VertexHelper.drawVertex(renderBlocks, vertex4.xCoord, vertex4.yCoord, vertex4.zCoord, uMin, vMin);
     }
-
 }

@@ -1,7 +1,7 @@
 package com.carpentersblocks.data;
 
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.tileentity.TEBase;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class DaylightSensor implements ISided {
 
@@ -11,20 +11,19 @@ public class DaylightSensor implements ISided {
      * [000000] [000] [00]        [0]      [0000]
      * Unused   Dir   Sensitivity Polarity LightLevel
      */
-
     public static final byte POLARITY_POSITIVE = 0;
+
     public static final byte POLARITY_NEGATIVE = 1;
 
-    public static final byte SENSITIVITY_SLEEP    = 0;
+    public static final byte SENSITIVITY_SLEEP = 0;
     public static final byte SENSITIVITY_MONSTERS = 1;
-    public static final byte SENSITIVITY_DYNAMIC  = 2;
+    public static final byte SENSITIVITY_DYNAMIC = 2;
 
     /**
      * Returns direction.
      */
     @Override
-    public ForgeDirection getDirection(TEBase TE)
-    {
+    public ForgeDirection getDirection(TEBase TE) {
         int side = (TE.getData() & 0x380) >> 7;
         return ForgeDirection.getOrientation(side);
     }
@@ -33,8 +32,7 @@ public class DaylightSensor implements ISided {
      * Sets direction.
      */
     @Override
-    public boolean setDirection(TEBase TE, ForgeDirection dir)
-    {
+    public boolean setDirection(TEBase TE, ForgeDirection dir) {
         int temp = (TE.getData() & ~0x380) | (dir.ordinal() << 7);
         return TE.setData(temp);
     }
@@ -42,16 +40,14 @@ public class DaylightSensor implements ISided {
     /**
      * Returns light level.
      */
-    public int getLightLevel(TEBase TE)
-    {
+    public int getLightLevel(TEBase TE) {
         return TE.getData() & 0xf;
     }
 
     /**
      * Sets light level.
      */
-    public void setLightLevel(TEBase TE, int lightLevel)
-    {
+    public void setLightLevel(TEBase TE, int lightLevel) {
         int temp = (TE.getData() & ~0xf) | lightLevel;
         TE.setData(temp);
     }
@@ -59,16 +55,14 @@ public class DaylightSensor implements ISided {
     /**
      * Returns polarity.
      */
-    public int getPolarity(TEBase TE)
-    {
+    public int getPolarity(TEBase TE) {
         return (TE.getData() & 0x10) >> 4;
     }
 
     /**
      * Sets polarity.
      */
-    public void setPolarity(TEBase TE, int state)
-    {
+    public void setPolarity(TEBase TE, int state) {
         int temp = (TE.getData() & ~0x10) | (state << 4);
         TE.setData(temp);
     }
@@ -76,16 +70,14 @@ public class DaylightSensor implements ISided {
     /**
      * Returns sensitivity.
      */
-    public int getSensitivity(TEBase TE)
-    {
+    public int getSensitivity(TEBase TE) {
         return (TE.getData() & 0x60) >> 5;
     }
 
     /**
      * Sets sensitivity.
      */
-    private void setSensitivity(TEBase TE, int sensitivity)
-    {
+    private void setSensitivity(TEBase TE, int sensitivity) {
         int temp = (TE.getData() & ~0x60) | (sensitivity << 5);
         TE.setData(temp);
     }
@@ -94,8 +86,7 @@ public class DaylightSensor implements ISided {
      * Sets sensor to next sensitivity level.
      * Returns new sensitivity.
      */
-    public int setNextSensitivity(TEBase TE)
-    {
+    public int setNextSensitivity(TEBase TE) {
         int sensitivity = getSensitivity(TE);
 
         if (++sensitivity > 2) {
@@ -113,8 +104,7 @@ public class DaylightSensor implements ISided {
      * @param  TE the {@link TEBase}
      * @return true if sensor is outputting redstone current
      */
-    public boolean isActive(TEBase TE)
-    {
+    public boolean isActive(TEBase TE) {
         return getRedstoneOutput(TE) > 0;
     }
 
@@ -124,8 +114,7 @@ public class DaylightSensor implements ISided {
      * @param  TE the {@link TEBase}
      * @return redstone output between 0 and 15
      */
-    public int getRedstoneOutput(TEBase TE)
-    {
+    public int getRedstoneOutput(TEBase TE) {
         boolean posPolarity = getPolarity(TE) == POLARITY_POSITIVE;
         int output = 0;
         int lightLevel = getLightLevel(TE);
@@ -147,5 +136,4 @@ public class DaylightSensor implements ISided {
 
         return output;
     }
-
 }

@@ -8,7 +8,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class DyeHandler {
 
-    private final static Map<String, Integer> dyeMap;
+    private static final Map<String, Integer> dyeMap;
+
     static {
         dyeMap = new HashMap<String, Integer>();
         dyeMap.put("dyeBlack", ItemDye.field_150922_c[0]);
@@ -35,8 +36,7 @@ public class DyeHandler {
      * @param itemStack
      * @return
      */
-    public static int getVanillaDmgValue(ItemStack itemStack)
-    {
+    public static int getVanillaDmgValue(ItemStack itemStack) {
         int color = getColor(itemStack);
 
         for (int idx = 0; idx < ItemDye.field_150922_c.length; ++idx) {
@@ -51,8 +51,7 @@ public class DyeHandler {
     /**
      * Returns definition for ItemStack from OreDictionary.
      */
-    public static String getOreDictName(ItemStack itemStack)
-    {
+    public static String getOreDictName(ItemStack itemStack) {
         for (int id : OreDictionary.getOreIDs(itemStack)) {
             String result = OreDictionary.getOreName(id);
             if (result.startsWith("dye") && result.length() > 3) {
@@ -66,8 +65,7 @@ public class DyeHandler {
     /**
      * Returns true if ItemStack is a dye.
      */
-    public static boolean isDye(ItemStack itemStack, boolean allowWhite)
-    {
+    public static boolean isDye(ItemStack itemStack, boolean allowWhite) {
         String name = getOreDictName(itemStack);
         return dyeMap.containsKey(name) && (name.equals("dyeWhite") && !allowWhite ? false : true);
     }
@@ -75,16 +73,14 @@ public class DyeHandler {
     /**
      * Returns a integer with hex for 0xrrggbb based on ItemStack.
      */
-    public static int getColor(ItemStack itemStack)
-    {
+    public static int getColor(ItemStack itemStack) {
         return getColor(getOreDictName(itemStack));
     }
 
     /**
      * Returns a integer with hex for 0xrrggbb based on ore dictionary name.
      */
-    public static int getColor(String dye)
-    {
+    public static int getColor(String dye) {
         int color = 0xffffff;
 
         Object dyeLookup = dyeMap.get(dye);
@@ -95,5 +91,4 @@ public class DyeHandler {
 
         return color;
     }
-
 }

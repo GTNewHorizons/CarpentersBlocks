@@ -1,15 +1,15 @@
 package com.carpentersblocks.renderer;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.block.BlockCarpentersDaylightSensor;
 import com.carpentersblocks.data.DaylightSensor;
 import com.carpentersblocks.util.registry.IconRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
@@ -18,8 +18,7 @@ public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
     private static ItemStack redstone = new ItemStack(Blocks.redstone_block);
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
-    {
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks) {
         double yOffset = 0.375D;
 
         /* Glass inset */
@@ -63,8 +62,7 @@ public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
     /**
      * Renders block
      */
-    protected void renderCarpentersBlock(int x, int y, int z)
-    {
+    protected void renderCarpentersBlock(int x, int y, int z) {
         renderBlocks.renderAllFaces = true;
 
         suppressDyeColor = true;
@@ -72,7 +70,7 @@ public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
         suppressChiselDesign = true;
 
         DaylightSensor data = new DaylightSensor();
-        ((BlockCarpentersDaylightSensor)srcBlock).setBlockBoundsBasedOnState(renderBlocks.blockAccess, x, y, z);
+        ((BlockCarpentersDaylightSensor) srcBlock).setBlockBoundsBasedOnState(renderBlocks.blockAccess, x, y, z);
 
         ForgeDirection dir = data.getDirection(TE).getOpposite();
 
@@ -120,5 +118,4 @@ public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
 
         renderBlocks.renderAllFaces = false;
     }
-
 }

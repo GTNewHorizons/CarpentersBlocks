@@ -4,6 +4,13 @@ import static net.minecraftforge.common.util.ForgeDirection.EAST;
 import static net.minecraftforge.common.util.ForgeDirection.NORTH;
 import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
 import static net.minecraftforge.common.util.ForgeDirection.WEST;
+
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.ModLogger;
+import com.carpentersblocks.util.registry.FeatureRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
@@ -19,19 +26,13 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.RenderBlockFluid;
 import org.apache.logging.log4j.Level;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.ModLogger;
-import com.carpentersblocks.util.registry.FeatureRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RoutableFluidsHelper {
 
-    public final static Class[] liquidClasses = { BlockLiquid.class, IFluidBlock.class};
-    private final static int CALLER_SUN = 0;
-    private final static int CALLER_SEC = 1;
+    public static final Class[] liquidClasses = {BlockLiquid.class, IFluidBlock.class};
+    private static final int CALLER_SUN = 0;
+    private static final int CALLER_SEC = 1;
     private static int callMethod = -1;
 
     /**
@@ -40,30 +41,33 @@ public class RoutableFluidsHelper {
      *
      * @return a class
      */
-    public static Class getCallerClass()
-    {
-        if (callMethod < 0)
-        {
+    public static Class getCallerClass() {
+        if (callMethod < 0) {
             try {
                 sun.reflect.Reflection.getCallerClass(2);
                 callMethod = CALLER_SUN;
             } catch (Exception E) {
                 try {
-                    new SecurityManager() { Class clazz = getClassContext()[2]; };
+                    new SecurityManager() {
+                        Class clazz = getClassContext()[2];
+                    };
                     callMethod = CALLER_SEC;
                 } catch (Exception E1) {
                     FeatureRegistry.enableRoutableFluids = false;
                     ModLogger.log(Level.WARN, "Routable fluids failed: %s", E1.getMessage());
-                };
-            };
+                }
+                ;
+            }
+            ;
         }
 
-        switch (callMethod)
-        {
+        switch (callMethod) {
             case CALLER_SUN:
                 return sun.reflect.Reflection.getCallerClass(4);
             case CALLER_SEC:
-                return new SecurityManager() { Class clazz = getClassContext()[4]; }.clazz;
+                return new SecurityManager() {
+                    Class clazz = getClassContext()[4];
+                }.clazz;
             default:
                 return null;
         }
@@ -79,8 +83,7 @@ public class RoutableFluidsHelper {
      * @param  z the z coordinate
      * @return true if fluid rendered in space
      */
-    public static boolean render(TEBase TE, RenderBlocks renderBlocks, int x, int y, int z)
-    {
+    public static boolean render(TEBase TE, RenderBlocks renderBlocks, int x, int y, int z) {
         // Do not render if fluid is above block
         Class clazz_YP = renderBlocks.blockAccess.getBlock(x, y + 1, z).getClass();
         for (Class clazz : liquidClasses) {
@@ -96,19 +99,17 @@ public class RoutableFluidsHelper {
             Block block = BlockProperties.toBlock(itemStack);
             int metadata = itemStack.getItemDamage();
 
-            if (block.getRenderBlockPass() == MinecraftForgeClient.getRenderPass())
-            {
-                if (!block.hasTileEntity(metadata))
-                {
+            if (block.getRenderBlockPass() == MinecraftForgeClient.getRenderPass()) {
+                if (!block.hasTileEntity(metadata)) {
                     if (block instanceof BlockLiquid) {
                         renderLiquidSurface(TE, renderBlocks, itemStack, x, y, z);
                     } else {
-                        RenderBlockFluid.instance.renderWorldBlock(renderBlocks.blockAccess, x, y, z, block, 0, renderBlocks);
+                        RenderBlockFluid.instance.renderWorldBlock(
+                                renderBlocks.blockAccess, x, y, z, block, 0, renderBlocks);
                     }
                     return true;
                 }
             }
-
         }
 
         return false;
@@ -123,19 +124,18 @@ public class RoutableFluidsHelper {
      * @param  z the z coordinate
      * @return a nearby fluid {@link ItemStack}, or null if no routable fluid exists
      */
-    public static ItemStack getFluidBlock(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public static ItemStack getFluidBlock(IBlockAccess blockAccess, int x, int y, int z) {
         int[][] offsetXZ = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
 
         ForgeDirection[][][] route = {
-                { { NORTH } },
-                { { SOUTH } },
-                { { WEST  } },
-                { { EAST  } },
-                { { NORTH, SOUTH, WEST }, { WEST, EAST, NORTH } },
-                { { SOUTH, NORTH, WEST }, { WEST, EAST, SOUTH } },
-                { { SOUTH, NORTH, EAST }, { EAST, WEST, SOUTH } },
-                { { NORTH, SOUTH, EAST }, { EAST, WEST, NORTH } },
+            {{NORTH}},
+            {{SOUTH}},
+            {{WEST}},
+            {{EAST}},
+            {{NORTH, SOUTH, WEST}, {WEST, EAST, NORTH}},
+            {{SOUTH, NORTH, WEST}, {WEST, EAST, SOUTH}},
+            {{SOUTH, NORTH, EAST}, {EAST, WEST, SOUTH}},
+            {{NORTH, SOUTH, EAST}, {EAST, WEST, NORTH}},
         };
 
         for (int idx = 0; idx < offsetXZ.length; ++idx) {
@@ -154,20 +154,24 @@ public class RoutableFluidsHelper {
             if (isLiquid) {
                 if (idx < 4) {
                     if (!blockAccess.isSideSolid(x, y, z, route[idx][0][0], false)) {
-                        return new ItemStack(block, blockAccess.getBlockMetadata(x + offsetXZ[idx][0], y, z + offsetXZ[idx][1]));
+                        return new ItemStack(
+                                block, blockAccess.getBlockMetadata(x + offsetXZ[idx][0], y, z + offsetXZ[idx][1]));
                     }
                 } else {
                     for (int routeIdx = 0; routeIdx < 2; ++routeIdx) {
                         if (!blockAccess.isSideSolid(x, y, z, route[idx][routeIdx][0], false)) {
-                            int[] bridgeXZ = { x + route[idx][routeIdx][0].offsetX, z + route[idx][routeIdx][0].offsetZ };
-                            if (!blockAccess.isSideSolid(bridgeXZ[0], y, bridgeXZ[1], route[idx][routeIdx][1], false) && !blockAccess.isSideSolid(bridgeXZ[0], y, bridgeXZ[1], route[idx][routeIdx][2], false)) {
-                                return new ItemStack(block, blockAccess.getBlockMetadata(x + offsetXZ[idx][0], y, z + offsetXZ[idx][1]));
+                            int[] bridgeXZ = {x + route[idx][routeIdx][0].offsetX, z + route[idx][routeIdx][0].offsetZ};
+                            if (!blockAccess.isSideSolid(bridgeXZ[0], y, bridgeXZ[1], route[idx][routeIdx][1], false)
+                                    && !blockAccess.isSideSolid(
+                                            bridgeXZ[0], y, bridgeXZ[1], route[idx][routeIdx][2], false)) {
+                                return new ItemStack(
+                                        block,
+                                        blockAccess.getBlockMetadata(x + offsetXZ[idx][0], y, z + offsetXZ[idx][1]));
                             }
                         }
                     }
                 }
             }
-
         }
 
         return null;
@@ -183,8 +187,8 @@ public class RoutableFluidsHelper {
      * @param y
      * @param z
      */
-    public static void renderLiquidSurface(TEBase TE, RenderBlocks renderBlocks, ItemStack itemStack, int x, int y, int z)
-    {
+    public static void renderLiquidSurface(
+            TEBase TE, RenderBlocks renderBlocks, ItemStack itemStack, int x, int y, int z) {
         Tessellator tessellator = Tessellator.instance;
         Block block = BlockProperties.toBlock(itemStack);
         Material material = block.getMaterial();
@@ -211,8 +215,7 @@ public class RoutableFluidsHelper {
         double v_XZPP;
         double v_XZPN;
 
-        if (flowDir < -999.0F)
-        {
+        if (flowDir < -999.0F) {
             u_XZNN = icon.getInterpolatedU(0.0D);
             v_XZNN = icon.getInterpolatedV(0.0D);
             u_XZNP = u_XZNN;
@@ -221,9 +224,7 @@ public class RoutableFluidsHelper {
             v_XZPP = v_XZNP;
             u_XZPN = u_XZPP;
             v_XZPN = v_XZNN;
-        }
-        else
-        {
+        } else {
             float sinDir = MathHelper.sin(flowDir) * 0.25F;
             float cosDir = MathHelper.cos(flowDir) * 0.25F;
             u_XZNN = icon.getInterpolatedU(8.0F + (-cosDir - sinDir) * 16.0F);
@@ -257,5 +258,4 @@ public class RoutableFluidsHelper {
         tessellator.addVertexWithUV(x + 1, y + height_XZPP, z + 1, u_XZPP, v_XZPP);
         tessellator.addVertexWithUV(x, y + height_XZNP, z + 1, u_XZNP, v_XZNP);
     }
-
 }

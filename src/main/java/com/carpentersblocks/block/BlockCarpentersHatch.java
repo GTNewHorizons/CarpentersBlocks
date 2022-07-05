@@ -1,5 +1,13 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Hatch;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
@@ -18,19 +26,10 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Hatch;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersHatch extends BlockCoverable {
 
-    public BlockCarpentersHatch(Material material)
-    {
+    public BlockCarpentersHatch(Material material) {
         super(material);
     }
 
@@ -40,19 +39,18 @@ public class BlockCarpentersHatch extends BlockCoverable {
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
      */
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
-        IconRegistry.icon_hatch_glass        = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "hatch/hatch_glass");
-        IconRegistry.icon_hatch_french_glass = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "hatch/hatch_french_glass");
-        IconRegistry.icon_hatch_screen       = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "hatch/hatch_screen");
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        IconRegistry.icon_hatch_glass = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "hatch/hatch_glass");
+        IconRegistry.icon_hatch_french_glass =
+                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "hatch/hatch_french_glass");
+        IconRegistry.icon_hatch_screen = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "hatch/hatch_screen");
     }
 
     @Override
     /**
      * Alters direction based on valid sides detected.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         if (!TE.getWorldObj().isRemote) {
             findNextSideSupportBlock(TE, TE.getWorldObj(), TE.xCoord, TE.yCoord, TE.zCoord);
         }
@@ -64,8 +62,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
     /**
      * Alters hatch type and redstone behavior.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         if (!entityPlayer.isSneaking()) {
 
             int type = Hatch.getType(TE);
@@ -89,7 +86,6 @@ public class BlockCarpentersHatch extends BlockCoverable {
                 case Hatch.HINGED_RIGID:
                     ChatHandler.sendMessageToPlayer("message.activation_iron.name", entityPlayer);
             }
-
         }
 
         return true;
@@ -99,8 +95,14 @@ public class BlockCarpentersHatch extends BlockCoverable {
     /**
      * Called upon block activation (right click on the block.)
      */
-    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ, ActionResult actionResult)
-    {
+    protected void postOnBlockActivated(
+            TEBase TE,
+            EntityPlayer entityPlayer,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            ActionResult actionResult) {
         if (!activationRequiresRedstone(TE)) {
             Hatch.setState(TE, Hatch.getState(TE) == Hatch.STATE_CLOSED ? Hatch.STATE_OPEN : Hatch.STATE_CLOSED);
             actionResult.setAltered().setNoSound();
@@ -110,8 +112,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
     /**
      * Returns whether hatch requires redstone activation.
      */
-    private boolean activationRequiresRedstone(TEBase TE)
-    {
+    private boolean activationRequiresRedstone(TEBase TE) {
         return Hatch.getRigidity(TE) == Hatch.HINGED_RIGID;
     }
 
@@ -119,8 +120,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -142,8 +142,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
                 setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, thickness, 1.0F);
             }
 
-            if (isOpen)
-            {
+            if (isOpen) {
                 switch (dir) {
                     case 0:
                         setBlockBounds(0.0F, 0.0F, 1.0F - thickness, 1.0F, 1.0F, 1.0F);
@@ -159,7 +158,6 @@ public class BlockCarpentersHatch extends BlockCoverable {
                         break;
                 }
             }
-
         }
     }
 
@@ -168,8 +166,8 @@ public class BlockCarpentersHatch extends BlockCoverable {
      * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
      * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
      */
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity)
-    {
+    public void addCollisionBoxesToList(
+            World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
         setBlockBoundsBasedOnState(world, x, y, z);
         super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
     }
@@ -179,8 +177,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor blockID
      */
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if (!world.isRemote) {
 
             TEBase TE = getTileEntity(world, x, y, z);
@@ -208,7 +205,9 @@ public class BlockCarpentersHatch extends BlockCoverable {
                         break;
                 }
 
-                if (!(isValidSupportBlock(world, x, y, z, world.getBlock(xOffset, y, zOffset)) || world.getBlock(xOffset, y, zOffset).isSideSolid(world, xOffset, y, zOffset, ForgeDirection.getOrientation(dir + 2)))) {
+                if (!(isValidSupportBlock(world, x, y, z, world.getBlock(xOffset, y, zOffset))
+                        || world.getBlock(xOffset, y, zOffset)
+                                .isSideSolid(world, xOffset, y, zOffset, ForgeDirection.getOrientation(dir + 2)))) {
                     findNextSideSupportBlock(TE, world, x, y, z);
                 }
 
@@ -218,9 +217,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
                 if (block != null && block.canProvidePower() && isPowered != isOpen) {
                     Hatch.setState(TE, state == Hatch.STATE_OPEN ? Hatch.STATE_CLOSED : Hatch.STATE_OPEN);
                 }
-
             }
-
         }
 
         super.onNeighborBlockChange(world, x, y, z, block);
@@ -231,8 +228,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
      * Ray traces through the blocks collision from start vector to end vector returning a ray trace hit. Args: world,
      * x, y, z, startVec, endVec
      */
-    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 startVec, Vec3 endVec)
-    {
+    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
         setBlockBoundsBasedOnState(world, x, y, z);
         return super.collisionRayTrace(world, x, y, z, startVec, endVec);
     }
@@ -241,8 +237,8 @@ public class BlockCarpentersHatch extends BlockCoverable {
     /**
      * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z, side, hitX, hitY, hitZ, block metadata
      */
-    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
-    {
+    public int onBlockPlaced(
+            World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
         int initData = 0;
 
         if (side > 1) {
@@ -262,8 +258,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
      * Called when the block is placed in the world.
      * Uses cardinal direction to adjust metadata if player clicks top or bottom face of block.
      */
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
-    {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
 
         TEBase TE = getTileEntity(world, x, y, z);
@@ -277,7 +272,6 @@ public class BlockCarpentersHatch extends BlockCoverable {
             if ((metadata & 0x8) > 0) {
                 Hatch.setPos(TE, Hatch.POSITION_HIGH);
             }
-
         }
     }
 
@@ -285,17 +279,28 @@ public class BlockCarpentersHatch extends BlockCoverable {
     /**
      * checks to see if you can place this block can be placed on that side of a block: BlockLever overrides
      */
-    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side)
-    {
+    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side) {
         switch (side) {
             case 2:
-                return isValidSupportBlock(world, x, y, z, world.getBlock(x, y, z + 1)) || world.getBlock(x, y, z + 1).isSideSolid(world, x, y, z + 1, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[3]));
+                return isValidSupportBlock(world, x, y, z, world.getBlock(x, y, z + 1))
+                        || world.getBlock(x, y, z + 1)
+                                .isSideSolid(
+                                        world, x, y, z + 1, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[3]));
             case 3:
-                return isValidSupportBlock(world, x, y, z, world.getBlock(x, y, z - 1)) || world.getBlock(x, y, z - 1).isSideSolid(world, x, y, z - 1, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[2]));
+                return isValidSupportBlock(world, x, y, z, world.getBlock(x, y, z - 1))
+                        || world.getBlock(x, y, z - 1)
+                                .isSideSolid(
+                                        world, x, y, z - 1, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[2]));
             case 4:
-                return isValidSupportBlock(world, x, y, z, world.getBlock(x + 1, y, z)) || world.getBlock(x + 1, y, z).isSideSolid(world, x + 1, y, z, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[5]));
+                return isValidSupportBlock(world, x, y, z, world.getBlock(x + 1, y, z))
+                        || world.getBlock(x + 1, y, z)
+                                .isSideSolid(
+                                        world, x + 1, y, z, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[5]));
             case 5:
-                return isValidSupportBlock(world, x, y, z, world.getBlock(x - 1, y, z)) || world.getBlock(x - 1, y, z).isSideSolid(world, x - 1, y, z, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[4]));
+                return isValidSupportBlock(world, x, y, z, world.getBlock(x - 1, y, z))
+                        || world.getBlock(x - 1, y, z)
+                                .isSideSolid(
+                                        world, x - 1, y, z, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[4]));
         }
 
         return false;
@@ -305,8 +310,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
      * Will find and set a new direction for hatch if an adjacent block can support it.
      * If nothing is found, block will break.
      */
-    private void findNextSideSupportBlock(TEBase TE, World world, int x, int y, int z)
-    {
+    private void findNextSideSupportBlock(TEBase TE, World world, int x, int y, int z) {
         int dir = Hatch.getDir(TE);
 
         if (++dir > 3) {
@@ -318,8 +322,7 @@ public class BlockCarpentersHatch extends BlockCoverable {
          * support block.  It will drop if nothing is found.
          */
         int count = 0;
-        while (!canPlaceBlockOnSide(world, x, y, z, dir + 2) && count < 4)
-        {
+        while (!canPlaceBlockOnSide(world, x, y, z, dir + 2) && count < 4) {
             if (++dir > 3) {
                 dir = 0;
             }
@@ -345,86 +348,99 @@ public class BlockCarpentersHatch extends BlockCoverable {
      * @param entity The entity trying to use the ladder, CAN be null.
      * @return True if the block should act like a ladder
      */
-    public boolean isLadder(IBlockAccess blockAccess, int x, int y, int z, EntityLivingBase entityLiving)
-    {
+    public boolean isLadder(IBlockAccess blockAccess, int x, int y, int z, EntityLivingBase entityLiving) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
-        return TE != null &&
-               Hatch.getType(TE) == Hatch.TYPE_HIDDEN &&
-               Hatch.getPos(TE) == Hatch.POSITION_HIGH &&
-               Hatch.getState(TE) == Hatch.STATE_OPEN;
+        return TE != null
+                && Hatch.getType(TE) == Hatch.TYPE_HIDDEN
+                && Hatch.getPos(TE) == Hatch.POSITION_HIGH
+                && Hatch.getState(TE) == Hatch.STATE_OPEN;
     }
 
     /**
      * Checks if the block ID is a valid support block for the hatch to connect with. If it is not the hatch is
      * dropped into the world.
      */
-    private boolean isValidSupportBlock(World world, int x, int y, int z, Block block)
-    {
-        return block == Blocks.glowstone ||
-               block instanceof BlockCarpentersStairs ||
-               block instanceof BlockCarpentersBlock ||
-               block instanceof BlockSlab ||
-               block instanceof BlockStairs;
+    private boolean isValidSupportBlock(World world, int x, int y, int z, Block block) {
+        return block == Blocks.glowstone
+                || block instanceof BlockCarpentersStairs
+                || block instanceof BlockCarpentersBlock
+                || block instanceof BlockSlab
+                || block instanceof BlockStairs;
     }
 
     @Override
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersHatchRenderID;
     }
 
     @Override
-    public ForgeDirection[] getValidRotations(World worldObj, int x, int y,int z)
-    {
+    public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
         ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
         return axises;
     }
 
     @Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
-    {
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
         // if Axis is UP, block rotates to the right:  north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TEBase)
-        {
-            TEBase cbTile = (TEBase)tile;
+        if (tile != null && tile instanceof TEBase) {
+            TEBase cbTile = (TEBase) tile;
             int direction = Hatch.getDir(cbTile);
-            switch (axis)
-            {
-                case UP:
-                {
-                    switch (direction)
-                    {
-                        case 0:{Hatch.setDir(cbTile, 3); break;}
-                        case 1:{Hatch.setDir(cbTile, 2); break;}
-                        case 2:{Hatch.setDir(cbTile, 0); break;}
-                        case 3:{Hatch.setDir(cbTile, 1); break;}
+            switch (axis) {
+                case UP: {
+                    switch (direction) {
+                        case 0: {
+                            Hatch.setDir(cbTile, 3);
+                            break;
+                        }
+                        case 1: {
+                            Hatch.setDir(cbTile, 2);
+                            break;
+                        }
+                        case 2: {
+                            Hatch.setDir(cbTile, 0);
+                            break;
+                        }
+                        case 3: {
+                            Hatch.setDir(cbTile, 1);
+                            break;
+                        }
                     }
                     break;
                 }
-                case DOWN:
-                {
-                    switch (direction)
-                    {
-                        case 0:{Hatch.setDir(cbTile, 2); break;}
-                        case 1:{Hatch.setDir(cbTile, 3); break;}
-                        case 2:{Hatch.setDir(cbTile, 1); break;}
-                        case 3:{Hatch.setDir(cbTile, 0); break;}
+                case DOWN: {
+                    switch (direction) {
+                        case 0: {
+                            Hatch.setDir(cbTile, 2);
+                            break;
+                        }
+                        case 1: {
+                            Hatch.setDir(cbTile, 3);
+                            break;
+                        }
+                        case 2: {
+                            Hatch.setDir(cbTile, 1);
+                            break;
+                        }
+                        case 3: {
+                            Hatch.setDir(cbTile, 0);
+                            break;
+                        }
                     }
                     break;
                 }
-                default: return false;
+                default:
+                    return false;
             }
             return true;
         }
         return false;
     }
-
 }

@@ -1,5 +1,14 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Bed;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Iterator;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -16,20 +25,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Bed;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersBed extends BlockCoverable {
 
-    public BlockCarpentersBed(Material material)
-    {
+    public BlockCarpentersBed(Material material) {
         super(material);
         setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
     }
@@ -40,8 +39,7 @@ public class BlockCarpentersBed extends BlockCoverable {
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
      */
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         IconRegistry.icon_bed_pillow = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "bed/bed_pillow");
     }
 
@@ -51,8 +49,7 @@ public class BlockCarpentersBed extends BlockCoverable {
      * players to sleep in it, though the block has to specifically
      * perform the sleeping functionality in it's activated event.
      */
-    public boolean isBed(IBlockAccess blockAccess, int x, int y, int z, EntityLivingBase player)
-    {
+    public boolean isBed(IBlockAccess blockAccess, int x, int y, int z, EntityLivingBase player) {
         return true;
     }
 
@@ -60,8 +57,7 @@ public class BlockCarpentersBed extends BlockCoverable {
     /**
      * Cycle backward through bed designs.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         TE.setPrevDesign();
         Bed.getOppositeTE(TE).setDesign(TE.getDesign());
         return true;
@@ -71,8 +67,7 @@ public class BlockCarpentersBed extends BlockCoverable {
     /**
      * Cycle forward through bed designs.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         if (entityPlayer.isSneaking()) {
             TE.removeDesign();
             Bed.getOppositeTE(TE).removeDesign();
@@ -88,8 +83,14 @@ public class BlockCarpentersBed extends BlockCoverable {
     /**
      * Called upon block activation (right click on the block.)
      */
-    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ, ActionResult actionResult)
-    {
+    protected void postOnBlockActivated(
+            TEBase TE,
+            EntityPlayer entityPlayer,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            ActionResult actionResult) {
         actionResult.setAltered();
         World world = TE.getWorldObj();
 
@@ -107,7 +108,6 @@ public class BlockCarpentersBed extends BlockCoverable {
             } else {
                 return;
             }
-
         }
 
         if (world.provider.canRespawnHere() && world.getBiomeGenForCoords(x, z) != BiomeGenBase.hell) {
@@ -119,7 +119,7 @@ public class BlockCarpentersBed extends BlockCoverable {
 
                 while (iterator.hasNext()) {
 
-                    EntityPlayer entityPlayer2 = (EntityPlayer)iterator.next();
+                    EntityPlayer entityPlayer2 = (EntityPlayer) iterator.next();
 
                     if (entityPlayer2.isPlayerSleeping()) {
 
@@ -128,9 +128,7 @@ public class BlockCarpentersBed extends BlockCoverable {
                         if (chunkCoordinates.posX == x && chunkCoordinates.posY == y && chunkCoordinates.posZ == z) {
                             entityPlayer1 = entityPlayer2;
                         }
-
                     }
-
                 }
 
                 if (entityPlayer1 != null) {
@@ -139,7 +137,6 @@ public class BlockCarpentersBed extends BlockCoverable {
                 }
 
                 setBedOccupied(world, x, y, z, entityPlayer, false);
-
             }
 
             EnumStatus enumstatus = entityPlayer.sleepInBedAt(x, y, z);
@@ -155,14 +152,12 @@ public class BlockCarpentersBed extends BlockCoverable {
                 } else if (enumstatus == EnumStatus.NOT_SAFE) {
                     ChatHandler.sendMessageToPlayer("tile.bed.notSafe", entityPlayer, false);
                 }
-
             }
 
         } else {
 
             destroyBlock(world, x, y, z, false);
-            world.newExplosion((Entity)null, x + 0.5F, y + 0.5F, z + 0.5F, 5.0F, true, true);
-
+            world.newExplosion((Entity) null, x + 0.5F, y + 0.5F, z + 0.5F, 5.0F, true, true);
         }
     }
 
@@ -171,8 +166,7 @@ public class BlockCarpentersBed extends BlockCoverable {
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor blockID
      */
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if (!world.isRemote) {
             TEBase TE = getTileEntity(world, x, y, z);
             if (TE != null) {
@@ -189,8 +183,7 @@ public class BlockCarpentersBed extends BlockCoverable {
     /**
      * Returns the items to drop on destruction.
      */
-    public Item getItemDropped(int par1, Random random, int par2)
-    {
+    public Item getItemDropped(int par1, Random random, int par2) {
         return ItemRegistry.itemCarpentersBed;
     }
 
@@ -205,8 +198,7 @@ public class BlockCarpentersBed extends BlockCoverable {
      * @param player The player or camera entity, null in some cases.
      * @param occupied True if we are occupying the bed, or false if they are stopping use of the bed
      */
-    public void setBedOccupied(IBlockAccess blockAccess, int x, int y, int z, EntityPlayer player, boolean occupied)
-    {
+    public void setBedOccupied(IBlockAccess blockAccess, int x, int y, int z, EntityPlayer player, boolean occupied) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null && !TE.getWorldObj().isRemote) {
@@ -218,7 +210,6 @@ public class BlockCarpentersBed extends BlockCoverable {
             if (TE_opp != null) {
                 Bed.setOccupied(TE_opp, occupied);
             }
-
         }
     }
 
@@ -233,12 +224,10 @@ public class BlockCarpentersBed extends BlockCoverable {
      * @param z Z Position
      * @return Bed direction
      */
-    public int getBedDirection(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public int getBedDirection(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
-        switch (Bed.getDirection(TE))
-        {
+        switch (Bed.getDirection(TE)) {
             case NORTH:
                 return 0;
             case SOUTH:
@@ -255,8 +244,7 @@ public class BlockCarpentersBed extends BlockCoverable {
     /**
      * Gets an item for the block being called on. Args: world, x, y, z
      */
-    public Item getItem(World world, int x, int y, int z)
-    {
+    public Item getItem(World world, int x, int y, int z) {
         return ItemRegistry.itemCarpentersBed;
     }
 
@@ -264,61 +252,78 @@ public class BlockCarpentersBed extends BlockCoverable {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersBedRenderID;
     }
 
     @Override
-    public ForgeDirection[] getValidRotations(World worldObj, int x, int y,int z)
-    {
+    public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
         ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
         return axises;
     }
 
     @Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
-    {
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
         // if Axis is UP, block rotates to the right:  north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TEBase)
-        {
-            TEBase cbTile = (TEBase)tile;
+        if (tile != null && tile instanceof TEBase) {
+            TEBase cbTile = (TEBase) tile;
             ForgeDirection direction = Bed.getDirection(cbTile);
-            switch (axis)
-            {
-                case UP:
-                {
-                    switch (direction)
-                    {
-                        case NORTH:{Bed.setDirection(cbTile, 1); break;}
-                        case EAST:{Bed.setDirection(cbTile, 2); break;}
-                        case SOUTH:{Bed.setDirection(cbTile, 3); break;}
-                        case WEST:{Bed.setDirection(cbTile, 0); break;}
-                        default: break;
+            switch (axis) {
+                case UP: {
+                    switch (direction) {
+                        case NORTH: {
+                            Bed.setDirection(cbTile, 1);
+                            break;
+                        }
+                        case EAST: {
+                            Bed.setDirection(cbTile, 2);
+                            break;
+                        }
+                        case SOUTH: {
+                            Bed.setDirection(cbTile, 3);
+                            break;
+                        }
+                        case WEST: {
+                            Bed.setDirection(cbTile, 0);
+                            break;
+                        }
+                        default:
+                            break;
                     }
                     break;
                 }
-                case DOWN:
-                {
-                    switch (direction)
-                    {
-                        case NORTH:{Bed.setDirection(cbTile, 3); break;}
-                        case EAST:{Bed.setDirection(cbTile, 0); break;}
-                        case SOUTH:{Bed.setDirection(cbTile, 1); break;}
-                        case WEST:{Bed.setDirection(cbTile, 2); break;}
-                        default: break;
+                case DOWN: {
+                    switch (direction) {
+                        case NORTH: {
+                            Bed.setDirection(cbTile, 3);
+                            break;
+                        }
+                        case EAST: {
+                            Bed.setDirection(cbTile, 0);
+                            break;
+                        }
+                        case SOUTH: {
+                            Bed.setDirection(cbTile, 1);
+                            break;
+                        }
+                        case WEST: {
+                            Bed.setDirection(cbTile, 2);
+                            break;
+                        }
+                        default:
+                            break;
                     }
                     break;
                 }
-                default: return false;
+                default:
+                    return false;
             }
             return true;
         }
         return false;
     }
-
 }

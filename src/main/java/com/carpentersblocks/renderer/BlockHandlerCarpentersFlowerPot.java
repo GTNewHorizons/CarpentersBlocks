@@ -1,11 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import com.carpentersblocks.block.BlockCoverable;
 import com.carpentersblocks.renderer.helper.RenderHelperFlowerPot;
 import com.carpentersblocks.util.BlockProperties;
@@ -15,13 +9,18 @@ import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
 
     @Override
-    public boolean shouldRender3DInInventory(int modelId)
-    {
+    public boolean shouldRender3DInInventory(int modelId) {
         return false;
     }
 
@@ -29,8 +28,7 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
     /**
      * Override to provide custom icons.
      */
-    protected IIcon getUniqueIcon(ItemStack itemStack, int side, IIcon icon)
-    {
+    protected IIcon getUniqueIcon(ItemStack itemStack, int side, IIcon icon) {
         Block block = BlockProperties.toBlock(itemStack);
 
         if (block instanceof BlockCoverable) {
@@ -46,8 +44,7 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
     /**
      * Renders block
      */
-    protected void renderCarpentersBlock(int x, int y, int z)
-    {
+    protected void renderCarpentersBlock(int x, int y, int z) {
         renderBlocks.renderAllFaces = true;
 
         ItemStack itemStack = getCoverForRendering();
@@ -82,10 +79,10 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
     /**
      * Renders flower pot
      */
-    public boolean renderPot(ItemStack itemStack, int x, int y, int z)
-    {
+    public boolean renderPot(ItemStack itemStack, int x, int y, int z) {
         if (TE.hasDesign()) {
-            IIcon designIcon = IconRegistry.icon_design_flower_pot.get(DesignHandler.listFlowerPot.indexOf(TE.getDesign()));
+            IIcon designIcon =
+                    IconRegistry.icon_design_flower_pot.get(DesignHandler.listFlowerPot.indexOf(TE.getDesign()));
             setIconOverride(6, designIcon);
         }
 
@@ -122,8 +119,7 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
     /**
      * Renders soil
      */
-    public boolean renderSoil(ItemStack itemStack, int x, int y, int z)
-    {
+    public boolean renderSoil(ItemStack itemStack, int x, int y, int z) {
         renderBlocks.setRenderBounds(0.375D, 0.0625D, 0.375D, 0.625D, 0.25D, 0.625D);
         renderBlock(itemStack, x, y, z);
 
@@ -133,11 +129,9 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
     /**
      * Renders plant
      */
-    public boolean renderPlant(ItemStack itemStack, int x, int y, int z)
-    {
+    public boolean renderPlant(ItemStack itemStack, int x, int y, int z) {
         Block block = FlowerPotProperties.toBlock(itemStack);
-        if (block.getRenderBlockPass() != renderPass)
-        {
+        if (block.getRenderBlockPass() != renderPass) {
             return false;
         }
 
@@ -192,8 +186,7 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
     /**
      * Draws stacked blocks for leaves or mod cacti.
      */
-    private void drawStackedBlocks(ItemStack itemStack, int x, int y, int z)
-    {
+    private void drawStackedBlocks(ItemStack itemStack, int x, int y, int z) {
         TE.setMetadata(itemStack.getItemDamage());
         renderBlocks.setRenderBounds(0.375F, 0.0D, 0.375F, 0.625F, 0.25D, 0.625F);
         renderBlock(itemStack, x, y, z);
@@ -204,5 +197,4 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
         TE.restoreMetadata();
     }
-
 }

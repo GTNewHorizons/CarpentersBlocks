@@ -1,5 +1,10 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.data.Ladder;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.EntityLivingUtil;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.FeatureRegistry;
 import java.util.Arrays;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -9,19 +14,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.data.Ladder;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.EntityLivingUtil;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.FeatureRegistry;
 
 public class BlockCarpentersLadder extends BlockSided {
 
-    public final static String type[] = { "default", "rail", "pole" };
+    public static final String type[] = {"default", "rail", "pole"};
     private static Ladder data = new Ladder();
 
-    public BlockCarpentersLadder(Material material)
-    {
+    public BlockCarpentersLadder(Material material) {
         super(material, data);
     }
 
@@ -29,8 +28,7 @@ public class BlockCarpentersLadder extends BlockSided {
     /**
      * Cycle forwards through types.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int temp = data.getType(TE);
 
         if (++temp > type.length - 1) {
@@ -45,8 +43,7 @@ public class BlockCarpentersLadder extends BlockSided {
     /**
      * Cycle backwards through types.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         int temp = data.getType(TE);
 
         if (--temp < 0) {
@@ -61,12 +58,11 @@ public class BlockCarpentersLadder extends BlockSided {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
-            ForgeDirection dir =data.getDirection(TE);
+            ForgeDirection dir = data.getDirection(TE);
             switch (dir) {
                 case DOWN: // DIR_ON_X
                     setBlockBounds(0.0F, 0.0F, 0.375F, 1.0F, 1.0F, 0.625F);
@@ -81,8 +77,7 @@ public class BlockCarpentersLadder extends BlockSided {
     }
 
     @Override
-    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side)
-    {
+    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side) {
         /* Check for solid face. */
 
         boolean result = super.canPlaceBlockOnSide(world, x, y, z, side);
@@ -91,7 +86,8 @@ public class BlockCarpentersLadder extends BlockSided {
 
         if (!result && side < 2) {
             ForgeDirection dir = ForgeDirection.getOrientation(side);
-            result = world.getBlock(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ).equals(this);
+            result = world.getBlock(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ)
+                    .equals(this);
         }
 
         return result;
@@ -103,8 +99,7 @@ public class BlockCarpentersLadder extends BlockSided {
      *
      * @return whether block can float freely
      */
-    public boolean canFloat()
-    {
+    public boolean canFloat() {
         return FeatureRegistry.enableFreeStandingLadders;
     }
 
@@ -118,8 +113,7 @@ public class BlockCarpentersLadder extends BlockSided {
      * @param z the z coordinate
      * @return the {@link ForgeDirection}
      */
-    protected ForgeDirection getPlacementDirection(World world, int x, int y, int z, EntityLivingBase entityLiving)
-    {
+    protected ForgeDirection getPlacementDirection(World world, int x, int y, int z, EntityLivingBase entityLiving) {
         // Need to interpret DOWN and UP orientation as axis assignment
         if (world.getBlockMetadata(x, y, z) < 2) {
             ForgeDirection facing = EntityLivingUtil.getFacing(entityLiving).getOpposite();
@@ -137,12 +131,10 @@ public class BlockCarpentersLadder extends BlockSided {
     /**
      * Called when the block is placed in the world.
      */
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
-    {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
 
-        if (!entityLiving.isSneaking())
-        {
+        if (!entityLiving.isSneaking()) {
             // Copy type and direction of adjacent ladder type
             for (int side = 0; side < 2; ++side) {
                 TEBase TE = getTileEntity(world, x, y, z);
@@ -161,8 +153,7 @@ public class BlockCarpentersLadder extends BlockSided {
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor blockID
      */
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         if (!world.isRemote) {
             TEBase TE = getTileEntity(world, x, y, z);
             if (TE != null && !data.isFreestanding(TE)) {
@@ -172,21 +163,18 @@ public class BlockCarpentersLadder extends BlockSided {
     }
 
     @Override
-    public boolean isLadder(IBlockAccess blockAccess, int x, int y, int z, EntityLivingBase entityLiving)
-    {
+    public boolean isLadder(IBlockAccess blockAccess, int x, int y, int z, EntityLivingBase entityLiving) {
         return true;
     }
 
     @Override
-    public ForgeDirection[] getValidRotations(World worldObj, int x, int y,int z)
-    {
+    public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
         ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
         return axises;
     }
 
     @Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
-    {
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         if (Arrays.asList(getRotationAxes()).contains(axis)) {
             TEBase TE = getTileEntity(world, x, y, z);
             if (TE != null && data.isFreestanding(TE)) {
@@ -202,9 +190,7 @@ public class BlockCarpentersLadder extends BlockSided {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersLadderRenderID;
     }
-
 }

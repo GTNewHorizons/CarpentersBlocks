@@ -8,8 +8,7 @@ import net.minecraft.world.World;
 
 public class ItemBlockSided extends ItemBlock {
 
-    public ItemBlockSided(Block block)
-    {
+    public ItemBlockSided(Block block) {
         super(block);
     }
 
@@ -22,8 +21,18 @@ public class ItemBlockSided extends ItemBlock {
      * @param player The player who is placing the block. Can be null if the block is not being placed by a player.
      * @param side The side the player (or machine) right-clicked on.
      */
-    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
-    {
+    public boolean placeBlockAt(
+            ItemStack stack,
+            EntityPlayer player,
+            World world,
+            int x,
+            int y,
+            int z,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            int metadata) {
         /*
          * We need to use a flag that doesn't call for a block update ([flag & 1] updates).
          *
@@ -46,5 +55,4 @@ public class ItemBlockSided extends ItemBlock {
 
         return true;
     }
-
 }

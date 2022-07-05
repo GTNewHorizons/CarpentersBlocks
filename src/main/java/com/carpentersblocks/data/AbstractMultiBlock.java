@@ -1,12 +1,12 @@
 package com.carpentersblocks.data;
 
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.FeatureRegistry;
 import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.FeatureRegistry;
 
 public abstract class AbstractMultiBlock {
 
@@ -20,8 +20,7 @@ public abstract class AbstractMultiBlock {
      * @return a {@link Set} of parts
      * @see {@link #getMatchingDataPattern}
      */
-    public final Set<TEBase> getBlocks(TEBase TE, Block block)
-    {
+    public final Set<TEBase> getBlocks(TEBase TE, Block block) {
         Set<TEBase> set = new HashSet<TEBase>();
         int matchData = getMatchingDataPattern(TE);
         ForgeDirection[] dirs = getLocateDirs(TE);
@@ -39,8 +38,7 @@ public abstract class AbstractMultiBlock {
      * @param dirs the {@link #getLocateDirs directions} to search
      * @param set the {@link Set} of blocks
      */
-    private void addAndLocateBlocks(TEBase TE, Block block, int matchData, ForgeDirection[] dirs, Set<TEBase> set)
-    {
+    private void addAndLocateBlocks(TEBase TE, Block block, int matchData, ForgeDirection[] dirs, Set<TEBase> set) {
         if (set.size() > FeatureRegistry.multiBlockSizeLimit) {
             return;
         }
@@ -54,7 +52,8 @@ public abstract class AbstractMultiBlock {
 
         // Locate additional blocks
         for (ForgeDirection dir : dirs) {
-            TEBase TE_adj = BlockProperties.getTileEntity(block, TE.getWorldObj(), TE.xCoord - dir.offsetX, TE.yCoord - dir.offsetY, TE.zCoord - dir.offsetZ);
+            TEBase TE_adj = BlockProperties.getTileEntity(
+                    block, TE.getWorldObj(), TE.xCoord - dir.offsetX, TE.yCoord - dir.offsetY, TE.zCoord - dir.offsetZ);
             if (TE_adj != null && (TE_adj.getData() & matchData) == matchData) {
                 addAndLocateBlocks(TE_adj, block, matchData, dirs, set);
             }
@@ -70,7 +69,7 @@ public abstract class AbstractMultiBlock {
      *
      * @return an integer
      */
-    abstract public int getMatchingDataPattern(TEBase TE);
+    public abstract int getMatchingDataPattern(TEBase TE);
 
     /**
      * Grabs an array of valid {@link ForgeDirection ForgeDirections}
@@ -80,6 +79,5 @@ public abstract class AbstractMultiBlock {
      * @param TE the {@link TEBase}
      * @return an array of supported {@link ForgeDirection ForgeDirections}
      */
-    abstract public ForgeDirection[] getLocateDirs(TEBase TE);
-
+    public abstract ForgeDirection[] getLocateDirs(TEBase TE);
 }

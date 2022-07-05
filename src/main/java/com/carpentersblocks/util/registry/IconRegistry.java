@@ -1,14 +1,14 @@
 package com.carpentersblocks.util.registry;
 
-import java.util.ArrayList;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import com.carpentersblocks.CarpentersBlocks;
 import com.carpentersblocks.CarpentersBlocksCachedResources;
 import com.carpentersblocks.util.handler.DesignHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.client.event.TextureStitchEvent;
 
 @SideOnly(Side.CLIENT)
 public class IconRegistry {
@@ -46,30 +46,31 @@ public class IconRegistry {
     public static IIcon icon_garage_glass_top;
     public static IIcon icon_garage_glass;
 
-    public static ArrayList<IIcon>   icon_design_chisel     = new ArrayList<IIcon>();
-    public static ArrayList<IIcon[]> icon_design_bed        = new ArrayList<IIcon[]>();
-    public static ArrayList<IIcon>   icon_design_flower_pot = new ArrayList<IIcon>();
-    public static ArrayList<IIcon>   icon_design_tile       = new ArrayList<IIcon>();
+    public static ArrayList<IIcon> icon_design_chisel = new ArrayList<IIcon>();
+    public static ArrayList<IIcon[]> icon_design_bed = new ArrayList<IIcon[]>();
+    public static ArrayList<IIcon> icon_design_flower_pot = new ArrayList<IIcon>();
+    public static ArrayList<IIcon> icon_design_tile = new ArrayList<IIcon>();
 
     @SubscribeEvent
     /**
      * This will load all icons that are used universally for all blocks.
      */
-    public void iconRegistration(TextureStitchEvent.Pre event)
-    {
+    public void iconRegistration(TextureStitchEvent.Pre event) {
         /** 0 = terrain.png, 1 = items.png */
         if (event.map.getTextureType() == 0) {
 
             CarpentersBlocksCachedResources.INSTANCE.rebuildCache();
 
-            icon_uncovered_solid         = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/solid");
-            icon_uncovered_full          = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/full_frame");
-            icon_uncovered_quartered     = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/quartered_frame");
-            icon_overlay_fast_grass_side = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_fast_grass_side");
-            icon_overlay_hay_side        = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_hay_side");
-            icon_overlay_snow_side       = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_snow_side");
-            icon_overlay_mycelium_side   = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_mycelium_side");
-            icon_tile_blank              = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "tile/blank");
+            icon_uncovered_solid = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/solid");
+            icon_uncovered_full = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/full_frame");
+            icon_uncovered_quartered = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/quartered_frame");
+            icon_overlay_fast_grass_side =
+                    event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_fast_grass_side");
+            icon_overlay_hay_side = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_hay_side");
+            icon_overlay_snow_side = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_snow_side");
+            icon_overlay_mycelium_side =
+                    event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_mycelium_side");
+            icon_tile_blank = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "tile/blank");
 
             icon_design_chisel.clear();
             icon_design_bed.clear();
@@ -77,8 +78,6 @@ public class IconRegistry {
             icon_design_tile.clear();
 
             DesignHandler.registerIcons(event.map);
-
         }
     }
-
 }

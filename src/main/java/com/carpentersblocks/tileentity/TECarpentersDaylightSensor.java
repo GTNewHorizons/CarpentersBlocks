@@ -9,8 +9,7 @@ public class TECarpentersDaylightSensor extends TEBase {
      * Determines if this TileEntity requires update calls.
      * @return True if you want updateEntity() to be called, false if not
      */
-    public boolean canUpdate()
-    {
+    public boolean canUpdate() {
         return true;
     }
 
@@ -19,10 +18,8 @@ public class TECarpentersDaylightSensor extends TEBase {
      * ticks and creates a new spawn inside its implementation.
      */
     @Override
-    public void updateEntity()
-    {
-        if (worldObj != null && !worldObj.isRemote && worldObj.getTotalWorldTime() % 20L == 0L)
-        {
+    public void updateEntity() {
+        if (worldObj != null && !worldObj.isRemote && worldObj.getTotalWorldTime() % 20L == 0L) {
             if (getBlockType() != null) {
                 if (blockType instanceof BlockCarpentersDaylightSensor) {
                     ((BlockCarpentersDaylightSensor) blockType).updateLightLevel(worldObj, xCoord, yCoord, zCoord);
@@ -30,5 +27,4 @@ public class TECarpentersDaylightSensor extends TEBase {
             }
         }
     }
-
 }

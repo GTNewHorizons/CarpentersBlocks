@@ -1,27 +1,22 @@
 package com.carpentersblocks.tileentity;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import org.apache.logging.log4j.Level;
-import com.carpentersblocks.util.Attribute;
-import com.carpentersblocks.util.ModLogger;
 
 public class TileEntityHelper {
-    
+
     /**
      * Updates data prior to version 3.3.1 to new format.
      *
      * @param nbt the {@link NBTTagCompound}
      */
-    public static void updateMappingsOnRead(TEBase TE, NBTTagCompound nbt)
-    {
-        String TAG_METADATA      = "metadata";
-        String TAG_OWNER         = "owner";
+    public static void updateMappingsOnRead(TEBase TE, NBTTagCompound nbt) {
+        String TAG_METADATA = "metadata";
+        String TAG_OWNER = "owner";
         String TAG_CHISEL_DESIGN = "chiselDesign";
-        String TAG_DESIGN        = "design";
-        
+        String TAG_DESIGN = "design";
+
         TE.cbMetadata = nbt.getShort(TAG_METADATA);
         TE.cbDesign = nbt.getString(TAG_DESIGN);
         TE.cbOwner = nbt.getString(TAG_OWNER);
@@ -39,8 +34,7 @@ public class TileEntityHelper {
         String TAG_ILLUMINATOR = "illuminator";
 
         NBTTagList nbttaglist = nbt.getTagList(TAG_ITEMSTACKS, 10);
-        for (int idx = 0; idx < nbttaglist.tagCount(); ++idx)
-        {
+        for (int idx = 0; idx < nbttaglist.tagCount(); ++idx) {
             NBTTagCompound nbt1 = nbttaglist.getCompoundTagAt(idx);
             ItemStack tempStack = ItemStack.loadItemStackFromNBT(nbt1);
             tempStack.stackSize = 1; // All ItemStacks pre-3.2.7 DEV R3 stored original stack sizes, reduce them here.
@@ -73,5 +67,4 @@ public class TileEntityHelper {
             }
         }
     }
-    
 }

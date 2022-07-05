@@ -1,18 +1,18 @@
 package com.carpentersblocks.tileentity;
 
+import com.carpentersblocks.data.Safe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import com.carpentersblocks.data.Safe;
 import net.minecraft.tileentity.TileEntity;
 
 public class TECarpentersSafe extends TEBase implements ISidedInventory {
 
-    private final String TAG_SLOT    = "Slot";
-    private final String TAG_ITEMS   = "Items";
+    private final String TAG_SLOT = "Slot";
+    private final String TAG_ITEMS = "Items";
     private final int EVENT_ID_STATE_CHANGE = 0;
 
     /** Holds contents of block. */
@@ -32,8 +32,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * Determines if this TileEntity requires update calls.
      * @return True if you want updateEntity() to be called, false if not
      */
-    public boolean canUpdate()
-    {
+    public boolean canUpdate() {
         return true;
     }
 
@@ -42,9 +41,8 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner uses this to count
      * ticks and creates a new spawn inside its implementation.
      */
-    public void updateEntity()
-    {
-        if (!worldObj.isRemote) {            
+    public void updateEntity() {
+        if (!worldObj.isRemote) {
             // For chest capacity indicator, process contents changed only once per second
             if (contentsChanged && (tickCount % 20 == 0)) {
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -57,8 +55,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * Returns the number of slots in the inventory.
      */
     @Override
-    public int getSizeInventory()
-    {
+    public int getSizeInventory() {
         return hasAttribute(ATTR_UPGRADE) ? 54 : 27;
     }
 
@@ -66,8 +63,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * Returns the stack in slot
      */
     @Override
-    public ItemStack getStackInSlot(int slot)
-    {
+    public ItemStack getStackInSlot(int slot) {
         return inventoryContents[slot];
     }
 
@@ -76,8 +72,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * new stack.
      */
     @Override
-    public ItemStack decrStackSize(int slot, int size)
-    {
+    public ItemStack decrStackSize(int slot, int size) {
         ItemStack itemStack = null;
 
         if (inventoryContents[slot] != null) {
@@ -105,8 +100,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * like when you close a workbench GUI.
      */
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
-    {
+    public ItemStack getStackInSlotOnClosing(int slot) {
         return null;
     }
 
@@ -114,8 +108,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
      */
     @Override
-    public void setInventorySlotContents(int slot, ItemStack itemStack)
-    {
+    public void setInventorySlotContents(int slot, ItemStack itemStack) {
         inventoryContents[slot] = itemStack;
 
         if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
@@ -129,8 +122,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
     /**
      * Called when an the contents of an Inventory change, usually
      */
-    public void markDirty()
-    {
+    public void markDirty() {
         contentsChanged = true;
         super.markDirty();
     }
@@ -139,8 +131,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * Reads a tile entity from NBT.
      */
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
-    {
+    public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
 
         /* Compatibility code with older versions prior to v3.2.5 */
@@ -164,8 +155,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * Writes a tile entity to NBT.
      */
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
+    public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
 
         NBTTagList nbttaglist = new NBTTagList();
@@ -186,26 +176,31 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
      * Do not make give this method the name canInteractWith because it clashes with Container
      */
     @Override
-    public boolean isUseableByPlayer(EntityPlayer entityPlayer)
-    {
+    public boolean isUseableByPlayer(EntityPlayer entityPlayer) {
         TileEntity tileEntity = entityPlayer.getEntityWorld().getTileEntity(xCoord, yCoord, zCoord);
 
-        if(tileEntity != null && tileEntity.equals(this)) {
+        if (tileEntity != null && tileEntity.equals(this)) {
             return entityPlayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
         }
 
         return false;
     }
-    
+
     /**
      * Called when a client event is received with the event number and argument, see World.sendClientEvent
      */
-    public boolean receiveClientEvent(int eventId, int eventArg)
-    {
+    public boolean receiveClientEvent(int eventId, int eventArg) {
         if (eventId == EVENT_ID_STATE_CHANGE) {
             Safe.setState(this, eventArg);
             String soundName = eventArg == Safe.STATE_OPEN ? "random.door_open" : "random.door_close";
-            worldObj.playSound((double)xCoord + 0.5D, (double)yCoord + 0.5D, (double)zCoord + 0.5D, soundName, 1.0F, worldObj.rand.nextFloat() * 0.1F + 0.9F, false);
+            worldObj.playSound(
+                    (double) xCoord + 0.5D,
+                    (double) yCoord + 0.5D,
+                    (double) zCoord + 0.5D,
+                    soundName,
+                    1.0F,
+                    worldObj.rand.nextFloat() * 0.1F + 0.9F,
+                    false);
             stateChanged = true;
             return true;
         } else {
@@ -214,38 +209,34 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
     }
 
     @Override
-    public void openInventory()
-    {
-        worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), EVENT_ID_STATE_CHANGE, Safe.STATE_OPEN);
+    public void openInventory() {
+        worldObj.addBlockEvent(
+                this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), EVENT_ID_STATE_CHANGE, Safe.STATE_OPEN);
     }
 
     @Override
-    public void closeInventory()
-    {
-        worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), EVENT_ID_STATE_CHANGE, Safe.STATE_CLOSED);
+    public void closeInventory() {
+        worldObj.addBlockEvent(
+                this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), EVENT_ID_STATE_CHANGE, Safe.STATE_CLOSED);
     }
 
     @Override
-    public String getInventoryName()
-    {
+    public String getInventoryName() {
         return "tile.blockCarpentersSafe.name";
     }
 
     @Override
-    public boolean hasCustomInventoryName()
-    {
+    public boolean hasCustomInventoryName() {
         return false;
     }
 
     @Override
-    public int getInventoryStackLimit()
-    {
+    public int getInventoryStackLimit() {
         return 64;
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int side)
-    {
+    public int[] getAccessibleSlotsFromSide(int side) {
         int sizeInventory = getSizeInventory();
         int[] accessibleSlots = new int[sizeInventory];
 
@@ -257,21 +248,17 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side)
-    {
+    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
         return Safe.allowsInsertion(this) && Safe.getFacing(this).ordinal() != side;
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemStack, int side)
-    {
+    public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
         return Safe.allowsExtraction(this) && Safe.getFacing(this).ordinal() != side;
     }
 
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemstack)
-    {
+    public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
         return true;
     }
-
 }

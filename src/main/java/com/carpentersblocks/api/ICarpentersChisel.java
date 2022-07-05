@@ -8,5 +8,4 @@ public interface ICarpentersChisel {
     public void onChiselUse(World world, EntityPlayer entityPlayer);
 
     public boolean canUseChisel(World world, EntityPlayer entityPlayer);
-
 }

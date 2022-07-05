@@ -1,5 +1,17 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Safe;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.tileentity.TECarpentersSafe;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.EntityLivingUtil;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.protection.PlayerPermissions;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -13,29 +25,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Safe;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.tileentity.TECarpentersSafe;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.EntityLivingUtil;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.protection.PlayerPermissions;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersSafe extends BlockCoverable {
 
     /** OreDictionary names for safe upgrade materials. */
-    public final static String[] upgradeOres = { "ingotGold", "gemDiamond", "gemEmerald" };
+    public static final String[] upgradeOres = {"ingotGold", "gemDiamond", "gemEmerald"};
 
     /** ItemStacks that represent panel material for {@link upgradeOres}. */
-    public final static ItemStack[] upgradeStack = { new ItemStack(Blocks.gold_block), new ItemStack(Blocks.diamond_block), new ItemStack(Blocks.emerald_block) };
+    public static final ItemStack[] upgradeStack = {
+        new ItemStack(Blocks.gold_block), new ItemStack(Blocks.diamond_block), new ItemStack(Blocks.emerald_block)
+    };
 
-    public BlockCarpentersSafe(Material material)
-    {
+    public BlockCarpentersSafe(Material material) {
         super(material);
     }
 
@@ -45,8 +46,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
      */
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         IconRegistry.icon_safe_light = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "safe/safe_light");
     }
 
@@ -54,8 +54,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
      * Returns whether player is allowed to activate this block.
      */
     @Override
-    protected boolean canPlayerActivate(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean canPlayerActivate(TEBase TE, EntityPlayer entityPlayer) {
         if (PlayerPermissions.hasElevatedPermission(TE, entityPlayer, true)) {
             return true;
         } else {
@@ -67,8 +66,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * Rotates safe so that it faces player.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int rot = EntityLivingUtil.getRotationValue(entityPlayer);
         ForgeDirection dir = EntityLivingUtil.getRotationFacing(rot).getOpposite();
 
@@ -84,8 +82,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * Cycles locked state.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         if (entityPlayer.isSneaking()) {
 
             boolean locked = !Safe.isLocked(TE);
@@ -130,7 +127,6 @@ public class BlockCarpentersSafe extends BlockCoverable {
                     ChatHandler.sendMessageToPlayer("message.automation_extract.name", entityPlayer);
                     break;
             }
-
         }
 
         return true;
@@ -140,8 +136,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * Called when the block is placed in the world.
      */
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
-    {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
 
         TEBase TE = getTileEntity(world, x, y, z);
@@ -156,8 +151,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
      *
      * @return <code>true</code> if {@link ItemStack} contains safe upgrade
      */
-    public static boolean isUpgrade(ItemStack itemStack)
-    {
+    public static boolean isUpgrade(ItemStack itemStack) {
         return !BlockProperties.getOreDictMatch(itemStack, upgradeOres).equals("");
     }
 
@@ -165,8 +159,14 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * Called upon block activation (right click on the block.)
      */
-    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ, ActionResult actionResult)
-    {
+    protected void postOnBlockActivated(
+            TEBase TE,
+            EntityPlayer entityPlayer,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            ActionResult actionResult) {
         actionResult.setAltered();
 
         if (!Safe.isOpen(TE) && canPlayerActivate(TE, entityPlayer)) {
@@ -182,13 +182,12 @@ public class BlockCarpentersSafe extends BlockCoverable {
 
             if (!actionResult.decInv) {
                 actionResult.setNoSound();
-                entityPlayer.displayGUIChest((TECarpentersSafe)TE);
+                entityPlayer.displayGUIChest((TECarpentersSafe) TE);
             }
 
         } else {
 
             ChatHandler.sendMessageToPlayer("message.block_lock.name", entityPlayer);
-
         }
     }
 
@@ -206,8 +205,8 @@ public class BlockCarpentersSafe extends BlockCoverable {
      * @return The amount of the explosion absorbed.
      */
     @Override
-    public float getExplosionResistance(Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
-    {
+    public float getExplosionResistance(
+            Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ) {
         return Blocks.bedrock.getExplosionResistance(entity);
     }
 
@@ -222,8 +221,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
      * @param side The side to check
      * @return True if the block is solid on the specified side.
      */
-    public boolean isSideSolid(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side)
-    {
+    public boolean isSideSolid(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -247,8 +245,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
      * @return A ArrayList containing all items this block drops
      */
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
-    {
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> ret = super.getDrops(world, x, y, z, metadata, fortune);
         TEBase TE = getSimpleTileEntity(world, x, y, z);
 
@@ -265,18 +262,14 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * Ejects contained items into the world, and notifies neighbors of an update, as appropriate
      */
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
-    {
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
         TEBase tileEntity = getSimpleTileEntity(world, x, y, z);
 
-        if (tileEntity != null && tileEntity instanceof TECarpentersSafe)
-        {
+        if (tileEntity != null && tileEntity instanceof TECarpentersSafe) {
             TECarpentersSafe TE = (TECarpentersSafe) tileEntity;
-            for (int idx = 0; idx < TE.getSizeInventory(); ++idx)
-            {
+            for (int idx = 0; idx < TE.getSizeInventory(); ++idx) {
                 ItemStack itemStack = TE.getStackInSlot(idx);
-                if (itemStack != null)
-                {
+                if (itemStack != null) {
                     dropBlockAsItem(world, x, y, z, itemStack);
                 }
             }
@@ -290,8 +283,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
      * Gets the hardness of block at the given coordinates in the given world, relative to the ability of the given
      * EntityPlayer.
      */
-    public float getPlayerRelativeBlockHardness(EntityPlayer entityPlayer, World world, int x, int y, int z)
-    {
+    public float getPlayerRelativeBlockHardness(EntityPlayer entityPlayer, World world, int x, int y, int z) {
         TEBase TE = getTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -307,8 +299,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * Returns a new instance of a block's tile entity class. Called on placing the block.
      */
-    public TileEntity createNewTileEntity(World world, int metadata)
-    {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TECarpentersSafe();
     }
 
@@ -316,61 +307,78 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersSafeRenderID;
     }
 
     @Override
-    public ForgeDirection[] getValidRotations(World worldObj, int x, int y,int z)
-    {
+    public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
         ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
         return axises;
     }
 
     @Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
-    {
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
         // if Axis is UP, block rotates to the right:  north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TEBase)
-        {
-            TEBase cbTile = (TEBase)tile;
+        if (tile != null && tile instanceof TEBase) {
+            TEBase cbTile = (TEBase) tile;
             ForgeDirection direction = Safe.getFacing(cbTile);
-            switch (axis)
-            {
-                case UP:
-                {
-                    switch (direction)
-                    {
-                        case NORTH:{Safe.setFacing(cbTile, 1); break;}
-                        case EAST:{Safe.setFacing(cbTile, 2); break;}
-                        case WEST:{Safe.setFacing(cbTile, 3); break;}
-                        case SOUTH:{Safe.setFacing(cbTile, 0); break;}
-                        default: break;
+            switch (axis) {
+                case UP: {
+                    switch (direction) {
+                        case NORTH: {
+                            Safe.setFacing(cbTile, 1);
+                            break;
+                        }
+                        case EAST: {
+                            Safe.setFacing(cbTile, 2);
+                            break;
+                        }
+                        case WEST: {
+                            Safe.setFacing(cbTile, 3);
+                            break;
+                        }
+                        case SOUTH: {
+                            Safe.setFacing(cbTile, 0);
+                            break;
+                        }
+                        default:
+                            break;
                     }
                     break;
                 }
-                case DOWN:
-                {
-                    switch (direction)
-                    {
-                        case NORTH:{Safe.setFacing(cbTile, 3); break;}
-                        case EAST:{Safe.setFacing(cbTile, 0); break;}
-                        case SOUTH:{Safe.setFacing(cbTile, 1); break;}
-                        case WEST:{Safe.setFacing(cbTile, 2); break;}
-                        default: break;
+                case DOWN: {
+                    switch (direction) {
+                        case NORTH: {
+                            Safe.setFacing(cbTile, 3);
+                            break;
+                        }
+                        case EAST: {
+                            Safe.setFacing(cbTile, 0);
+                            break;
+                        }
+                        case SOUTH: {
+                            Safe.setFacing(cbTile, 1);
+                            break;
+                        }
+                        case WEST: {
+                            Safe.setFacing(cbTile, 2);
+                            break;
+                        }
+                        default:
+                            break;
                     }
                     break;
                 }
-                default: return false;
+                default:
+                    return false;
             }
             return true;
         }
         return false;
     }
-
 }
