@@ -1,6 +1,5 @@
 package com.carpentersblocks.util.protection;
 
-
 public interface IProtected {
 
     /**
@@ -12,5 +11,4 @@ public interface IProtected {
      * Sets owner of object.
      */
     public void setOwner(ProtectedObject obj);
-
 }

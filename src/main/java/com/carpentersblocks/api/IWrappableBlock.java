@@ -1,13 +1,13 @@
 package com.carpentersblocks.api;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Implement this on your block class to gain full control over the way it behaves
@@ -46,7 +46,17 @@ public interface IWrappableBlock {
     /**
      * Effectively overrides Block.getExplosionResistance
      */
-    public float getBlastResistance(Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ, Block b, int meta);
+    public float getBlastResistance(
+            Entity entity,
+            World world,
+            int x,
+            int y,
+            int z,
+            double explosionX,
+            double explosionY,
+            double explosionZ,
+            Block b,
+            int meta);
 
     /**
      * Effectively overrides Block.getFlammability
@@ -72,5 +82,4 @@ public interface IWrappableBlock {
      * Effectively overrides Block.canEntityDestroy
      */
     public boolean canEntityDestroy(IBlockAccess iba, int x, int y, int z, Entity e, Block b, int meta);
-
 }

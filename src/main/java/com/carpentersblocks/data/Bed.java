@@ -1,10 +1,10 @@
 package com.carpentersblocks.data;
 
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.EntityLivingUtil;
 import com.carpentersblocks.util.registry.BlockRegistry;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class Bed {
 
@@ -14,22 +14,19 @@ public class Bed {
      * [0]     [00]       [00000000]  [0]         [0000]
      * isHead  Direction  Unused      isOccupied  Type
      */
-
-    public final static byte TYPE_NORMAL   = 0;
+    public static final byte TYPE_NORMAL = 0;
 
     /**
      * Returns type.
      */
-    public final static int getType(TEBase TE)
-    {
+    public static final int getType(TEBase TE) {
         return TE.getData() & 0xf;
     }
 
     /**
      * Sets type.
      */
-    public static void setType(TEBase TE, int type)
-    {
+    public static void setType(TEBase TE, int type) {
         int temp = (TE.getData() & ~0xf) | type;
         TE.setData(temp);
     }
@@ -37,16 +34,14 @@ public class Bed {
     /**
      * Returns whether bed is occupied.
      */
-    public static boolean isOccupied(TEBase TE)
-    {
+    public static boolean isOccupied(TEBase TE) {
         return (TE.getData() & 0x10) != 0;
     }
 
     /**
      * Sets occupation.
      */
-    public static void setOccupied(TEBase TE, boolean isOccupied)
-    {
+    public static void setOccupied(TEBase TE, boolean isOccupied) {
         int temp = TE.getData() & ~0x10;
 
         if (isOccupied) {
@@ -60,8 +55,7 @@ public class Bed {
      * Returns TE for opposite piece.
      * Will return null if opposite piece doesn't exist (when creating or destroying block, for instance).
      */
-    public static TEBase getOppositeTE(TEBase TE)
-    {
+    public static TEBase getOppositeTE(TEBase TE) {
         ForgeDirection dir = getDirection(TE);
         int x = TE.xCoord;
         int z = TE.zCoord;
@@ -86,16 +80,14 @@ public class Bed {
     /**
      * Returns whether block is head of bed.
      */
-    public static boolean isHeadOfBed(TEBase TE)
-    {
+    public static boolean isHeadOfBed(TEBase TE) {
         return (TE.getData() & 0x8000) != 0;
     }
 
     /**
      * Sets block as head of bed.
      */
-    public static void setHeadOfBed(TEBase TE)
-    {
+    public static void setHeadOfBed(TEBase TE) {
         int temp = (TE.getData() & ~0x8000) | (1 << 15);
         TE.setData(temp);
     }
@@ -103,8 +95,7 @@ public class Bed {
     /**
      * Returns direction of bed piece.
      */
-    public static ForgeDirection getDirection(TEBase TE)
-    {
+    public static ForgeDirection getDirection(TEBase TE) {
         int rot = (TE.getData() & 0x6000) >> 13;
         return EntityLivingUtil.getRotationFacing(rot).getOpposite();
     }
@@ -113,10 +104,8 @@ public class Bed {
      * Sets direction of bed piece.
      * Stored as player facing from 0 to 3.
      */
-    public static void setDirection(TEBase TE, int facing)
-    {
+    public static void setDirection(TEBase TE, int facing) {
         int temp = (TE.getData() & ~0x6000) | (facing << 13);
         TE.setData(temp);
     }
-
 }

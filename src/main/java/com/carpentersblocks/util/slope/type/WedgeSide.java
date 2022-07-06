@@ -5,10 +5,10 @@ import com.carpentersblocks.util.slope.SlopeType;
 
 public class WedgeSide implements SlopeType {
 
-	@Override
-	public Slope getNextSlopeType(Slope slope) {
-	    int slopeID = slope.slopeID;
-		slopeID += 8;
-		return Slope.getSlopeById(slopeID);
-	}
+    @Override
+    public Slope getNextSlopeType(Slope slope) {
+        int slopeID = slope.slopeID;
+        slopeID += 8;
+        return Slope.getSlopeById(slopeID);
+    }
 }

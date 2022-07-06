@@ -1,10 +1,5 @@
 package com.carpentersblocks.util.registry;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
 import com.carpentersblocks.item.ItemCarpentersBed;
 import com.carpentersblocks.item.ItemCarpentersChisel;
 import com.carpentersblocks.item.ItemCarpentersDoor;
@@ -13,6 +8,11 @@ import com.carpentersblocks.item.ItemCarpentersTile;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 
 public class ItemRegistry {
 
@@ -22,14 +22,14 @@ public class ItemRegistry {
     public static Item itemCarpentersBed;
     public static Item itemCarpentersTile;
 
-    public static boolean enableHammer                  = true;
-    public static boolean enableChisel                  = true;
-    public static boolean enableTile                    = true;
-    public static int     itemCarpentersToolsUses       = 400;
+    public static boolean enableHammer = true;
+    public static boolean enableChisel = true;
+    public static boolean enableTile = true;
+    public static int itemCarpentersToolsUses = 400;
     public static boolean itemCarpentersToolsDamageable = true;
 
-    public static double itemHammerDamageChanceFromSlopes      = 0.75D;
-    public static double itemHammerDamageChanceFromStairs      = 1.0D;
+    public static double itemHammerDamageChanceFromSlopes = 0.75D;
+    public static double itemHammerDamageChanceFromStairs = 1.0D;
     public static double itemHammerDamageChanceFromCollapsible = 0.2D;
 
     private static int recipeQuantityTile = 12;
@@ -37,30 +37,36 @@ public class ItemRegistry {
     /**
      * Registers item IDs.
      */
-    public static void preInit(FMLPreInitializationEvent event, Configuration config)
-    {
-        enableHammer                  = config.get("items",            "Enable Hammer",                  enableHammer).getBoolean(enableHammer);
-        enableChisel                  = config.get("items",            "Enable Chisel",                  enableChisel).getBoolean(enableChisel);
-        enableTile                    = config.get("items",              "Enable Tile",                    enableTile).getBoolean(enableTile);
-        itemCarpentersToolsUses       = config.get("items",        "Vanilla Tool Uses",       itemCarpentersToolsUses).getInt(itemCarpentersToolsUses);
-        itemCarpentersToolsDamageable = config.get("items", "Vanilla Tools Damageable", itemCarpentersToolsDamageable).getBoolean(itemCarpentersToolsDamageable);
+    public static void preInit(FMLPreInitializationEvent event, Configuration config) {
+        enableHammer = config.get("items", "Enable Hammer", enableHammer).getBoolean(enableHammer);
+        enableChisel = config.get("items", "Enable Chisel", enableChisel).getBoolean(enableChisel);
+        enableTile = config.get("items", "Enable Tile", enableTile).getBoolean(enableTile);
+        itemCarpentersToolsUses = config.get("items", "Vanilla Tool Uses", itemCarpentersToolsUses)
+                .getInt(itemCarpentersToolsUses);
+        itemCarpentersToolsDamageable = config.get("items", "Vanilla Tools Damageable", itemCarpentersToolsDamageable)
+                .getBoolean(itemCarpentersToolsDamageable);
 
-        recipeQuantityTile = config.get("recipe quantities", "Tile", recipeQuantityTile).getInt(recipeQuantityTile);
+        recipeQuantityTile =
+                config.get("recipe quantities", "Tile", recipeQuantityTile).getInt(recipeQuantityTile);
 
-        itemHammerDamageChanceFromSlopes      = config.get("items",      "itemHammerDamageChanceFromSlopes",      itemHammerDamageChanceFromSlopes).getDouble(     itemHammerDamageChanceFromSlopes);
-        itemHammerDamageChanceFromStairs      = config.get("items",      "itemHammerDamageChanceFromStairs",      itemHammerDamageChanceFromStairs).getDouble(     itemHammerDamageChanceFromStairs);
-        itemHammerDamageChanceFromCollapsible = config.get("items", "itemHammerDamageChanceFromCollapsible", itemHammerDamageChanceFromCollapsible).getDouble(itemHammerDamageChanceFromCollapsible);
+        itemHammerDamageChanceFromSlopes = config.get(
+                        "items", "itemHammerDamageChanceFromSlopes", itemHammerDamageChanceFromSlopes)
+                .getDouble(itemHammerDamageChanceFromSlopes);
+        itemHammerDamageChanceFromStairs = config.get(
+                        "items", "itemHammerDamageChanceFromStairs", itemHammerDamageChanceFromStairs)
+                .getDouble(itemHammerDamageChanceFromStairs);
+        itemHammerDamageChanceFromCollapsible = config.get(
+                        "items", "itemHammerDamageChanceFromCollapsible", itemHammerDamageChanceFromCollapsible)
+                .getDouble(itemHammerDamageChanceFromCollapsible);
 
         registerItems();
     }
 
-    public static void init(FMLInitializationEvent event)
-    {
+    public static void init(FMLInitializationEvent event) {
         registerRecipes();
     }
 
-    private static void registerItems()
-    {
+    private static void registerItems() {
         if (enableHammer) {
             itemCarpentersHammer = new ItemCarpentersHammer().setUnlocalizedName("itemCarpentersHammer");
             GameRegistry.registerItem(itemCarpentersHammer, "itemCarpentersHammer");
@@ -83,23 +89,31 @@ public class ItemRegistry {
         }
     }
 
-    private static void registerRecipes()
-    {
+    private static void registerRecipes() {
         if (enableHammer) {
-            GameRegistry.addRecipe(new ItemStack(itemCarpentersHammer, 1), new Object[] { "XX ", " YX", " Y ", 'X', Items.iron_ingot, 'Y', BlockRegistry.blockCarpentersBlock });
+            GameRegistry.addRecipe(
+                    new ItemStack(itemCarpentersHammer, 1),
+                    new Object[] {"XX ", " YX", " Y ", 'X', Items.iron_ingot, 'Y', BlockRegistry.blockCarpentersBlock});
         }
         if (enableChisel) {
-            GameRegistry.addRecipe(new ItemStack(itemCarpentersChisel, 1), new Object[] { "X", "Y", 'X', Items.iron_ingot, 'Y', BlockRegistry.blockCarpentersBlock });
+            GameRegistry.addRecipe(
+                    new ItemStack(itemCarpentersChisel, 1),
+                    new Object[] {"X", "Y", 'X', Items.iron_ingot, 'Y', BlockRegistry.blockCarpentersBlock});
         }
         if (enableTile) {
-            GameRegistry.addRecipe(new ItemStack(itemCarpentersTile, recipeQuantityTile), new Object[] { "XXX", "YYY", 'X', Blocks.hardened_clay, 'Y', BlockRegistry.blockCarpentersBlock });
+            GameRegistry.addRecipe(
+                    new ItemStack(itemCarpentersTile, recipeQuantityTile),
+                    new Object[] {"XXX", "YYY", 'X', Blocks.hardened_clay, 'Y', BlockRegistry.blockCarpentersBlock});
         }
         if (BlockRegistry.enableDoor) {
-            GameRegistry.addRecipe(new ItemStack(itemCarpentersDoor, BlockRegistry.recipeQuantityDoor), new Object[] { "XX", "XX", "XX", 'X', BlockRegistry.blockCarpentersBlock });
+            GameRegistry.addRecipe(
+                    new ItemStack(itemCarpentersDoor, BlockRegistry.recipeQuantityDoor),
+                    new Object[] {"XX", "XX", "XX", 'X', BlockRegistry.blockCarpentersBlock});
         }
         if (BlockRegistry.enableBed) {
-            GameRegistry.addRecipe(new ItemStack(itemCarpentersBed, BlockRegistry.recipeQuantityBed), new Object[] { "XXX", "YYY", 'X', Blocks.wool, 'Y', BlockRegistry.blockCarpentersBlock });
+            GameRegistry.addRecipe(
+                    new ItemStack(itemCarpentersBed, BlockRegistry.recipeQuantityBed),
+                    new Object[] {"XXX", "YYY", 'X', Blocks.wool, 'Y', BlockRegistry.blockCarpentersBlock});
         }
     }
-
 }

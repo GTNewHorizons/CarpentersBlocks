@@ -1,5 +1,12 @@
 package com.carpentersblocks.tileentity;
 
+import com.carpentersblocks.block.BlockCoverable;
+import com.carpentersblocks.util.Attribute;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.handler.DesignHandler;
+import com.carpentersblocks.util.protection.IProtected;
+import com.carpentersblocks.util.protection.ProtectedObject;
+import com.carpentersblocks.util.registry.FeatureRegistry;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,37 +25,30 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import com.carpentersblocks.block.BlockCoverable;
-import com.carpentersblocks.util.Attribute;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.handler.DesignHandler;
-import com.carpentersblocks.util.protection.IProtected;
-import com.carpentersblocks.util.protection.ProtectedObject;
-import com.carpentersblocks.util.registry.FeatureRegistry;
 
 public class TEBase extends TileEntity implements IProtected {
 
-    public static final String TAG_ATTR             = "cbAttribute";
-    public static final String TAG_ATTR_LIST        = "cbAttrList";
-    public static final String TAG_METADATA         = "cbMetadata";
-    public static final String TAG_OWNER            = "cbOwner";
-    public static final String TAG_CHISEL_DESIGN    = "cbChiselDesign";
-    public static final String TAG_DESIGN           = "cbDesign";
+    public static final String TAG_ATTR = "cbAttribute";
+    public static final String TAG_ATTR_LIST = "cbAttrList";
+    public static final String TAG_METADATA = "cbMetadata";
+    public static final String TAG_OWNER = "cbOwner";
+    public static final String TAG_CHISEL_DESIGN = "cbChiselDesign";
+    public static final String TAG_DESIGN = "cbDesign";
 
-    public static final byte[] ATTR_COVER        = {  0,  1,  2,  3,  4,  5,  6 };
-    public static final byte[] ATTR_DYE          = {  7,  8,  9, 10, 11, 12, 13 };
-    public static final byte[] ATTR_OVERLAY      = { 14, 15, 16, 17, 18, 19, 20 };
-    public static final byte   ATTR_ILLUMINATOR  = 21;
-    public static final byte   ATTR_PLANT        = 22;
-    public static final byte   ATTR_SOIL         = 23;
-    public static final byte   ATTR_FERTILIZER   = 24;
-    public static final byte   ATTR_UPGRADE      = 25;
-    
+    public static final byte[] ATTR_COVER = {0, 1, 2, 3, 4, 5, 6};
+    public static final byte[] ATTR_DYE = {7, 8, 9, 10, 11, 12, 13};
+    public static final byte[] ATTR_OVERLAY = {14, 15, 16, 17, 18, 19, 20};
+    public static final byte ATTR_ILLUMINATOR = 21;
+    public static final byte ATTR_PLANT = 22;
+    public static final byte ATTR_SOIL = 23;
+    public static final byte ATTR_FERTILIZER = 24;
+    public static final byte ATTR_UPGRADE = 25;
+
     /** Map holding all block attributes. */
     protected Map<Byte, Attribute> cbAttrMap = new HashMap<Byte, Attribute>();
 
     /** Chisel design for each side and base block. */
-    protected String[] cbChiselDesign = { "", "", "", "", "", "", "" };
+    protected String[] cbChiselDesign = {"", "", "", "", "", "", ""};
 
     /** Holds specific block information like facing, states, etc. */
     protected int cbMetadata;
@@ -68,15 +68,13 @@ public class TEBase extends TileEntity implements IProtected {
     /** The most recent light value of block. **/
     private int lightValue = -1;
 
-    
     /** Comment **/
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
-    {
+    public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
 
         cbAttrMap.clear();
-        if (nbt.hasKey("owner")) {        	    	
+        if (nbt.hasKey("owner")) {
             TileEntityHelper.updateMappingsOnRead(this, nbt);
         } else {
             NBTTagList nbttaglist = nbt.getTagList(TAG_ATTR_LIST, 10);
@@ -84,7 +82,8 @@ public class TEBase extends TileEntity implements IProtected {
                 NBTTagCompound nbt1 = nbttaglist.getCompoundTagAt(idx);
                 Attribute attribute = Attribute.loadAttributeFromNBT(nbt1);
                 if (attribute.getItemStack() != null) {
-                    attribute.getItemStack().stackSize = 1; // All ItemStacks pre-3.2.7 DEV R3 stored original stack sizes, reduce them here.                
+                    attribute.getItemStack().stackSize =
+                            1; // All ItemStacks pre-3.2.7 DEV R3 stored original stack sizes, reduce them here.
                     byte attrId = (byte) (nbt1.getByte(TAG_ATTR) & 255);
                     cbAttrMap.put(attrId, attribute);
                 }
@@ -106,8 +105,7 @@ public class TEBase extends TileEntity implements IProtected {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
+    public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
 
         NBTTagList tagList = new NBTTagList();
@@ -116,11 +114,11 @@ public class TEBase extends TileEntity implements IProtected {
             Map.Entry entry = (Map.Entry) iterator.next();
             NBTTagCompound nbt1 = new NBTTagCompound();
             nbt1.setByte(TAG_ATTR, (Byte) entry.getKey());
-            ((Attribute)entry.getValue()).writeToNBT(nbt1);
+            ((Attribute) entry.getValue()).writeToNBT(nbt1);
             tagList.appendTag(nbt1);
-        }        
+        }
         nbt.setTag(TAG_ATTR_LIST, tagList);
-        
+
         for (int idx = 0; idx < 7; ++idx) {
             nbt.setString(TAG_CHISEL_DESIGN + "_" + idx, cbChiselDesign[idx]);
         }
@@ -129,15 +127,14 @@ public class TEBase extends TileEntity implements IProtected {
         nbt.setString(TAG_DESIGN, cbDesign);
         nbt.setString(TAG_OWNER, cbOwner);
     }
-    
+
     /**
      * Handles data conversion from short to int for update 3.3.7.
      *
      * @param nbt the {@link NBTTagCompound}
      * @return <code>true</code> if data was converted
      */
-    private boolean convertDataToInt(NBTTagCompound nbt)
-    {
+    private boolean convertDataToInt(NBTTagCompound nbt) {
         // 3.3.7 DEV converted cbMetadata to integer
         if (nbt.getTag(TAG_METADATA) instanceof NBTTagShort) {
             cbMetadata = nbt.getShort(TAG_METADATA);
@@ -152,8 +149,7 @@ public class TEBase extends TileEntity implements IProtected {
     /**
      * Overridden in a sign to provide the text.
      */
-    public Packet getDescriptionPacket()
-    {
+    public Packet getDescriptionPacket() {
         NBTTagCompound nbt = new NBTTagCompound();
         writeToNBT(nbt);
         return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
@@ -169,8 +165,7 @@ public class TEBase extends TileEntity implements IProtected {
      * @param net The NetworkManager the packet originated from
      * @param pkt The data packet
      */
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         readFromNBT(pkt.func_148857_g());
     }
 
@@ -189,8 +184,8 @@ public class TEBase extends TileEntity implements IProtected {
      * @return True to remove the old tile entity, false to keep it in tact {and create a new one if the new values specify to}
      */
     @Override
-    public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z)
-    {
+    public boolean shouldRefresh(
+            Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
         /*
          * This is a curious method.
          *
@@ -208,8 +203,7 @@ public class TEBase extends TileEntity implements IProtected {
     /**
      * Copies owner from TEBase object.
      */
-    public void copyOwner(final TEBase TE)
-    {
+    public void copyOwner(final TEBase TE) {
         cbOwner = TE.getOwner();
         markDirty();
     }
@@ -218,15 +212,13 @@ public class TEBase extends TileEntity implements IProtected {
      * Sets owner of tile entity.
      */
     @Override
-    public void setOwner(ProtectedObject obj)
-    {
+    public void setOwner(ProtectedObject obj) {
         cbOwner = obj.toString();
         markDirty();
     }
 
     @Override
-    public String getOwner()
-    {
+    public String getOwner() {
         return cbOwner;
     }
 
@@ -235,28 +227,24 @@ public class TEBase extends TileEntity implements IProtected {
      * Determines if this TileEntity requires update calls.
      * @return True if you want updateEntity() to be called, false if not
      */
-    public boolean canUpdate()
-    {
+    public boolean canUpdate() {
         return false;
     }
 
-    public boolean hasAttribute(byte attrId)
-    {
+    public boolean hasAttribute(byte attrId) {
         return cbAttrMap.containsKey(attrId);
     }
 
-    public ItemStack getAttribute(byte attrId)
-    {
+    public ItemStack getAttribute(byte attrId) {
         Attribute attribute = cbAttrMap.get(attrId);
         if (attribute != null) {
             return attribute.getItemStack();
         }
-        
+
         return null;
     }
 
-    public ItemStack getAttributeForDrop(byte attrId)
-    {
+    public ItemStack getAttributeForDrop(byte attrId) {
         ItemStack itemStack = cbAttrMap.get(attrId).getItemStack();
 
         // If cover, check for rotation and restore default metadata
@@ -276,13 +264,11 @@ public class TEBase extends TileEntity implements IProtected {
      * @param  itemStack the {@link ItemStack}
      * @return the cover {@link ItemStack} in it's default state
      */
-    private ItemStack setDefaultMetadata(ItemStack itemStack)
-    {
+    private ItemStack setDefaultMetadata(ItemStack itemStack) {
         Block block = BlockProperties.toBlock(itemStack);
 
         // Correct rotation metadata before dropping block
-        if (BlockProperties.blockRotates(itemStack) || block instanceof BlockDirectional)
-        {
+        if (BlockProperties.blockRotates(itemStack) || block instanceof BlockDirectional) {
             int dmgDrop = block.damageDropped(itemStack.getItemDamage());
             Item itemDrop = block.getItemDropped(itemStack.getItemDamage(), getWorldObj().rand, /* Fortune */ 0);
 
@@ -296,8 +282,7 @@ public class TEBase extends TileEntity implements IProtected {
         return itemStack;
     }
 
-    public void addAttribute(byte attrId, ItemStack itemStack)
-    {
+    public void addAttribute(byte attrId, ItemStack itemStack) {
         if (hasAttribute(attrId) || itemStack == null) {
             return;
         }
@@ -337,8 +322,7 @@ public class TEBase extends TileEntity implements IProtected {
      *
      * @param attrId
      */
-    public void onAttrDropped(byte attrId)
-    {
+    public void onAttrDropped(byte attrId) {
         cbAttrMap.remove(attrId);
         updateWorldAndLighting();
         markDirty();
@@ -349,13 +333,11 @@ public class TEBase extends TileEntity implements IProtected {
      *
      * @param  attrId the attribute ID
      */
-    public void createBlockDropEvent(byte attrId)
-    {
+    public void createBlockDropEvent(byte attrId) {
         getWorldObj().addBlockEvent(xCoord, yCoord, zCoord, getBlockType(), BlockCoverable.EVENT_ID_DROP_ATTR, attrId);
     }
 
-    public void removeAttributes(int side)
-    {
+    public void removeAttributes(int side) {
         createBlockDropEvent(ATTR_COVER[side]);
         createBlockDropEvent(ATTR_DYE[side]);
         createBlockDropEvent(ATTR_OVERLAY[side]);
@@ -368,24 +350,21 @@ public class TEBase extends TileEntity implements IProtected {
     /**
      * Returns whether block has pattern.
      */
-    public boolean hasChiselDesign(int side)
-    {
+    public boolean hasChiselDesign(int side) {
         return DesignHandler.listChisel.contains(getChiselDesign(side));
     }
 
     /**
      * Returns pattern.
      */
-    public String getChiselDesign(int side)
-    {
+    public String getChiselDesign(int side) {
         return cbChiselDesign[side];
     }
 
     /**
      * Sets pattern.
      */
-    public boolean setChiselDesign(int side, String iconName)
-    {
+    public boolean setChiselDesign(int side, String iconName) {
         if (!cbChiselDesign.equals(iconName)) {
             cbChiselDesign[side] = iconName;
             getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -396,8 +375,7 @@ public class TEBase extends TileEntity implements IProtected {
         return false;
     }
 
-    public void removeChiselDesign(int side)
-    {
+    public void removeChiselDesign(int side) {
         if (!cbChiselDesign.equals("")) {
             cbChiselDesign[side] = "";
             getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -410,16 +388,14 @@ public class TEBase extends TileEntity implements IProtected {
      *
      * @return the data
      */
-    public int getData()
-    {
+    public int getData() {
         return cbMetadata;
     }
 
     /**
      * Sets block-specific data.
      */
-    public boolean setData(int data)
-    {
+    public boolean setData(int data) {
         if (data != getData()) {
             cbMetadata = data;
             getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -430,18 +406,15 @@ public class TEBase extends TileEntity implements IProtected {
         return false;
     }
 
-    public boolean hasDesign()
-    {
+    public boolean hasDesign() {
         return DesignHandler.getListForType(getBlockDesignType()).contains(cbDesign);
     }
 
-    public String getDesign()
-    {
+    public String getDesign() {
         return cbDesign;
     }
 
-    public boolean setDesign(String name)
-    {
+    public boolean setDesign(String name) {
         if (!cbDesign.equals(name)) {
             cbDesign = name;
             getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -452,24 +425,20 @@ public class TEBase extends TileEntity implements IProtected {
         return false;
     }
 
-    public boolean removeDesign()
-    {
+    public boolean removeDesign() {
         return setDesign("");
     }
 
-    public String getBlockDesignType()
-    {
+    public String getBlockDesignType() {
         String name = getBlockType().getUnlocalizedName();
         return name.substring(new String("tile.blockCarpenters").length()).toLowerCase();
     }
 
-    public boolean setNextDesign()
-    {
+    public boolean setNextDesign() {
         return setDesign(DesignHandler.getNext(getBlockDesignType(), cbDesign));
     }
 
-    public boolean setPrevDesign()
-    {
+    public boolean setPrevDesign() {
         return setDesign(DesignHandler.getPrev(getBlockDesignType(), cbDesign));
     }
 
@@ -481,8 +450,7 @@ public class TEBase extends TileEntity implements IProtected {
      * <p>
      * This is normally followed up by calling {@link setMetadataFromCover}.
      */
-    public void setMetadata(int metadata)
-    {
+    public void setMetadata(int metadata) {
         tempMetadata = getWorldObj().getBlockMetadata(xCoord, yCoord, zCoord);
         getWorldObj().setBlockMetadataWithNotify(xCoord, yCoord, zCoord, metadata, 4);
     }
@@ -490,8 +458,7 @@ public class TEBase extends TileEntity implements IProtected {
     /**
      * Restores default metadata for block from base cover.
      */
-    public void restoreMetadata()
-    {
+    public void restoreMetadata() {
         getWorldObj().setBlockMetadataWithNotify(xCoord, yCoord, zCoord, tempMetadata, 4);
     }
 
@@ -503,7 +470,7 @@ public class TEBase extends TileEntity implements IProtected {
      * Grabs light value from cache.
      * <p>
      * If not cached, will calculate value first.
-     * 
+     *
      * @return the light value
      */
     public int getLightValue() {
@@ -512,7 +479,7 @@ public class TEBase extends TileEntity implements IProtected {
         }
         return lightValue;
     }
-    
+
     /**
      * Returns the current block light value. This is the only method
      * that will grab the tile entity to calculate lighting, which
@@ -525,8 +492,7 @@ public class TEBase extends TileEntity implements IProtected {
      * @param  z the z coordinate
      * @return a light value from 0 to 15
      */
-    protected int getDynamicLightValue()
-    {
+    protected int getDynamicLightValue() {
         int value = 0;
 
         if (FeatureRegistry.enableIllumination && hasAttribute(ATTR_ILLUMINATOR)) {
@@ -536,8 +502,9 @@ public class TEBase extends TileEntity implements IProtected {
             calcLighting = true;
             Iterator it = cbAttrMap.entrySet().iterator();
             while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                ItemStack itemStack = BlockProperties.getCallableItemStack(((Attribute)pair.getValue()).getItemStack());
+                Map.Entry pair = (Map.Entry) it.next();
+                ItemStack itemStack =
+                        BlockProperties.getCallableItemStack(((Attribute) pair.getValue()).getItemStack());
                 Block block = BlockProperties.toBlock(itemStack);
 
                 if (block != Blocks.air) {
@@ -553,7 +520,6 @@ public class TEBase extends TileEntity implements IProtected {
                         // Grab default light value for block
                         value = Math.max(value, block.getLightValue());
                     }
-
                 }
             }
             calcLighting = false;
@@ -561,7 +527,7 @@ public class TEBase extends TileEntity implements IProtected {
 
         return value;
     }
-    
+
     /**
      * Updates light value and world lightmap.
      */
@@ -573,13 +539,11 @@ public class TEBase extends TileEntity implements IProtected {
     /**
      * Performs world update and refreshes lighting.
      */
-    private void updateWorldAndLighting()
-    {
+    private void updateWorldAndLighting() {
         World world = getWorldObj();
         if (world != null) {
             updateCachedLighting();
             world.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
     }
-    
 }

@@ -1,5 +1,14 @@
 package com.carpentersblocks.util;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.api.IWrappableBlock;
+import com.carpentersblocks.block.BlockCoverable;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.handler.DyeHandler;
+import com.carpentersblocks.util.handler.OverlayHandler;
+import com.carpentersblocks.util.handler.OverlayHandler.Overlay;
+import com.carpentersblocks.util.registry.FeatureRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Block.SoundType;
 import net.minecraft.block.BlockBreakable;
@@ -14,23 +23,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.api.IWrappableBlock;
-import com.carpentersblocks.block.BlockCoverable;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.handler.DyeHandler;
-import com.carpentersblocks.util.handler.OverlayHandler;
-import com.carpentersblocks.util.handler.OverlayHandler.Overlay;
-import com.carpentersblocks.util.registry.FeatureRegistry;
 
 public class BlockProperties {
 
-    public final static SoundType stepSound = new SoundType(CarpentersBlocks.MODID, 1.0F, 1.0F);
-    public final static int MASK_DEFAULT_ICON = 0x10;
+    public static final SoundType stepSound = new SoundType(CarpentersBlocks.MODID, 1.0F, 1.0F);
+    public static final int MASK_DEFAULT_ICON = 0x10;
 
-    public static boolean isMetadataDefaultIcon(int metadata)
-    {
+    public static boolean isMetadataDefaultIcon(int metadata) {
         return (metadata & MASK_DEFAULT_ICON) > 0;
     }
 
@@ -45,10 +44,11 @@ public class BlockProperties {
      * @param z the z coordinate
      * @return a {@link TEBase}
      */
-    public static TEBase getTileEntity(Block block, World world, int x, int y, int z)
-    {
+    public static TEBase getTileEntity(Block block, World world, int x, int y, int z) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TEBase && world.getBlock(x, y, z).equals(block)) {
+        if (tileEntity != null
+                && tileEntity instanceof TEBase
+                && world.getBlock(x, y, z).equals(block)) {
             return (TEBase) tileEntity;
         }
 
@@ -65,8 +65,7 @@ public class BlockProperties {
      * @param itemStack
      * @param mask
      */
-    public static void prepareItemStackForRendering(ItemStack itemStack)
-    {
+    public static void prepareItemStackForRendering(ItemStack itemStack) {
         if (toBlock(itemStack) instanceof BlockCoverable) {
             itemStack.setItemDamage(itemStack.getItemDamage() | MASK_DEFAULT_ICON);
         }
@@ -82,8 +81,7 @@ public class BlockProperties {
      * @param  attr the block attribute
      * @return <code>true</code> if block has attribute
      */
-    public static boolean hasAttribute(TEBase TE, byte attr)
-    {
+    public static boolean hasAttribute(TEBase TE, byte attr) {
         return TE != null && TE.hasAttribute(attr);
     }
 
@@ -91,8 +89,7 @@ public class BlockProperties {
      * Takes an ItemStack and returns block, or air block if ItemStack
      * does not contain a block.
      */
-    public static Block toBlock(ItemStack itemStack)
-    {
+    public static Block toBlock(ItemStack itemStack) {
         if (itemStack != null && itemStack.getItem() instanceof ItemBlock) {
             return Block.getBlockFromItem(itemStack.getItem());
         } else {
@@ -103,8 +100,7 @@ public class BlockProperties {
     /**
      * Returns depth of side cover.
      */
-    public static float getSideCoverDepth(TEBase TE, int side)
-    {
+    public static float getSideCoverDepth(TEBase TE, int side) {
         if (side == 1 && TE.hasAttribute(TE.ATTR_COVER[side])) {
 
             Block block = toBlock(getCover(TE, side));
@@ -112,7 +108,6 @@ public class BlockProperties {
             if (block.equals(Blocks.snow) || block.equals(Blocks.snow_layer)) {
                 return 0.125F;
             }
-
         }
 
         return 0.0625F;
@@ -123,20 +118,17 @@ public class BlockProperties {
      * The blocks that utilize this property are mostly atypical, and
      * must be added manually.
      */
-    public static boolean blockRotates(ItemStack itemStack)
-    {
+    public static boolean blockRotates(ItemStack itemStack) {
         Block block = toBlock(itemStack);
 
-        return block instanceof BlockQuartz ||
-               block instanceof BlockRotatedPillar;
+        return block instanceof BlockQuartz || block instanceof BlockRotatedPillar;
     }
 
     /**
      * Plays block sound.
      * Reduced volume is for damaging a block, versus full volume for placement or destruction.
      */
-    public static void playBlockSound(World world, ItemStack itemStack, int x, int y, int z, boolean reducedVolume)
-    {
+    public static void playBlockSound(World world, ItemStack itemStack, int x, int y, int z, boolean reducedVolume) {
         if (itemStack != null) {
 
             Block block;
@@ -152,7 +144,6 @@ public class BlockProperties {
             float pitch = soundType.getPitch() * 0.8F;
 
             world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, soundType.func_150496_b(), volume, pitch);
-
         }
     }
 
@@ -164,8 +155,7 @@ public class BlockProperties {
      * @param itemStack the {@link ItemStack}
      * @return an {@link ItemStack} that is safe from throwing casting crashes during {@link Block} calls
      */
-    public static ItemStack getCallableItemStack(ItemStack itemStack)
-    {
+    public static ItemStack getCallableItemStack(ItemStack itemStack) {
         Block block = toBlock(itemStack);
 
         // IWrappable blocks are assumed safe to return unaltered
@@ -186,12 +176,11 @@ public class BlockProperties {
      * @param side the side
      * @return an {@link ItemStack}
      */
-    public static ItemStack getCover(TEBase TE, int side)
-    {
+    public static ItemStack getCover(TEBase TE, int side) {
         ItemStack itemStack = getCoverSafe(TE, side);
         return getCallableItemStack(itemStack);
     }
-    
+
     /**
      * Returns the cover, or if no cover exists, will return the calling block type.
      *
@@ -199,8 +188,7 @@ public class BlockProperties {
      * @param  side the side
      * @return the {@link ItemStack}
      */
-    public static ItemStack getCoverSafe(TEBase TE, int side)
-    {
+    public static ItemStack getCoverSafe(TEBase TE, int side) {
         ItemStack itemStack = TE.getAttribute(TE.ATTR_COVER[side]);
         return itemStack != null ? itemStack : new ItemStack(TE.getBlockType());
     }
@@ -208,19 +196,17 @@ public class BlockProperties {
     /**
      * Returns whether block is a cover.
      */
-    public static boolean isCover(ItemStack itemStack)
-    {
+    public static boolean isCover(ItemStack itemStack) {
         if (itemStack.getItem() instanceof ItemBlock && !isOverlay(itemStack)) {
 
             Block block = toBlock(itemStack);
 
-            return block.renderAsNormalBlock() ||
-                   block instanceof BlockSlab ||
-                   block instanceof BlockPane ||
-                   block instanceof BlockBreakable ||
-                   FeatureRegistry.coverExceptions.contains(itemStack.getDisplayName()) ||
-                   FeatureRegistry.coverExceptions.contains(ChatHandler.getDefaultTranslation(itemStack));
-
+            return block.renderAsNormalBlock()
+                    || block instanceof BlockSlab
+                    || block instanceof BlockPane
+                    || block instanceof BlockBreakable
+                    || FeatureRegistry.coverExceptions.contains(itemStack.getDisplayName())
+                    || FeatureRegistry.coverExceptions.contains(ChatHandler.getDefaultTranslation(itemStack));
         }
 
         return false;
@@ -232,8 +218,7 @@ public class BlockProperties {
      *
      * @return <code>true</code> if {@link ItemStack} contains dustGlowstone ore name
      */
-    public static boolean isIlluminator(ItemStack itemStack)
-    {
+    public static boolean isIlluminator(ItemStack itemStack) {
         if (itemStack != null) {
             for (int Id : OreDictionary.getOreIDs(itemStack)) {
                 if (OreDictionary.getOreName(Id).equals("dustGlowstone")) {
@@ -248,19 +233,16 @@ public class BlockProperties {
     /**
      * Returns true if ItemStack is a dye.
      */
-    public static boolean isDye(ItemStack itemStack, boolean allowWhite)
-    {
-        return itemStack.getItem() != null &&
-               DyeHandler.isDye(itemStack, allowWhite);
+    public static boolean isDye(ItemStack itemStack, boolean allowWhite) {
+        return itemStack.getItem() != null && DyeHandler.isDye(itemStack, allowWhite);
     }
 
     /**
      * Returns whether ItemStack contains a valid overlay item or block.
      */
-    public static boolean isOverlay(ItemStack itemStack)
-    {
-        return OverlayHandler.overlayMap.containsKey(itemStack.getDisplayName()) ||
-               OverlayHandler.overlayMap.containsKey(ChatHandler.getDefaultTranslation(itemStack));
+    public static boolean isOverlay(ItemStack itemStack) {
+        return OverlayHandler.overlayMap.containsKey(itemStack.getDisplayName())
+                || OverlayHandler.overlayMap.containsKey(ChatHandler.getDefaultTranslation(itemStack));
     }
 
     /**
@@ -270,8 +252,7 @@ public class BlockProperties {
      * @param  name the OreDictionary name to check against
      * @return the first matching OreDictionary name, otherwise blank string
      */
-    public static String getOreDictMatch(ItemStack itemStack, String ... name)
-    {
+    public static String getOreDictMatch(ItemStack itemStack, String... name) {
         if (itemStack != null) {
             for (int Id : OreDictionary.getOreIDs(itemStack)) {
                 for (String oreName : name) {
@@ -284,7 +265,7 @@ public class BlockProperties {
 
         return "";
     }
-    
+
     /**
      * Gets an {@link ItemStack} that best represents the surface
      * side of a Carpenter's Block.
@@ -294,14 +275,13 @@ public class BlockProperties {
      * @param TE
      * @return
      */
-    public static ItemStack getFeatureSensitiveSideItemStack(TEBase TE, ForgeDirection side)
-    {
+    public static ItemStack getFeatureSensitiveSideItemStack(TEBase TE, ForgeDirection side) {
         if (side.equals(ForgeDirection.UNKNOWN)) {
             return getCover(TE, 6);
         }
         ItemStack itemStack = null;
         int effectiveSide = TE.hasAttribute(TE.ATTR_COVER[side.ordinal()]) ? side.ordinal() : 6;
-        
+
         // Check for overlay
         if (TE.hasAttribute(TE.ATTR_OVERLAY[effectiveSide])) {
             Overlay overlay = OverlayHandler.getOverlayType(TE.getAttribute(TE.ATTR_OVERLAY[effectiveSide]));
@@ -309,7 +289,7 @@ public class BlockProperties {
                 itemStack = overlay.getItemStack();
             }
         }
-        
+
         // Check for side cover
         if (itemStack == null) {
             itemStack = getCover(TE, effectiveSide);
@@ -317,5 +297,4 @@ public class BlockProperties {
 
         return itemStack;
     }
-
 }

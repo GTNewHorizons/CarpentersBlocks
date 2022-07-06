@@ -1,21 +1,20 @@
 package com.carpentersblocks.renderer;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.item.ItemStack;
 import com.carpentersblocks.block.BlockCarpentersStairs;
 import com.carpentersblocks.data.Stairs;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import com.carpentersblocks.util.stairs.StairsUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.item.ItemStack;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
-    {
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks) {
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.5D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
@@ -26,8 +25,7 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
     /**
      * Renders stairs at the given coordinates
      */
-    protected void renderCarpentersBlock(int x, int y, int z)
-    {
+    protected void renderCarpentersBlock(int x, int y, int z) {
         ItemStack itemStack = getCoverForRendering();
 
         Stairs stairs = Stairs.stairsList[TE.getData()];
@@ -35,12 +33,10 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
 
         BlockCarpentersStairs blockRef = (BlockCarpentersStairs) BlockRegistry.blockCarpentersStairs;
 
-        for (int box = 0; box < 3; ++box)
-        {
+        for (int box = 0; box < 3; ++box) {
             float[] bounds = stairsUtil.genBounds(box, stairs);
 
-            if (bounds != null)
-            {
+            if (bounds != null) {
                 blockRef.setBlockBounds(bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5]);
                 renderBlocks.setRenderBounds(bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5]);
                 renderBlock(itemStack, x, y, z);
@@ -52,25 +48,20 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
     /**
      * Renders side covers (stair specific).
      */
-    protected void renderSideBlocks(int x, int y, int z)
-    {
+    protected void renderSideBlocks(int x, int y, int z) {
         renderBlocks.renderAllFaces = true;
 
         Stairs stairs = Stairs.stairsList[TE.getData()];
         StairsUtil stairsUtil = new StairsUtil();
 
-        for (int box = 0; box < 3; ++box)
-        {
+        for (int box = 0; box < 3; ++box) {
             float[] bounds = stairsUtil.genBounds(box, stairs);
 
-            if (bounds != null)
-            {
-                for (int side = 0; side < 6; ++side)
-                {
+            if (bounds != null) {
+                for (int side = 0; side < 6; ++side) {
                     coverRendering = side;
 
-                    if (TE.hasAttribute(TE.ATTR_COVER[side]))
-                    {
+                    if (TE.hasAttribute(TE.ATTR_COVER[side])) {
                         renderBlocks.setRenderBounds(bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5]);
                         int[] renderOffset = getSideCoverRenderBounds(x, y, z, side);
 
@@ -89,8 +80,7 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
     /**
      * Alters side cover render bounds to prevent it from intersecting the block mask.
      */
-    private boolean clipSideCoverBoundsBasedOnState(int data, int box, int side)
-    {
+    private boolean clipSideCoverBoundsBasedOnState(int data, int box, int side) {
         ++box;
 
         switch (data) {
@@ -594,5 +584,4 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
 
         return true;
     }
-
 }

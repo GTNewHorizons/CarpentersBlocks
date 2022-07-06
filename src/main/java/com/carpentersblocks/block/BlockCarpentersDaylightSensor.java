@@ -1,14 +1,5 @@
 package com.carpentersblocks.block;
 
-import net.minecraft.block.BlockDaylightDetector;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import com.carpentersblocks.CarpentersBlocks;
 import com.carpentersblocks.data.DaylightSensor;
 import com.carpentersblocks.tileentity.TEBase;
@@ -18,13 +9,21 @@ import com.carpentersblocks.util.registry.BlockRegistry;
 import com.carpentersblocks.util.registry.IconRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.BlockDaylightDetector;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class BlockCarpentersDaylightSensor extends BlockSided {
 
     private static DaylightSensor data = new DaylightSensor();
 
-    public BlockCarpentersDaylightSensor(Material material)
-    {
+    public BlockCarpentersDaylightSensor(Material material) {
         super(material, data);
     }
 
@@ -34,17 +33,16 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
      */
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
-        IconRegistry.icon_daylight_sensor_glass_top = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "daylightsensor/daylight_sensor_glass_top");
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        IconRegistry.icon_daylight_sensor_glass_top =
+                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "daylightsensor/daylight_sensor_glass_top");
     }
 
     @Override
     /**
      * Alters polarity.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int polarity = data.getPolarity(TE) == data.POLARITY_POSITIVE ? data.POLARITY_NEGATIVE : data.POLARITY_POSITIVE;
 
         data.setPolarity(TE, polarity);
@@ -63,8 +61,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
     /**
      * Alters polarity.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         int sensitivity = data.setNextSensitivity(TE);
         notifyBlocksOfPowerChange(TE.getWorldObj(), TE.xCoord, TE.yCoord, TE.zCoord);
 
@@ -87,8 +84,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -103,8 +99,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
      * @return the power output
      */
     @Override
-    public int getPowerOutput(TEBase TE)
-    {
+    public int getPowerOutput(TEBase TE) {
         return data.getRedstoneOutput(TE);
     }
 
@@ -117,8 +112,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
      * @param  z the z coordinate
      * @return nothing
      */
-    public void updateLightLevel(World world, int x, int y, int z)
-    {
+    public void updateLightLevel(World world, int x, int y, int z) {
         if (!world.provider.hasNoSky) {
 
             TEBase TE = getTileEntity(world, x, y, z);
@@ -146,12 +140,15 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
                                 lightValue *= 0.6F;
                                 break;
                             case EAST:
-                                lightValue = getCelestialRedstoneOutput(world, x, y, z, lightValue, (float) (angle + Math.PI / 2));
+                                lightValue = getCelestialRedstoneOutput(
+                                        world, x, y, z, lightValue, (float) (angle + Math.PI / 2));
                                 break;
                             case WEST:
-                                lightValue = getCelestialRedstoneOutput(world, x, y, z, lightValue, (float) (angle - Math.PI / 2));
+                                lightValue = getCelestialRedstoneOutput(
+                                        world, x, y, z, lightValue, (float) (angle - Math.PI / 2));
                                 break;
-                            default: {}
+                            default: {
+                            }
                         }
 
                     } else {
@@ -163,16 +160,13 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
                     /* Override light value to trigger monster-spawn light threshold during thunderstorms. */
 
                     lightValue = 7;
-
                 }
 
                 if (temp != lightValue) {
                     data.setLightLevel(TE, lightValue);
                     notifyBlocksOfPowerChange(TE.getWorldObj(), TE.xCoord, TE.yCoord, TE.zCoord);
                 }
-
             }
-
         }
     }
 
@@ -190,8 +184,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
      * @param  angle the angle of the sun in radians
      * @return the output strength from 0 to 15
      */
-    public int getCelestialRedstoneOutput(World world, int x, int y, int z, int skylight, float angle)
-    {
+    public int getCelestialRedstoneOutput(World world, int x, int y, int z, int skylight, float angle) {
         if (!world.provider.hasNoSky) {
 
             if (angle < (float) Math.PI) {
@@ -207,7 +200,6 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
             } else if (skylight > 15) {
                 skylight = 15;
             }
-
         }
 
         return skylight;
@@ -220,8 +212,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
      * @return whether side is supported
      */
     @Override
-    public boolean canAttachToSide(int side)
-    {
+    public boolean canAttachToSide(int side) {
         return side != 0;
     }
 
@@ -229,14 +220,12 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
     /**
      * Can this block provide power. Only wire currently seems to have this change based on its state.
      */
-    public boolean canProvidePower()
-    {
+    public boolean canProvidePower() {
         return true;
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
-    {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TECarpentersDaylightSensor();
     }
 
@@ -244,9 +233,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersDaylightSensorRenderID;
     }
-
 }

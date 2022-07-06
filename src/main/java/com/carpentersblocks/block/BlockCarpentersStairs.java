@@ -1,5 +1,14 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.data.Stairs;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
+import com.carpentersblocks.util.stairs.StairsTransform;
+import com.carpentersblocks.util.stairs.StairsUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -15,20 +24,10 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.data.Stairs;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import com.carpentersblocks.util.stairs.StairsTransform;
-import com.carpentersblocks.util.stairs.StairsUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersStairs extends BlockCoverable {
 
-    public BlockCarpentersStairs(Material material)
-    {
+    public BlockCarpentersStairs(Material material) {
         super(material);
     }
 
@@ -38,8 +37,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
      * Returns a base icon that doesn't rely on blockIcon, which
      * is set prior to texture stitch events.
      */
-    public IIcon getIcon()
-    {
+    public IIcon getIcon() {
         return IconRegistry.icon_uncovered_quartered;
     }
 
@@ -47,15 +45,13 @@ public class BlockCarpentersStairs extends BlockCoverable {
     /**
      * Alters block direction.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int stairsID = TE.getData();
         Stairs stairs = Stairs.stairsList[stairsID];
 
         /* Cycle between stairs direction based on current type. */
 
-        switch (stairs.stairsType)
-        {
+        switch (stairs.stairsType) {
             case NORMAL_SIDE:
                 if (++stairsID > Stairs.ID_NORMAL_SW) {
                     stairsID = Stairs.ID_NORMAL_SE;
@@ -88,7 +84,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
                     if (++stairsID > Stairs.ID_NORMAL_EXT_POS_SW) {
                         stairsID = Stairs.ID_NORMAL_EXT_POS_SE;
                     }
-                }  else {
+                } else {
                     if (++stairsID > Stairs.ID_NORMAL_EXT_NEG_SW) {
                         stairsID = Stairs.ID_NORMAL_EXT_NEG_SE;
                     }
@@ -105,15 +101,13 @@ public class BlockCarpentersStairs extends BlockCoverable {
     /**
      * Alters block type.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         int stairsID = TE.getData();
         Stairs stairs = Stairs.stairsList[stairsID];
 
         /* Transform stairs to next type. */
 
-        switch (stairs.stairsType)
-        {
+        switch (stairs.stairsType) {
             case NORMAL_SIDE:
                 stairsID += 8;
                 break;
@@ -149,8 +143,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
     /**
      * Damages hammer with a chance to not damage.
      */
-    protected void damageItemWithChance(World world, EntityPlayer entityPlayer)
-    {
+    protected void damageItemWithChance(World world, EntityPlayer entityPlayer) {
         if (world.rand.nextFloat() <= ItemRegistry.itemHammerDamageChanceFromStairs) {
             super.damageItemWithChance(world, entityPlayer);
         }
@@ -161,8 +154,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
      * Ray traces through the blocks collision from start vector to end vector returning a ray trace hit. Args: world,
      * x, y, z, startVec, endVec
      */
-    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 startVec, Vec3 endVec)
-    {
+    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 startVec, Vec3 endVec) {
         TEBase TE = getTileEntity(world, x, y, z);
         MovingObjectPosition finalTrace = null;
 
@@ -175,17 +167,14 @@ public class BlockCarpentersStairs extends BlockCoverable {
             double maxDist = 0.0D;
 
             // Determine if ray trace is a hit on stairs
-            for (int box = 0; box < 3; ++box)
-            {
+            for (int box = 0; box < 3; ++box) {
                 float[] bounds = stairsUtil.genBounds(box, stairs);
 
-                if (bounds != null)
-                {
+                if (bounds != null) {
                     setBlockBounds(bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5]);
                     MovingObjectPosition traceResult = super.collisionRayTrace(world, x, y, z, startVec, endVec);
 
-                    if (traceResult != null)
-                    {
+                    if (traceResult != null) {
                         currDist = traceResult.hitVec.squareDistanceTo(endVec);
                         if (currDist > maxDist) {
                             finalTrace = traceResult;
@@ -196,7 +185,6 @@ public class BlockCarpentersStairs extends BlockCoverable {
             }
 
             setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-
         }
 
         return finalTrace;
@@ -207,8 +195,8 @@ public class BlockCarpentersStairs extends BlockCoverable {
      * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
      * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
      */
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity)
-    {
+    public void addCollisionBoxesToList(
+            World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
         TEBase TE = getTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -223,14 +211,13 @@ public class BlockCarpentersStairs extends BlockCoverable {
                 float[] bounds = stairsUtil.genBounds(box, stairs);
 
                 if (bounds != null) {
-                    colBox = AxisAlignedBB.getBoundingBox(x + bounds[0], y + bounds[1], z + bounds[2], x + bounds[3], y + bounds[4], z + bounds[5]);
+                    colBox = AxisAlignedBB.getBoundingBox(
+                            x + bounds[0], y + bounds[1], z + bounds[2], x + bounds[3], y + bounds[4], z + bounds[5]);
                 }
                 if (colBox != null && axisAlignedBB.intersectsWith(colBox)) {
                     list.add(colBox);
                 }
-
             }
-
         }
     }
 
@@ -238,8 +225,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
     /**
      * Checks if the block is a solid face on the given side, used by placement logic.
      */
-    public boolean isSideSolid(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side)
-    {
+    public boolean isSideSolid(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -261,8 +247,8 @@ public class BlockCarpentersStairs extends BlockCoverable {
      *     12 - 13    -    Top or bottom side of block clicked.  onBlockPlacedBy() determines
      *                 direction and sets interpolated value from 0 - 11.
      */
-    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
-    {
+    public int onBlockPlaced(
+            World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
         // Normalize face coordinates
         switch (side) {
             case 2:
@@ -283,7 +269,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
                 return side + 6;
             } else if (hitX < 0.2F) {
                 return side == 2 ? 1 : side == 3 ? 0 : side == 4 ? 3 : 2;
-            } else if (hitX > 0.8F){
+            } else if (hitX > 0.8F) {
                 return side == 2 ? 2 : side == 3 ? 3 : side == 4 ? 1 : 0;
             } else if (hitY > 0.5F) {
                 return side + 2;
@@ -300,8 +286,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
      * Called when the block is placed in the world.
      * Uses cardinal direction to adjust metadata if player clicks top or bottom face of block.
      */
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
-    {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
 
         TEBase TE = getTileEntity(world, x, y, z);
@@ -313,21 +298,20 @@ public class BlockCarpentersStairs extends BlockCoverable {
             TE.setData(world.getBlockMetadata(x, y, z));
             int stairsID = TE.getData();
 
-            if (stairsID > 11)
-            {
+            if (stairsID > 11) {
                 switch (facing) {
-                case 0:
-                    stairsID = stairsID == 12 ? Stairs.ID_NORMAL_NEG_N : Stairs.ID_NORMAL_POS_N;
-                    break;
-                case 1:
-                    stairsID = stairsID == 12 ? Stairs.ID_NORMAL_NEG_E : Stairs.ID_NORMAL_POS_E;
-                    break;
-                case 2:
-                    stairsID = stairsID == 12 ? Stairs.ID_NORMAL_NEG_S : Stairs.ID_NORMAL_POS_S;
-                    break;
-                case 3:
-                    stairsID = stairsID == 12 ? Stairs.ID_NORMAL_NEG_W : Stairs.ID_NORMAL_POS_W;
-                    break;
+                    case 0:
+                        stairsID = stairsID == 12 ? Stairs.ID_NORMAL_NEG_N : Stairs.ID_NORMAL_POS_N;
+                        break;
+                    case 1:
+                        stairsID = stairsID == 12 ? Stairs.ID_NORMAL_NEG_E : Stairs.ID_NORMAL_POS_E;
+                        break;
+                    case 2:
+                        stairsID = stairsID == 12 ? Stairs.ID_NORMAL_NEG_S : Stairs.ID_NORMAL_POS_S;
+                        break;
+                    case 3:
+                        stairsID = stairsID == 12 ? Stairs.ID_NORMAL_NEG_W : Stairs.ID_NORMAL_POS_W;
+                        break;
                 }
             }
 
@@ -339,7 +323,6 @@ public class BlockCarpentersStairs extends BlockCoverable {
                 TE.setData(stairsID);
                 StairsTransform.transformAdjacentStairs(world, stairsID, x, y, z);
             }
-
         }
     }
 
@@ -347,8 +330,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
     /**
      * Returns whether block can support cover on side.
      */
-    public boolean canCoverSide(TEBase TE, World world, int x, int y, int z, int side)
-    {
+    public boolean canCoverSide(TEBase TE, World world, int x, int y, int z, int side) {
         return true;
     }
 
@@ -356,60 +338,75 @@ public class BlockCarpentersStairs extends BlockCoverable {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersStairsRenderID;
     }
 
     @Override
-    public ForgeDirection[] getValidRotations(World worldObj, int x, int y,int z)
-    {
+    public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
         ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
         return axises;
     }
 
     @Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
-    {
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
         // if Axis is UP, block rotates to the right:  north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TEBase)
-        {
-            TEBase cbTile = (TEBase)tile;
+        if (tile != null && tile instanceof TEBase) {
+            TEBase cbTile = (TEBase) tile;
             int data = cbTile.getData();
             int dataAngle = data % 4;
-            switch (axis)
-            {
-                case UP:
-                {
-                    switch (dataAngle)
-                    {
-                        case 0:{cbTile.setData(data+3); break;}
-                        case 1:{cbTile.setData(data+1); break;}
-                        case 2:{cbTile.setData(data-2); break;}
-                        case 3:{cbTile.setData(data-2); break;}
+            switch (axis) {
+                case UP: {
+                    switch (dataAngle) {
+                        case 0: {
+                            cbTile.setData(data + 3);
+                            break;
+                        }
+                        case 1: {
+                            cbTile.setData(data + 1);
+                            break;
+                        }
+                        case 2: {
+                            cbTile.setData(data - 2);
+                            break;
+                        }
+                        case 3: {
+                            cbTile.setData(data - 2);
+                            break;
+                        }
                     }
                     break;
                 }
-                case DOWN:
-                {
-                    switch (dataAngle)
-                    {
-                        case 0:{cbTile.setData(data+2); break;}
-                        case 1:{cbTile.setData(data+2); break;}
-                        case 2:{cbTile.setData(data-1); break;}
-                        case 3:{cbTile.setData(data-3); break;}
+                case DOWN: {
+                    switch (dataAngle) {
+                        case 0: {
+                            cbTile.setData(data + 2);
+                            break;
+                        }
+                        case 1: {
+                            cbTile.setData(data + 2);
+                            break;
+                        }
+                        case 2: {
+                            cbTile.setData(data - 1);
+                            break;
+                        }
+                        case 3: {
+                            cbTile.setData(data - 3);
+                            break;
+                        }
                     }
                     break;
                 }
-                default: return false;
+                default:
+                    return false;
             }
             return true;
         }
         return false;
     }
-
 }

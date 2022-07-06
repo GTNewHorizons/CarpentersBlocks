@@ -1,7 +1,5 @@
 package com.carpentersblocks;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraftforge.common.config.Configuration;
 import com.carpentersblocks.proxy.CommonProxy;
 import com.carpentersblocks.util.CarpentersBlocksTab;
 import cpw.mods.fml.common.Mod;
@@ -12,13 +10,14 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.config.Configuration;
 
 @Mod(
         modid = CarpentersBlocks.MODID,
         name = "Carpenter's Blocks",
-        version = "@VERSION@",
-        dependencies = "required-after:Forge@[10.13.0.1180,)"
-        )
+        version = "GRADLETOKEN_VERSION",
+        dependencies = "required-after:Forge@[10.13.0.1180,)")
 public class CarpentersBlocks {
 
     public static final String MODID = "CarpentersBlocks";
@@ -28,12 +27,13 @@ public class CarpentersBlocks {
     @Instance(MODID)
     public static CarpentersBlocks instance;
 
-    @SidedProxy(clientSide = "com.carpentersblocks.proxy.ClientProxy", serverSide = "com.carpentersblocks.proxy.CommonProxy")
+    @SidedProxy(
+            clientSide = "com.carpentersblocks.proxy.ClientProxy",
+            serverSide = "com.carpentersblocks.proxy.CommonProxy")
     public static CommonProxy proxy;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(MODID);
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
@@ -46,9 +46,7 @@ public class CarpentersBlocks {
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         proxy.init(event);
     }
-
 }

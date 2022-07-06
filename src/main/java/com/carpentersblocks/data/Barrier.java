@@ -10,31 +10,29 @@ public class Barrier {
      * [00000000000]  [0]   [0000]
      * Unused         Post  Type
      */
+    public static final byte TYPE_VANILLA = 0;
 
-    public final static byte TYPE_VANILLA    = 0;
-    public final static byte TYPE_VANILLA_X1 = 1;
-    public final static byte TYPE_VANILLA_X2 = 2;
-    public final static byte TYPE_VANILLA_X3 = 3;
-    public final static byte TYPE_PICKET     = 4;
-    public final static byte TYPE_SHADOWBOX  = 5;
-    public final static byte TYPE_WALL       = 6;
+    public static final byte TYPE_VANILLA_X1 = 1;
+    public static final byte TYPE_VANILLA_X2 = 2;
+    public static final byte TYPE_VANILLA_X3 = 3;
+    public static final byte TYPE_PICKET = 4;
+    public static final byte TYPE_SHADOWBOX = 5;
+    public static final byte TYPE_WALL = 6;
 
-    public final static byte NO_POST  = 0;
-    public final static byte HAS_POST = 1;
+    public static final byte NO_POST = 0;
+    public static final byte HAS_POST = 1;
 
     /**
      * Returns data.
      */
-    public static int getType(TEBase TE)
-    {
+    public static int getType(TEBase TE) {
         return TE.getData() & 0xf;
     }
 
     /**
      * Sets data (vanilla, picket, etc).
      */
-    public static void setType(TEBase TE, int type)
-    {
+    public static void setType(TEBase TE, int type) {
         int temp = (TE.getData() & ~0xf) | type;
         TE.setData(temp);
     }
@@ -42,18 +40,15 @@ public class Barrier {
     /**
      * Returns post bit from data.
      */
-    public static int getPost(TEBase TE)
-    {
+    public static int getPost(TEBase TE) {
         return (TE.getData() & 0x10) >> 4;
     }
 
     /**
      * Sets post bit.
      */
-    public static void setPost(TEBase TE, int post)
-    {
+    public static void setPost(TEBase TE, int post) {
         int temp = (TE.getData() & ~0x10) | (post << 4);
         TE.setData(temp);
     }
-
 }

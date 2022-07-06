@@ -1,16 +1,16 @@
 package com.carpentersblocks.renderer;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.block.BlockCarpentersBarrier;
 import com.carpentersblocks.data.Barrier;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
@@ -21,8 +21,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     private static final int YP = 1;
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
-    {
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks) {
         renderBlocks.setRenderBounds(0.125D, 0.0D, 0.375D, 0.375D, 1.0D, 0.625D);
         super.renderInventoryBlock(block, metadata, modelID, renderBlocks);
         renderBlocks.setRenderBounds(0.625D, 0.0D, 0.375D, 0.875D, 1.0D, 0.625D);
@@ -37,8 +36,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     /**
      * Renders barrier
      */
-    protected void renderCarpentersBlock(int x, int y, int z)
-    {
+    protected void renderCarpentersBlock(int x, int y, int z) {
         int type = Barrier.getType(TE);
         ItemStack itemStack = getCoverForRendering();
 
@@ -59,41 +57,37 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
         }
     }
 
-    private void findBarriers(int x, int y, int z)
-    {
+    private void findBarriers(int x, int y, int z) {
         BlockCarpentersBarrier tempBlock = (BlockCarpentersBarrier) srcBlock;
 
         boolean[] connect = {
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y - 1, z, ForgeDirection.UP),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z, ForgeDirection.DOWN),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y, z - 1, ForgeDirection.SOUTH),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y, z + 1, ForgeDirection.NORTH),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x - 1, y, z, ForgeDirection.EAST),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x + 1, y, z, ForgeDirection.WEST),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z - 1, ForgeDirection.SOUTH),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z + 1, ForgeDirection.NORTH),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x - 1, y + 1, z, ForgeDirection.EAST),
-                tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x + 1, y + 1, z, ForgeDirection.WEST),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y - 1, z, ForgeDirection.UP),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z, ForgeDirection.DOWN),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y, z - 1, ForgeDirection.SOUTH),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y, z + 1, ForgeDirection.NORTH),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x - 1, y, z, ForgeDirection.EAST),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x + 1, y, z, ForgeDirection.WEST),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z - 1, ForgeDirection.SOUTH),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x, y + 1, z + 1, ForgeDirection.NORTH),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x - 1, y + 1, z, ForgeDirection.EAST),
+            tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, x + 1, y + 1, z, ForgeDirection.WEST),
         };
         this.connect = connect;
 
         // Drop connections to solid faces if a forced post is used
-        if (Barrier.getPost(TE) == Barrier.HAS_POST)
-        {
-            for (int side = 2; side < 6; ++side)
-            {
+        if (Barrier.getPost(TE) == Barrier.HAS_POST) {
+            for (int side = 2; side < 6; ++side) {
                 ForgeDirection dir = ForgeDirection.getOrientation(side);
                 Block block = TE.getWorldObj().getBlock(x - dir.offsetX, y, z - dir.offsetZ);
-                if (block.isSideSolid(TE.getWorldObj(), x - dir.offsetX, y, z - dir.offsetZ, dir.getOpposite()))
-                {
+                if (block.isSideSolid(TE.getWorldObj(), x - dir.offsetX, y, z - dir.offsetZ, dir.getOpposite())) {
                     connect[dir.getOpposite().ordinal()] = false;
                 }
             }
         }
 
         boolean[] barrier = {
-                renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock),
-                renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)
+            renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock),
+            renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)
         };
         this.barrier = barrier;
     }
@@ -101,37 +95,55 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     /**
      * Check if barrier at coordinates has a host.
      */
-    private boolean hasPost(TEBase TE)
-    {
+    private boolean hasPost(TEBase TE) {
         BlockCarpentersBarrier tempBlock = (BlockCarpentersBarrier) srcBlock;
 
-        boolean flowerPotYP = renderBlocks.blockAccess.getBlock(TE.xCoord, TE.yCoord + 1, TE.zCoord).getMaterial().equals(Material.circuits);
+        boolean flowerPotYP = renderBlocks
+                .blockAccess
+                .getBlock(TE.xCoord, TE.yCoord + 1, TE.zCoord)
+                .getMaterial()
+                .equals(Material.circuits);
 
-        boolean connectZN = tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, TE.xCoord, TE.yCoord, TE.zCoord - 1, ForgeDirection.SOUTH);
-        boolean connectZP = tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, TE.xCoord, TE.yCoord, TE.zCoord + 1, ForgeDirection.NORTH);
-        boolean connectXN = tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, TE.xCoord - 1, TE.yCoord, TE.zCoord, ForgeDirection.EAST);
-        boolean connectXP = tempBlock.canConnectBarrierTo(renderBlocks.blockAccess, TE.xCoord + 1, TE.yCoord, TE.zCoord, ForgeDirection.WEST);
+        boolean connectZN = tempBlock.canConnectBarrierTo(
+                renderBlocks.blockAccess, TE.xCoord, TE.yCoord, TE.zCoord - 1, ForgeDirection.SOUTH);
+        boolean connectZP = tempBlock.canConnectBarrierTo(
+                renderBlocks.blockAccess, TE.xCoord, TE.yCoord, TE.zCoord + 1, ForgeDirection.NORTH);
+        boolean connectXN = tempBlock.canConnectBarrierTo(
+                renderBlocks.blockAccess, TE.xCoord - 1, TE.yCoord, TE.zCoord, ForgeDirection.EAST);
+        boolean connectXP = tempBlock.canConnectBarrierTo(
+                renderBlocks.blockAccess, TE.xCoord + 1, TE.yCoord, TE.zCoord, ForgeDirection.WEST);
 
-        boolean adjGate = renderBlocks.blockAccess.getBlock(TE.xCoord, TE.yCoord, TE.zCoord - 1).equals(BlockRegistry.blockCarpentersGate) ||
-                       renderBlocks.blockAccess.getBlock(TE.xCoord, TE.yCoord, TE.zCoord + 1).equals(BlockRegistry.blockCarpentersGate) ||
-                       renderBlocks.blockAccess.getBlock(TE.xCoord - 1, TE.yCoord, TE.zCoord).equals(BlockRegistry.blockCarpentersGate) ||
-                       renderBlocks.blockAccess.getBlock(TE.xCoord + 1, TE.yCoord, TE.zCoord).equals(BlockRegistry.blockCarpentersGate);
+        boolean adjGate = renderBlocks
+                        .blockAccess
+                        .getBlock(TE.xCoord, TE.yCoord, TE.zCoord - 1)
+                        .equals(BlockRegistry.blockCarpentersGate)
+                || renderBlocks
+                        .blockAccess
+                        .getBlock(TE.xCoord, TE.yCoord, TE.zCoord + 1)
+                        .equals(BlockRegistry.blockCarpentersGate)
+                || renderBlocks
+                        .blockAccess
+                        .getBlock(TE.xCoord - 1, TE.yCoord, TE.zCoord)
+                        .equals(BlockRegistry.blockCarpentersGate)
+                || renderBlocks
+                        .blockAccess
+                        .getBlock(TE.xCoord + 1, TE.yCoord, TE.zCoord)
+                        .equals(BlockRegistry.blockCarpentersGate);
 
         boolean pathOnX = connectXN && connectXP;
         boolean pathOnZ = connectZN && connectZP;
 
-        return Barrier.getPost(TE) == Barrier.HAS_POST ||
-               flowerPotYP ||
-               adjGate ||
-               pathOnX == pathOnZ ||
-               (connectXN || connectXP) && (connectZN || connectZP);
+        return Barrier.getPost(TE) == Barrier.HAS_POST
+                || flowerPotYP
+                || adjGate
+                || pathOnX == pathOnZ
+                || (connectXN || connectXP) && (connectZN || connectZP);
     }
 
     /**
      * Returns whether barrier has forced post or naturally forms a post at coordinates.
      */
-    private boolean isPostAt()
-    {
+    private boolean isPostAt() {
         if (hasPost(TE)) {
             return true;
         }
@@ -142,7 +154,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
             Block block = renderBlocks.blockAccess.getBlock(TE.xCoord, y, TE.zCoord);
 
             if (block.equals(srcBlock)) {
-                if (hasPost((TEBase)renderBlocks.blockAccess.getTileEntity(TE.xCoord, y, TE.zCoord))) {
+                if (hasPost((TEBase) renderBlocks.blockAccess.getTileEntity(TE.xCoord, y, TE.zCoord))) {
                     return true;
                 }
             } else {
@@ -156,7 +168,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
             Block block = renderBlocks.blockAccess.getBlock(TE.xCoord, y, TE.zCoord);
 
             if (block.equals(srcBlock)) {
-                if (hasPost((TEBase)renderBlocks.blockAccess.getTileEntity(TE.xCoord, y, TE.zCoord))) {
+                if (hasPost((TEBase) renderBlocks.blockAccess.getTileEntity(TE.xCoord, y, TE.zCoord))) {
                     return true;
                 }
             } else {
@@ -170,8 +182,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     /**
      * If needed, renders a post at coordinates with given radius.
      */
-    private void renderPost(ItemStack itemStack, int x, int y, int z, double radius)
-    {
+    private void renderPost(ItemStack itemStack, int x, int y, int z, double radius) {
         if (isPostAt()) {
             double radiusLow = 0.5D - radius;
             double radiusHigh = 0.5D + radius;
@@ -183,8 +194,16 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     /**
      * If needed, renders horizontal plank at coordinates with given y values and thickness.
      */
-    private void renderSupportPlank(ItemStack itemStack, int x, int y, int z, ForgeDirection dir, double depthRadius, double yMin, double yMax, boolean enforce)
-    {
+    private void renderSupportPlank(
+            ItemStack itemStack,
+            int x,
+            int y,
+            int z,
+            ForgeDirection dir,
+            double depthRadius,
+            double yMin,
+            double yMax,
+            boolean enforce) {
         boolean isTop = yMax - 0.5D > 0.5D - yMin;
         double radiusLow = 0.5D - depthRadius;
         double radiusHigh = 0.5D + depthRadius;
@@ -203,8 +222,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     /**
      * Renders vanilla barrier at given coordinates.
      */
-    private void renderTypeVanilla(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeVanilla(ItemStack itemStack, int x, int y, int z) {
         renderPost(itemStack, x, y, z, 0.125D);
 
         double yOffset = Barrier.getType(TE) * 0.0625D;
@@ -222,21 +240,18 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
                     renderSupportPlank(itemStack, x, y, z, dir, 0.0625D, 0.375D - yOffset, 0.5625D, true);
                 }
             }
-
         }
     }
 
     /**
      * Renders picket barrier at given coordinates.
      */
-    private void renderTypePicket(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypePicket(ItemStack itemStack, int x, int y, int z) {
         renderPost(itemStack, x, y, z, 0.0625D);
 
         double yMin = barrier[YN] ? 0.0D : 0.0625D;
 
-        for (int side = 2; side < 6; ++side)
-        {
+        for (int side = 2; side < 6; ++side) {
             ForgeDirection dir = ForgeDirection.getOrientation(side);
 
             if (connect[side]) {
@@ -255,7 +270,6 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
             } else {
 
                 renderBlockWithRotation(itemStack, x, y, z, 0.4375D, yMin, 0.5625D, 0.5625D, 1.0D, 0.625D, dir);
-
             }
         }
     }
@@ -263,14 +277,24 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     /**
      * Renders wall barrier at given coordinates.
      */
-    private void renderTypeWall(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeWall(ItemStack itemStack, int x, int y, int z) {
         renderPost(itemStack, x, y, z, 0.25D);
 
         for (int side = 2; side < 6; ++side) {
             if (connect[side]) {
                 double yMax = connect[side + 4] && connect[YP] ? 1.0D : 0.8125D;
-                renderBlockWithRotation(itemStack, x, y, z, 0.3125D, 0.0D, 0.5D, 0.6875D, yMax, 1.0D, ForgeDirection.getOrientation(side));
+                renderBlockWithRotation(
+                        itemStack,
+                        x,
+                        y,
+                        z,
+                        0.3125D,
+                        0.0D,
+                        0.5D,
+                        0.6875D,
+                        yMax,
+                        1.0D,
+                        ForgeDirection.getOrientation(side));
             }
         }
     }
@@ -278,8 +302,7 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
     /**
      * Renders shadowbox barrier at given coordinates.
      */
-    private void renderTypeShadowbox(ItemStack itemStack, int x, int y, int z)
-    {
+    private void renderTypeShadowbox(ItemStack itemStack, int x, int y, int z) {
         renderPost(itemStack, x, y, z, 0.0625D);
 
         for (int side = 2; side < 6; ++side) {
@@ -292,5 +315,4 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
             }
         }
     }
-
 }

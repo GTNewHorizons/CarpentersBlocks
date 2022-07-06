@@ -1,5 +1,11 @@
 package com.carpentersblocks.renderer.entity;
 
+import com.carpentersblocks.entity.item.EntityCarpentersTile;
+import com.carpentersblocks.renderer.helper.LightingHelper;
+import com.carpentersblocks.renderer.helper.RenderHelper;
+import com.carpentersblocks.util.handler.DyeHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -8,12 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import com.carpentersblocks.entity.item.EntityCarpentersTile;
-import com.carpentersblocks.renderer.helper.LightingHelper;
-import com.carpentersblocks.renderer.helper.RenderHelper;
-import com.carpentersblocks.util.handler.DyeHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderCarpentersTile extends Render {
@@ -25,8 +25,7 @@ public class RenderCarpentersTile extends Render {
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
     @Override
-    public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
-    {
+    public void doRender(Entity entity, double x, double y, double z, float par8, float par9) {
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
         bindTexture(getEntityTexture(entity));
@@ -34,8 +33,7 @@ public class RenderCarpentersTile extends Render {
         GL11.glPopMatrix();
     }
 
-    private void render(EntityCarpentersTile entity, int x, int y, int z)
-    {
+    private void render(EntityCarpentersTile entity, int x, int y, int z) {
         RenderBlocks renderBlocks = RenderBlocks.getInstance();
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
@@ -67,9 +65,7 @@ public class RenderCarpentersTile extends Render {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity var1)
-    {
+    protected ResourceLocation getEntityTexture(Entity var1) {
         return TextureMap.locationBlocksTexture;
     }
-
 }

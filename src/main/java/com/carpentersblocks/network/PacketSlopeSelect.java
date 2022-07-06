@@ -1,13 +1,13 @@
 package com.carpentersblocks.network;
 
-import java.io.IOException;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import com.carpentersblocks.block.BlockCarpentersSlope;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
+import java.io.IOException;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public class PacketSlopeSelect implements ICarpentersPacket {
 
@@ -16,15 +16,13 @@ public class PacketSlopeSelect implements ICarpentersPacket {
 
     public PacketSlopeSelect() {}
 
-    public PacketSlopeSelect(int slot, boolean incDamage)
-    {
+    public PacketSlopeSelect(int slot, boolean incDamage) {
         this.slot = slot;
         this.incDamage = incDamage;
     }
 
     @Override
-    public void processData(EntityPlayer entityPlayer, ByteBufInputStream bbis) throws IOException
-    {
+    public void processData(EntityPlayer entityPlayer, ByteBufInputStream bbis) throws IOException {
         int slot = bbis.readInt();
         boolean incDmg = bbis.readBoolean();
         ItemStack itemStack = entityPlayer.inventory.getStackInSlot(slot);
@@ -42,15 +40,12 @@ public class PacketSlopeSelect implements ICarpentersPacket {
             }
 
             itemStack.setItemDamage(itemDmg);
-
         }
     }
 
     @Override
-    public void appendData(ByteBuf buffer) throws IOException
-    {
+    public void appendData(ByteBuf buffer) throws IOException {
         buffer.writeInt(slot);
         buffer.writeBoolean(incDamage);
     }
-
 }

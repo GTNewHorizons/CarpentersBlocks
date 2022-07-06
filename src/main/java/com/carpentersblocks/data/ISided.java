@@ -1,7 +1,7 @@
 package com.carpentersblocks.data;
 
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.tileentity.TEBase;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public interface ISided {
 
@@ -21,5 +21,4 @@ public interface ISided {
      * @return the {@link ForgeDirection}
      */
     public ForgeDirection getDirection(TEBase TE);
-
 }

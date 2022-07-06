@@ -1,5 +1,11 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.data.Barrier;
+import com.carpentersblocks.data.Gate;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -11,17 +17,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.data.Barrier;
-import com.carpentersblocks.data.Gate;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersBarrier extends BlockCoverable {
 
-    public BlockCarpentersBarrier(Material material)
-    {
+    public BlockCarpentersBarrier(Material material) {
         super(material);
     }
 
@@ -29,8 +28,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
     /**
      * Toggles post.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         Barrier.setPost(TE, Barrier.getPost(TE) == Barrier.HAS_POST ? Barrier.NO_POST : Barrier.HAS_POST);
 
         return true;
@@ -40,8 +38,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
     /**
      * Alters barrier type or sub-type.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         int type = Barrier.getType(TE);
 
         if (entityPlayer.isSneaking()) {
@@ -65,7 +62,6 @@ public class BlockCarpentersBarrier extends BlockCoverable {
             } else if (++type > Barrier.TYPE_WALL) {
                 type = Barrier.TYPE_VANILLA;
             }
-
         }
 
         Barrier.setType(TE, type);
@@ -77,8 +73,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
     /**
      * Called when the block is placed in the world.
      */
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
-    {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
 
         TEBase TE = getTileEntity(world, x, y, z);
@@ -100,11 +95,8 @@ public class BlockCarpentersBarrier extends BlockCoverable {
                     } else if (block.equals(BlockRegistry.blockCarpentersGate)) {
                         Barrier.setType(TE, Gate.getType(TE_current));
                     }
-
                 }
-
             }
-
         }
     }
 
@@ -113,8 +105,8 @@ public class BlockCarpentersBarrier extends BlockCoverable {
      * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
      * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
      */
-    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity)
-    {
+    public void addCollisionBoxesToList(
+            World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
         boolean connect_ZN = canConnectBarrierTo(world, x, y, z - 1, ForgeDirection.SOUTH);
         boolean connect_ZP = canConnectBarrierTo(world, x, y, z + 1, ForgeDirection.NORTH);
         boolean connect_XN = canConnectBarrierTo(world, x - 1, y, z, ForgeDirection.EAST);
@@ -133,8 +125,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
             z_High = 1.0F;
         }
 
-        if (connect_ZN || connect_ZP)
-        {
+        if (connect_ZN || connect_ZP) {
             setBlockBounds(x_Low, 0.0F, z_Low, x_High, 1.5F, z_High);
             super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
         }
@@ -150,8 +141,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
             x_High = 1.0F;
         }
 
-        if (connect_XN || connect_XP || !connect_ZN && !connect_ZP)
-        {
+        if (connect_XN || connect_XP || !connect_ZN && !connect_ZP) {
             setBlockBounds(x_Low, 0.0F, z_Low, x_High, 1.5F, z_High);
             super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
         }
@@ -171,70 +161,68 @@ public class BlockCarpentersBarrier extends BlockCoverable {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
-        
-        if (TE != null)
-        {        
+
+        if (TE != null) {
             int type = Barrier.getType(TE);
-    
+
             boolean connect_ZN = canConnectBarrierTo(blockAccess, x, y, z - 1, ForgeDirection.SOUTH);
             boolean connect_ZP = canConnectBarrierTo(blockAccess, x, y, z + 1, ForgeDirection.NORTH);
             boolean connect_XN = canConnectBarrierTo(blockAccess, x - 1, y, z, ForgeDirection.EAST);
             boolean connect_XP = canConnectBarrierTo(blockAccess, x + 1, y, z, ForgeDirection.WEST);
-    
+
             float x_Low = 0.0F;
             float x_High = 1.0F;
             float z_Low = 0.0F;
             float z_High = 1.0F;
-    
+
             if (type <= Barrier.TYPE_VANILLA_X3) {
-    
+
                 x_Low = 0.375F;
                 x_High = 0.625F;
                 z_Low = 0.375F;
                 z_High = 0.625F;
-    
+
                 if (connect_ZN) {
                     z_Low = 0.0F;
                 }
-    
+
                 if (connect_ZP) {
                     z_High = 1.0F;
                 }
-    
+
                 if (connect_XN) {
                     x_Low = 0.0F;
                 }
-    
+
                 if (connect_XP) {
                     x_High = 1.0F;
                 }
-    
+
             } else {
-    
+
                 x_Low = 0.25F;
                 x_High = 0.75F;
                 z_Low = 0.25F;
                 z_High = 0.75F;
-    
+
                 if (connect_ZN) {
                     z_Low = 0.0F;
                 }
-    
+
                 if (connect_ZP) {
                     z_High = 1.0F;
                 }
-    
+
                 if (connect_XN) {
                     x_Low = 0.0F;
                 }
-    
+
                 if (connect_XP) {
                     x_High = 1.0F;
                 }
-    
+
                 if (connect_ZN && connect_ZP && !connect_XN && !connect_XP) {
                     x_Low = 0.3125F;
                     x_High = 0.6875F;
@@ -242,9 +230,8 @@ public class BlockCarpentersBarrier extends BlockCoverable {
                     z_Low = 0.3125F;
                     z_High = 0.6875F;
                 }
-    
             }
-    
+
             setBlockBounds(x_Low, 0.0F, z_Low, x_High, 1.0F, z_High);
         }
     }
@@ -252,8 +239,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
     /**
      * Returns true if block can connect to specified side of neighbor block.
      */
-    public boolean canConnectBarrierTo(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side)
-    {
+    public boolean canConnectBarrierTo(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side) {
         Block block = blockAccess.getBlock(x, y, z);
 
         if (block.equals(this) || block.equals(BlockRegistry.blockCarpentersGate)) {
@@ -274,8 +260,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
      * @return True if the block is solid on the specified side.
      */
     @Override
-    public boolean isSideSolid(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side)
-    {
+    public boolean isSideSolid(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side) {
         return side.equals(ForgeDirection.UP);
     }
 
@@ -283,8 +268,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
     /**
      * Determines if a torch can be placed on the top surface of this block.
      */
-    public boolean canPlaceTorchOnTop(World world, int x, int y, int z)
-    {
+    public boolean canPlaceTorchOnTop(World world, int x, int y, int z) {
         return true;
     }
 
@@ -294,8 +278,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
      * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
      * coordinates.  Args: world, x, y, z, side
      */
-    public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
-    {
+    public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
         return true;
     }
 
@@ -303,9 +286,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersBarrierRenderID;
     }
-
 }

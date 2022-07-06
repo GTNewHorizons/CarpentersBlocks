@@ -1,12 +1,12 @@
 package com.carpentersblocks.network;
 
+import com.carpentersblocks.util.EntityLivingUtil;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
 import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import com.carpentersblocks.util.EntityLivingUtil;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
 
 public class PacketActivateBlock extends TilePacket {
 
@@ -14,21 +14,22 @@ public class PacketActivateBlock extends TilePacket {
 
     public PacketActivateBlock() {}
 
-    public PacketActivateBlock(int x, int y, int z, int side)
-    {
+    public PacketActivateBlock(int x, int y, int z, int side) {
         super(x, y, z);
         this.side = side;
     }
 
     @Override
-    public void processData(EntityPlayer entityPlayer, ByteBufInputStream bbis) throws IOException
-    {
+    public void processData(EntityPlayer entityPlayer, ByteBufInputStream bbis) throws IOException {
         super.processData(entityPlayer, bbis);
 
         ItemStack itemStack = entityPlayer.getHeldItem();
         side = bbis.readInt();
 
-        boolean result = entityPlayer.worldObj.getBlock(x, y, z).onBlockActivated(entityPlayer.worldObj, x, y, z, entityPlayer, side, 1.0F, 1.0F, 1.0F);
+        boolean result = entityPlayer
+                .worldObj
+                .getBlock(x, y, z)
+                .onBlockActivated(entityPlayer.worldObj, x, y, z, entityPlayer, side, 1.0F, 1.0F, 1.0F);
 
         if (!result) {
             if (itemStack != null && itemStack.getItem() instanceof ItemBlock) {
@@ -39,10 +40,8 @@ public class PacketActivateBlock extends TilePacket {
     }
 
     @Override
-    public void appendData(ByteBuf buffer) throws IOException
-    {
+    public void appendData(ByteBuf buffer) throws IOException {
         super.appendData(buffer);
         buffer.writeInt(side);
     }
-
 }

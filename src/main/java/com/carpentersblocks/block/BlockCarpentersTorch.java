@@ -1,5 +1,16 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Torch;
+import com.carpentersblocks.data.Torch.State;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.tileentity.TECarpentersTorch;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.FeatureRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -14,25 +25,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Torch;
-import com.carpentersblocks.data.Torch.State;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.tileentity.TECarpentersTorch;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.FeatureRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersTorch extends BlockSided {
 
     private static final Torch data = new Torch();
-    public final static String type[] = { "vanilla", "lantern" };
+    public static final String type[] = {"vanilla", "lantern"};
 
-    public BlockCarpentersTorch(Material material)
-    {
+    public BlockCarpentersTorch(Material material) {
         super(material, data);
     }
 
@@ -42,13 +41,16 @@ public class BlockCarpentersTorch extends BlockSided {
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
      */
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
-        IconRegistry.icon_torch                 = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch");
-        IconRegistry.icon_torch_head_lit        = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_lit");
-        IconRegistry.icon_torch_head_smoldering = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_smoldering");
-        IconRegistry.icon_torch_head_unlit      = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_unlit");
-        IconRegistry.icon_lantern_glass         = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/lantern_glass");
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        IconRegistry.icon_torch = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch");
+        IconRegistry.icon_torch_head_lit =
+                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_lit");
+        IconRegistry.icon_torch_head_smoldering =
+                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_smoldering");
+        IconRegistry.icon_torch_head_unlit =
+                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_unlit");
+        IconRegistry.icon_lantern_glass =
+                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/lantern_glass");
     }
 
     @SideOnly(Side.CLIENT)
@@ -56,18 +58,15 @@ public class BlockCarpentersTorch extends BlockSided {
     /**
      * Returns the icon on the side given the block metadata.
      */
-    public IIcon getIcon(int side, int metadata)
-    {
+    public IIcon getIcon(int side, int metadata) {
         return IconRegistry.icon_torch;
     }
-
 
     @Override
     /**
      * Cycle forwards through types.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int temp = data.getType(TE);
 
         if (++temp > type.length - 1) {
@@ -82,8 +81,7 @@ public class BlockCarpentersTorch extends BlockSided {
     /**
      * Cycle backwards through types.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         int temp = data.getType(TE);
 
         if (--temp < 0) {
@@ -98,8 +96,14 @@ public class BlockCarpentersTorch extends BlockSided {
      * Called when block is activated (right-click), before normal processing resumes.
      */
     @Override
-    protected void preOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ, ActionResult actionResult)
-    {
+    protected void preOnBlockActivated(
+            TEBase TE,
+            EntityPlayer entityPlayer,
+            int side,
+            float hitX,
+            float hitY,
+            float hitZ,
+            ActionResult actionResult) {
         ItemStack itemStack = entityPlayer.getHeldItem();
 
         if (itemStack != null && itemStack.getItem() instanceof ItemBlock) {
@@ -118,8 +122,7 @@ public class BlockCarpentersTorch extends BlockSided {
      * cleared to be reused)
      */
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         TEBase TE = getTileEntity(world, x, y, z);
 
         if (TE != null && data.getType(TE) == data.TYPE_LANTERN) {
@@ -133,8 +136,7 @@ public class BlockCarpentersTorch extends BlockSided {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -170,8 +172,7 @@ public class BlockCarpentersTorch extends BlockSided {
      * @return whether side is supported
      */
     @Override
-    public boolean canAttachToSide(int side)
-    {
+    public boolean canAttachToSide(int side) {
         return side != 0;
     }
 
@@ -179,8 +180,7 @@ public class BlockCarpentersTorch extends BlockSided {
      * Ticks the block if it's been scheduled
      */
     @Override
-    public void updateTick(World world, int x, int y, int z, Random random)
-    {
+    public void updateTick(World world, int x, int y, int z, Random random) {
         if (!world.isRemote) {
 
             TEBase TE = getTileEntity(world, x, y, z);
@@ -208,11 +208,10 @@ public class BlockCarpentersTorch extends BlockSided {
                             data.setState(TE, State.SMOLDERING);
                         }
                         break;
-                    default: {}
+                    default: {
+                    }
                 }
-
             }
-
         }
     }
 
@@ -221,15 +220,12 @@ public class BlockCarpentersTorch extends BlockSided {
     /**
      * A randomly called display update to be able to add particles or other items for display
      */
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
         TEBase TE = getTileEntity(world, x, y, z);
 
-        if (TE != null)
-        {
+        if (TE != null) {
             State state = data.getState(TE);
-            if (!state.equals(State.UNLIT))
-            {
+            if (!state.equals(State.UNLIT)) {
                 double[] headCoords = data.getHeadCoordinates(TE);
                 world.spawnParticle("smoke", headCoords[0], headCoords[1], headCoords[2], 0.0D, 0.0D, 0.0D);
                 if (state.equals(State.LIT)) {
@@ -242,8 +238,7 @@ public class BlockCarpentersTorch extends BlockSided {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
-    {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TECarpentersTorch();
     }
 
@@ -251,9 +246,7 @@ public class BlockCarpentersTorch extends BlockSided {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersTorchRenderID;
     }
-
 }

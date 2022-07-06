@@ -1,5 +1,10 @@
 package com.carpentersblocks.util.handler;
 
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.FeatureRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.block.Block;
@@ -8,11 +13,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.FeatureRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class OverlayHandler {
 
@@ -41,8 +41,7 @@ public class OverlayHandler {
     /**
      * Initializes overlay definitions from configuration file.
      */
-    public static void init()
-    {
+    public static void init() {
         for (String name : FeatureRegistry.overlayItems) {
 
             String itemName = name.substring(0, name.indexOf(":"));
@@ -64,17 +63,14 @@ public class OverlayHandler {
                 } else if (overlayType.equals("mycelium")) {
                     overlayMap.put(itemName, Overlay.MYCELIUM);
                 }
-
             }
-
         }
     }
 
     /**
      * Returns true if overlay covers a majority or all of side.
      */
-    public static boolean coversFullSide(Overlay overlay, int side)
-    {
+    public static boolean coversFullSide(Overlay overlay, int side) {
         switch (overlay) {
             case GRASS:
             case SNOW:
@@ -84,7 +80,8 @@ public class OverlayHandler {
             case WEB:
             case VINE:
                 return true;
-            default: {}
+            default: {
+            }
         }
         return true;
     }
@@ -92,8 +89,7 @@ public class OverlayHandler {
     /**
      * Returns overlay from qualified ItemStack.
      */
-    public static Overlay getOverlayType(ItemStack itemStack)
-    {
+    public static Overlay getOverlayType(ItemStack itemStack) {
         Object object = overlayMap.get(itemStack.getDisplayName());
 
         if (object == null) {
@@ -109,8 +105,7 @@ public class OverlayHandler {
      *
      * Returns null if there is no icon to return.
      */
-    public static IIcon getOverlayIcon(Overlay overlay, int side)
-    {
+    public static IIcon getOverlayIcon(Overlay overlay, int side) {
         Block block = BlockProperties.toBlock(overlay.getItemStack());
 
         switch (overlay) {
@@ -126,7 +121,9 @@ public class OverlayHandler {
                     default:
                         switch (overlay) {
                             case GRASS:
-                                return RenderBlocks.fancyGrass ? BlockGrass.getIconSideOverlay() : IconRegistry.icon_overlay_fast_grass_side;
+                                return RenderBlocks.fancyGrass
+                                        ? BlockGrass.getIconSideOverlay()
+                                        : IconRegistry.icon_overlay_fast_grass_side;
                             case SNOW:
                                 return IconRegistry.icon_overlay_snow_side;
                             case HAY:
@@ -145,5 +142,4 @@ public class OverlayHandler {
             }
         }
     }
-
 }

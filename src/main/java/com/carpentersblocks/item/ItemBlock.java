@@ -11,8 +11,8 @@ public class ItemBlock extends Item {
     /**
      * Places the block in the world and calls post-placement methods.
      */
-    protected boolean placeBlock(World world, Block block, EntityPlayer entityPlayer, ItemStack itemStack, int x, int y, int z)
-    {
+    protected boolean placeBlock(
+            World world, Block block, EntityPlayer entityPlayer, ItemStack itemStack, int x, int y, int z) {
         if (world.setBlock(x, y, z, block, 0, 4)) {
 
             block.onBlockPlacedBy(world, x, y, z, entityPlayer, itemStack);
@@ -23,8 +23,6 @@ public class ItemBlock extends Item {
         } else {
 
             return false;
-
         }
     }
-
 }

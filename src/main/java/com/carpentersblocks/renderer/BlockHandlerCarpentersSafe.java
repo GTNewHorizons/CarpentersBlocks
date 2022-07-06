@@ -1,12 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import java.util.ArrayList;
-import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.block.BlockCarpentersSafe;
 import com.carpentersblocks.data.Safe;
 import com.carpentersblocks.tileentity.TECarpentersSafe;
@@ -14,6 +7,13 @@ import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.IconRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
@@ -28,8 +28,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
 
         public double xMin, yMin, zMin, xMax, yMax, zMax;
 
-        public Component(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax)
-        {
+        public Component(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax) {
             this.xMin = xMin;
             this.yMin = yMin;
             this.zMin = zMin;
@@ -37,10 +36,10 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
             this.yMax = yMax;
             this.zMax = zMax;
         }
-
     }
 
-    private final static List<Component> coverList;
+    private static final List<Component> coverList;
+
     static {
         coverList = new ArrayList<Component>();
         coverList.add(new Component(0.0D, 0.0D, 0.0D, 0.0625D, 1.0D, 1.0D));
@@ -56,7 +55,8 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         coverList.add(new Component(0.375D, 0.3125D, 0.0625D, 0.9375D, 0.375D, 0.875D));
     }
 
-    private final static List<Component> panelList;
+    private static final List<Component> panelList;
+
     static {
         panelList = new ArrayList<Component>();
         panelList.add(new Component(0.125D, 0.875D, 0.9375D, 0.25D, 0.9375D, 1.0D));
@@ -67,16 +67,15 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         panelList.add(new Component(0.0625D, 0.0625D, 0.875D, 0.3125D, 0.9375D, 0.9375D));
     }
 
-    private final int LOCKED_ACTIVE     = 0xff0000;
-    private final int LOCKED_INACTIVE   = 0x7e3636;
-    private final int UNLOCKED_ACTIVE   = 0x00ff00;
+    private final int LOCKED_ACTIVE = 0xff0000;
+    private final int LOCKED_INACTIVE = 0x7e3636;
+    private final int UNLOCKED_ACTIVE = 0x00ff00;
     private final int UNLOCKED_INACTIVE = 0x367e36;
-    private final int CAPACITY_ACTIVE   = 0x0000ff;
+    private final int CAPACITY_ACTIVE = 0x0000ff;
     private final int CAPACITY_INACTIVE = 0x383884;
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks)
-    {
+    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks) {
         /* Cover components */
 
         for (Component comp : coverList) {
@@ -128,8 +127,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
     /**
      * Renders safe.
      */
-    protected void renderCarpentersBlock(int x, int y, int z)
-    {
+    protected void renderCarpentersBlock(int x, int y, int z) {
         renderBlocks.renderAllFaces = true;
 
         ItemStack itemStack = getCoverForRendering();
@@ -140,7 +138,8 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         /* Set panel material */
 
         if (TE.hasAttribute(TE.ATTR_UPGRADE)) {
-            String name = BlockProperties.getOreDictMatch(TE.getAttribute(TE.ATTR_UPGRADE), BlockCarpentersSafe.upgradeOres);
+            String name =
+                    BlockProperties.getOreDictMatch(TE.getAttribute(TE.ATTR_UPGRADE), BlockCarpentersSafe.upgradeOres);
             if (!"".equals(name)) {
                 for (int idx = 0; idx < BlockCarpentersSafe.upgradeOres.length; ++idx) {
                     if (BlockCarpentersSafe.upgradeOres[idx].equals(name)) {
@@ -155,10 +154,22 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         /* Render cover components */
 
         for (Component comp : coverList) {
-            renderBlockWithRotation(itemStack, x, y, z, comp.xMin, comp.yMin, comp.zMin, comp.xMax, comp.yMax, comp.zMax, dir);
+            renderBlockWithRotation(
+                    itemStack, x, y, z, comp.xMin, comp.yMin, comp.zMin, comp.xMax, comp.yMax, comp.zMax, dir);
         }
 
-        renderBlockWithRotation(itemStack, x, y, z, 0.375D, 0.0625D, 0.875F, isOpen ? 0.5625D : 0.9375D, 0.9375D, 0.9375D, dir); // Render sliding door
+        renderBlockWithRotation(
+                itemStack,
+                x,
+                y,
+                z,
+                0.375D,
+                0.0625D,
+                0.875F,
+                isOpen ? 0.5625D : 0.9375D,
+                0.9375D,
+                0.9375D,
+                dir); // Render sliding door
 
         suppressDyeColor = true;
         suppressOverlay = true;
@@ -167,10 +178,32 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         /* Render panel components */
 
         for (Component comp : panelList) {
-            renderBlockWithRotation(panelItemStack, x, y, z, comp.xMin, comp.yMin, comp.zMin, comp.xMax, comp.yMax, comp.zMax, dir); // Render panel
+            renderBlockWithRotation(
+                    panelItemStack,
+                    x,
+                    y,
+                    z,
+                    comp.xMin,
+                    comp.yMin,
+                    comp.zMin,
+                    comp.xMax,
+                    comp.yMax,
+                    comp.zMax,
+                    dir); // Render panel
         }
 
-        renderBlockWithRotation(panelItemStack, x, y, z, isOpen ? 0.4375D : 0.8125D, 0.375D, 0.9375D, isOpen ? 0.5D : 0.875D, 0.625D, 1.0D, dir); // Render handle
+        renderBlockWithRotation(
+                panelItemStack,
+                x,
+                y,
+                z,
+                isOpen ? 0.4375D : 0.8125D,
+                0.375D,
+                0.9375D,
+                isOpen ? 0.5D : 0.875D,
+                0.625D,
+                1.0D,
+                dir); // Render handle
 
         disableAO = true;
         setIconOverride(6, IconRegistry.icon_safe_light);
@@ -188,8 +221,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         renderBlocks.renderAllFaces = false;
     }
 
-    private void renderPartCapacityLight(int x, int y, int z)
-    {
+    private void renderPartCapacityLight(int x, int y, int z) {
         double yMin = 0.125D;
         double yMax = 0.1875D;
 
@@ -208,8 +240,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
 
         /* Draw capacity light strip */
 
-        for (int box = 0; box < 9; ++box)
-        {
+        for (int box = 0; box < 9; ++box) {
             if (box + 1 <= capacity) {
                 lightingHelper.setLightnessOverride(1.0F);
                 lightingHelper.setBrightnessOverride(lightingHelper.MAX_BRIGHTNESS);
@@ -229,8 +260,7 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         }
     }
 
-    private void renderPartLockLight(int x, int y, int z)
-    {
+    private void renderPartLockLight(int x, int y, int z) {
         if (isLocked) {
             lightingHelper.setColorOverride(UNLOCKED_INACTIVE);
         } else {
@@ -259,5 +289,4 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         lightingHelper.clearBrightnessOverride();
         lightingHelper.clearLightnessOverride();
     }
-
 }

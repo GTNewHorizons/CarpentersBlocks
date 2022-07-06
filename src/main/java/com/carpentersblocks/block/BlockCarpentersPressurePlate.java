@@ -1,5 +1,12 @@
 package com.carpentersblocks.block;
 
+import com.carpentersblocks.data.PressurePlate;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -11,13 +18,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import com.carpentersblocks.data.PressurePlate;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersPressurePlate extends BlockSided {
 
@@ -26,8 +26,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /** Whether full bounds should be used for collision purposes. */
     private boolean fullBounds = false;
 
-    public BlockCarpentersPressurePlate(Material material)
-    {
+    public BlockCarpentersPressurePlate(Material material) {
         super(material, data);
     }
 
@@ -37,8 +36,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
      * Returns a base icon that doesn't rely on blockIcon, which
      * is set prior to texture stitch events.
      */
-    public IIcon getIcon()
-    {
+    public IIcon getIcon() {
         return IconRegistry.icon_uncovered_full;
     }
 
@@ -46,8 +44,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Alters polarity.
      */
-    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int polarity = data.getPolarity(TE) == data.POLARITY_POSITIVE ? data.POLARITY_NEGATIVE : data.POLARITY_POSITIVE;
 
         data.setPolarity(TE, polarity);
@@ -66,8 +63,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Alters trigger behavior.
      */
-    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer)
-    {
+    protected boolean onHammerRightClick(TEBase TE, EntityPlayer entityPlayer) {
         int trigger = data.getTriggerEntity(TE);
 
         if (++trigger > 3) {
@@ -95,8 +91,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
      * cleared to be reused)
      */
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         return null;
     }
 
@@ -104,8 +99,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
-    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess blockAccess, int x, int y, int z) {
         TEBase TE = getTileEntity(blockAccess, x, y, z);
 
         if (TE != null) {
@@ -118,8 +112,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Ticks the block if it's been scheduled
      */
-    public void updateTick(World world, int x, int y, int z, Random random)
-    {
+    public void updateTick(World world, int x, int y, int z, Random random) {
         if (!world.isRemote) {
 
             TEBase TE = getTileEntity(world, x, y, z);
@@ -137,9 +130,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
                 } else {
                     toggleOff(TE, world, x, y, z);
                 }
-
             }
-
         }
     }
 
@@ -147,8 +138,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Triggered whenever an entity collides with this block (enters into the block). Args: world, x, y, z, entity
      */
-    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
-    {
+    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
         if (!world.isRemote) {
             TEBase TE = getTileEntity(world, x, y, z);
             if (TE != null) {
@@ -166,15 +156,16 @@ public class BlockCarpentersPressurePlate extends BlockSided {
      * @param  TE the {@link TEBase}
      * @return whether sensitive area contains valid {@link Entity}
      */
-    private boolean hasTriggerInBounds(TEBase TE)
-    {
+    private boolean hasTriggerInBounds(TEBase TE) {
         fullBounds = true;
-        List entityList = TE.getWorldObj().getEntitiesWithinAABB(Entity.class, getSensitiveAABB(TE.getWorldObj(), TE.xCoord, TE.yCoord, TE.zCoord));
+        List entityList = TE.getWorldObj()
+                .getEntitiesWithinAABB(
+                        Entity.class, getSensitiveAABB(TE.getWorldObj(), TE.xCoord, TE.yCoord, TE.zCoord));
         fullBounds = false;
 
         if (!entityList.isEmpty()) {
             for (int idx = 0; idx < entityList.size(); ++idx) {
-                if (canEntityTrigger(TE, (Entity)entityList.get(idx))) {
+                if (canEntityTrigger(TE, (Entity) entityList.get(idx))) {
                     return true;
                 }
             }
@@ -191,8 +182,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
      * @param  z the z coordinate
      * @return the {@link AxisAlignedBB}
      */
-    private AxisAlignedBB getSensitiveAABB(World world, int x, int y, int z)
-    {
+    private AxisAlignedBB getSensitiveAABB(World world, int x, int y, int z) {
         setBlockBoundsBasedOnState(world, x, y, z);
         return AxisAlignedBB.getBoundingBox(x + minX, y + minY, z + minZ, x + maxX, y + maxY, z + maxZ);
     }
@@ -200,8 +190,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Activates pressure plate.
      */
-    private void toggleOn(TEBase TE, World world, int x, int y, int z)
-    {
+    private void toggleOn(TEBase TE, World world, int x, int y, int z) {
         data.setState(TE, data.STATE_ON, true);
         notifyBlocksOfPowerChange(world, x, y, z);
         world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
@@ -210,8 +199,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Deactivates pressure plate.
      */
-    private void toggleOff(TEBase TE, World world, int x, int y, int z)
-    {
+    private void toggleOff(TEBase TE, World world, int x, int y, int z) {
         data.setState(TE, data.STATE_OFF, true);
         notifyBlocksOfPowerChange(world, x, y, z);
     }
@@ -219,8 +207,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Returns whether pressure plate is in depressed state
      */
-    private boolean isDepressed(TEBase TE)
-    {
+    private boolean isDepressed(TEBase TE) {
         return data.getState(TE) == data.STATE_ON;
     }
 
@@ -228,8 +215,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Can this block provide power. Only wire currently seems to have this change based on its state.
      */
-    public boolean canProvidePower()
-    {
+    public boolean canProvidePower() {
         return true;
     }
 
@@ -237,8 +223,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
      * Returns power level (0 or 15)
      */
     @Override
-    public int getPowerOutput(TEBase TE)
-    {
+    public int getPowerOutput(TEBase TE) {
         int polarity = data.getPolarity(TE);
 
         if (isDepressed(TE)) {
@@ -251,8 +236,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Returns whether pressure plate should trigger based on entity colliding with it.
      */
-    private boolean canEntityTrigger(TEBase TE, Entity entity)
-    {
+    private boolean canEntityTrigger(TEBase TE, Entity entity) {
         if (entity == null) {
             return false;
         }
@@ -274,8 +258,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Ejects contained items into the world, and notifies neighbours of an update, as appropriate
      */
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata)
-    {
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
         TEBase TE = getSimpleTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -291,9 +274,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * The type of render function that is called for this block
      */
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRegistry.carpentersPressurePlateRenderID;
     }
-
 }
