@@ -1,18 +1,18 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.BlockProperties;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.BlockProperties;
 
 public class PressurePlate implements ISided {
 
     /**
      * 16-bit data components:
      *
-     * [000000000] [00]    [0]      [0]   [000]
-     * Unused      Trigger Polarity State Dir
+     * [000000000] [00] [0] [0] [000] Unused Trigger Polarity State Dir
      */
     public static final byte POLARITY_POSITIVE = 0;
 
@@ -57,8 +57,7 @@ public class PressurePlate implements ISided {
         int temp = (TE.getData() & ~0x8) | (state << 3);
         World world = TE.getWorldObj();
 
-        if (!world.isRemote
-                && BlockProperties.toBlock(BlockProperties.getCover(TE, 6)).getMaterial() != Material.cloth
+        if (!world.isRemote && BlockProperties.toBlock(BlockProperties.getCover(TE, 6)).getMaterial() != Material.cloth
                 && playSound
                 && getState(TE) != state) {
             world.playSoundEffect(

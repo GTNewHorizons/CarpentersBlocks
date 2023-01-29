@@ -1,20 +1,5 @@
 package com.carpentersblocks.util.handler;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.api.ICarpentersChisel;
-import com.carpentersblocks.api.ICarpentersHammer;
-import com.carpentersblocks.block.BlockCoverable;
-import com.carpentersblocks.network.PacketActivateBlock;
-import com.carpentersblocks.network.PacketSlopeSelect;
-import com.carpentersblocks.renderer.helper.ParticleHelper;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -39,6 +24,23 @@ import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.api.ICarpentersChisel;
+import com.carpentersblocks.api.ICarpentersHammer;
+import com.carpentersblocks.block.BlockCoverable;
+import com.carpentersblocks.network.PacketActivateBlock;
+import com.carpentersblocks.network.PacketSlopeSelect;
+import com.carpentersblocks.renderer.helper.ParticleHelper;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.BlockRegistry;
+
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EventHandler {
 
@@ -67,8 +69,7 @@ public class EventHandler {
 
     @SubscribeEvent
     /**
-     * Used to prevent block destruction if block is a Carpenter's Block
-     * and player is holding a Carpenter's tool.
+     * Used to prevent block destruction if block is a Carpenter's Block and player is holding a Carpenter's tool.
      */
     public void onBlockBreakEvent(BlockEvent.BreakEvent event) {
         EntityPlayer entityPlayer = event.getPlayer();
@@ -93,9 +94,8 @@ public class EventHandler {
 
     @SubscribeEvent
     /**
-     * Used to store side clicked and also forces onBlockActivated
-     * event when entityPlayer is sneaking and activates block with the
-     * Carpenter's Hammer.
+     * Used to store side clicked and also forces onBlockActivated event when entityPlayer is sneaking and activates
+     * block with the Carpenter's Hammer.
      */
     public void onPlayerInteractEvent(PlayerInteractEvent event) {
         if (event.isCanceled()) {
@@ -111,8 +111,9 @@ public class EventHandler {
 
             ItemStack itemStack = eventEntityPlayer.getHeldItem();
 
-            MovingObjectPosition object =
-                    getMovingObjectPositionFromPlayer(eventEntityPlayer.worldObj, eventEntityPlayer);
+            MovingObjectPosition object = getMovingObjectPositionFromPlayer(
+                    eventEntityPlayer.worldObj,
+                    eventEntityPlayer);
 
             if (object != null) {
                 hitX = (float) object.hitVec.xCoord - event.x;
@@ -124,21 +125,22 @@ public class EventHandler {
 
             switch (event.action) {
                 case LEFT_CLICK_BLOCK:
-                    boolean toolEquipped = itemStack != null
-                            && (itemStack.getItem() instanceof ICarpentersHammer
-                                    || itemStack.getItem() instanceof ICarpentersChisel);
+                    boolean toolEquipped = itemStack != null && (itemStack.getItem() instanceof ICarpentersHammer
+                            || itemStack.getItem() instanceof ICarpentersChisel);
 
                     /*
-                     * Creative mode doesn't normally invoke onBlockClicked(), but rather it tries
-                     * to destroy the block.
-                     *
+                     * Creative mode doesn't normally invoke onBlockClicked(), but rather it tries to destroy the block.
                      * We'll invoke it here when a Carpenter's tool is being held.
                      */
 
                     if (!event.entity.worldObj.isRemote) {
                         if (toolEquipped && eventEntityPlayer.capabilities.isCreativeMode) {
                             block.onBlockClicked(
-                                    eventEntityPlayer.worldObj, event.x, event.y, event.z, eventEntityPlayer);
+                                    eventEntityPlayer.worldObj,
+                                    event.x,
+                                    event.y,
+                                    event.z,
+                                    eventEntityPlayer);
                         }
                     }
 
@@ -146,23 +148,18 @@ public class EventHandler {
                 case RIGHT_CLICK_BLOCK:
 
                     /*
-                     * To enable full functionality with the hammer, we need to override pretty
-                     * much everything that happens on sneak right-click.
-                     *
-                     * In order to invoke onBlockActivated() server-side, we must send a packet
-                     * from the client.
-                     *
-                     * The server will receive the packet and attempt to alter the Carpenter's
-                     * block.  If nothing changes, vanilla behavior will resume - the Item(Block)
-                     * in the ItemStack (if applicable) will be created adjacent to block.
+                     * To enable full functionality with the hammer, we need to override pretty much everything that
+                     * happens on sneak right-click. In order to invoke onBlockActivated() server-side, we must send a
+                     * packet from the client. The server will receive the packet and attempt to alter the Carpenter's
+                     * block. If nothing changes, vanilla behavior will resume - the Item(Block) in the ItemStack (if
+                     * applicable) will be created adjacent to block.
                      */
 
                     if (eventEntityPlayer.isSneaking()) {
-                        if (!(itemStack != null
-                                && itemStack.getItem() instanceof ItemBlock
+                        if (!(itemStack != null && itemStack.getItem() instanceof ItemBlock
                                 && !BlockProperties.isOverlay(itemStack))) {
-                            event.setCanceled(
-                                    true); // Normally prevents server event, but sometimes it doesn't, so check below
+                            event.setCanceled(true); // Normally prevents server event, but sometimes it doesn't, so
+                                                     // check below
                             if (event.entity.worldObj.isRemote) {
                                 PacketHandler.sendPacketToServer(
                                         new PacketActivateBlock(event.x, event.y, event.z, event.face));
@@ -171,8 +168,7 @@ public class EventHandler {
                     }
 
                     break;
-                default: {
-                }
+                default: {}
             }
         }
     }
@@ -189,8 +185,7 @@ public class EventHandler {
 
             if (entityPlayer != null && entityPlayer.isSneaking()) {
                 ItemStack itemStack = entityPlayer.getHeldItem();
-                if (itemStack != null
-                        && itemStack.getItem() instanceof ItemBlock
+                if (itemStack != null && itemStack.getItem() instanceof ItemBlock
                         && BlockProperties.toBlock(itemStack).equals(BlockRegistry.blockCarpentersSlope)) {
                     if (event.dwheel != 0) {
                         PacketHandler.sendPacketToServer(
@@ -203,15 +198,13 @@ public class EventHandler {
     }
 
     /**
-     * Returns the MovingObjectPosition of block hit by player.
-     * Adapted from protected method of same name in Item.class.
+     * Returns the MovingObjectPosition of block hit by player. Adapted from protected method of same name in
+     * Item.class.
      */
     private MovingObjectPosition getMovingObjectPositionFromPlayer(World world, EntityPlayer entityPlayer) {
         double xPos = entityPlayer.prevPosX + (entityPlayer.posX - entityPlayer.prevPosX);
-        double yPos = entityPlayer.prevPosY
-                + (entityPlayer.posY - entityPlayer.prevPosY)
-                + (world.isRemote
-                        ? entityPlayer.getEyeHeight() - entityPlayer.getDefaultEyeHeight()
+        double yPos = entityPlayer.prevPosY + (entityPlayer.posY - entityPlayer.prevPosY)
+                + (world.isRemote ? entityPlayer.getEyeHeight() - entityPlayer.getDefaultEyeHeight()
                         : entityPlayer.getEyeHeight());
         double zPos = entityPlayer.prevPosZ + (entityPlayer.posZ - entityPlayer.prevPosZ);
 
@@ -241,9 +234,8 @@ public class EventHandler {
         World world = entity.worldObj;
 
         /*
-         * The purpose of the function is to manifest sprint particles
-         * and adjust slipperiness when entity is moving on block, so check
-         * that the conditions are met first.
+         * The purpose of the function is to manifest sprint particles and adjust slipperiness when entity is moving on
+         * block, so check that the conditions are met first.
          */
         if (!isMovingOnGround(entity)) {
             return;
@@ -272,20 +264,18 @@ public class EventHandler {
     }
 
     /**
-     * {@link onPlaySoundEvent} is used differently for singleplayer
-     * and multiplayer sound events. This will try to locate the {@link TEBase}
-     * that best represents the origin of the sound.
+     * {@link onPlaySoundEvent} is used differently for singleplayer and multiplayer sound events. This will try to
+     * locate the {@link TEBase} that best represents the origin of the sound.
      * <p>
-     * In singleplayer, this is normally the origin since it's used mainly
-     * for placement and destruction sounds.
+     * In singleplayer, this is normally the origin since it's used mainly for placement and destruction sounds.
      * <p>
-     * In multiplayer, foreign players produce this event for step sounds,
-     * requiring a y offset of -1 to approximate the origin.
+     * In multiplayer, foreign players produce this event for step sounds, requiring a y offset of -1 to approximate the
+     * origin.
      *
-     * @param  world the {@link World}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param world the {@link World}
+     * @param x     the x coordinate
+     * @param y     the y coordinate
+     * @param z     the z coordinate
      * @return an approximate {@link TEBase} used for producing a sound
      */
     private TEBase getApproximateSoundOrigin(World world, int x, int y, int z) {
@@ -356,8 +346,8 @@ public class EventHandler {
             Entity entity = event.entity;
 
             /*
-             * The function to my knowledge is only used for playing walking sounds
-             * at entity, so we'll check for the conditions first.
+             * The function to my knowledge is only used for playing walking sounds at entity, so we'll check for the
+             * conditions first.
              */
             if (!isMovingOnGround(entity)) {
                 return;
@@ -370,8 +360,8 @@ public class EventHandler {
                 event.name = Blocks.planks.stepSound.getStepResourcePath();
 
                 // Gather accurate SoundType based on block properties
-                Block block = BlockProperties.toBlock(
-                        BlockProperties.getFeatureSensitiveSideItemStack(TE, ForgeDirection.UP));
+                Block block = BlockProperties
+                        .toBlock(BlockProperties.getFeatureSensitiveSideItemStack(TE, ForgeDirection.UP));
                 if (!(block instanceof BlockCoverable)) {
                     event.name = block.stepSound.getStepResourcePath();
                 }
@@ -401,8 +391,7 @@ public class EventHandler {
     }
 
     /**
-     * Determines if the player is moving in the x, z directions on
-     * solid ground.
+     * Determines if the player is moving in the x, z directions on solid ground.
      *
      * @param entity
      * @return

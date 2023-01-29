@@ -1,15 +1,15 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.tileentity.TEBase;
 
 public class DaylightSensor implements ISided {
 
     /**
      * 16-bit data components:
      *
-     * [000000] [000] [00]        [0]      [0000]
-     * Unused   Dir   Sensitivity Polarity LightLevel
+     * [000000] [000] [00] [0] [0000] Unused Dir Sensitivity Polarity LightLevel
      */
     public static final byte POLARITY_POSITIVE = 0;
 
@@ -83,8 +83,7 @@ public class DaylightSensor implements ISided {
     }
 
     /**
-     * Sets sensor to next sensitivity level.
-     * Returns new sensitivity.
+     * Sets sensor to next sensitivity level. Returns new sensitivity.
      */
     public int setNextSensitivity(TEBase TE) {
         int sensitivity = getSensitivity(TE);
@@ -101,7 +100,7 @@ public class DaylightSensor implements ISided {
     /**
      * Returns the operational state of the daylight sensor.
      *
-     * @param  TE the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return true if sensor is outputting redstone current
      */
     public boolean isActive(TEBase TE) {
@@ -111,7 +110,7 @@ public class DaylightSensor implements ISided {
     /**
      * Gets redstone output based on sensor polarity, sensitivity, and light level.
      *
-     * @param  TE the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return redstone output between 0 and 15
      */
     public int getRedstoneOutput(TEBase TE) {

@@ -1,18 +1,21 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.Hinge;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.data.Hinge;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockHinged extends BlockCoverable {
 
@@ -22,6 +25,7 @@ public class BlockHinged extends BlockCoverable {
 
     /**
      * Determines whether the bottom-most hinge requires a solid block underneath it.
+     * 
      * @return the result
      */
     protected boolean requiresFoundation() {
@@ -69,14 +73,8 @@ public class BlockHinged extends BlockCoverable {
     /**
      * Opens or closes hinge on right click.
      */
-    protected void postOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         if (!activationRequiresRedstone(TE)) {
             setHingeState(TE, Hinge.getState(TE) == Hinge.STATE_OPEN ? Hinge.STATE_CLOSED : Hinge.STATE_OPEN);
             actionResult.setAltered().setNoSound();
@@ -124,8 +122,7 @@ public class BlockHinged extends BlockCoverable {
         switch (facing) {
             case Hinge.FACING_XN:
                 if (TE_ZN != null) {
-                    if (piece == Hinge.getPiece(TE_ZN)
-                            && facing == Hinge.getFacing(TE_ZN)
+                    if (piece == Hinge.getPiece(TE_ZN) && facing == Hinge.getFacing(TE_ZN)
                             && hinge == Hinge.HINGE_LEFT
                             && Hinge.getHinge(TE_ZN) == Hinge.HINGE_RIGHT) {
                         list.add(TE_ZN);
@@ -133,8 +130,7 @@ public class BlockHinged extends BlockCoverable {
                     }
                 }
                 if (TE_ZP != null) {
-                    if (piece == Hinge.getPiece(TE_ZP)
-                            && facing == Hinge.getFacing(TE_ZP)
+                    if (piece == Hinge.getPiece(TE_ZP) && facing == Hinge.getFacing(TE_ZP)
                             && hinge == Hinge.HINGE_RIGHT
                             && Hinge.getHinge(TE_ZP) == Hinge.HINGE_LEFT) {
                         list.add(TE_ZP);
@@ -145,8 +141,7 @@ public class BlockHinged extends BlockCoverable {
 
             case Hinge.FACING_XP:
                 if (TE_ZN != null) {
-                    if (piece == Hinge.getPiece(TE_ZN)
-                            && facing == Hinge.getFacing(TE_ZN)
+                    if (piece == Hinge.getPiece(TE_ZN) && facing == Hinge.getFacing(TE_ZN)
                             && hinge == Hinge.HINGE_RIGHT
                             && Hinge.getHinge(TE_ZN) == Hinge.HINGE_LEFT) {
                         list.add(TE_ZN);
@@ -154,8 +149,7 @@ public class BlockHinged extends BlockCoverable {
                     }
                 }
                 if (TE_ZP != null) {
-                    if (piece == Hinge.getPiece(TE_ZP)
-                            && facing == Hinge.getFacing(TE_ZP)
+                    if (piece == Hinge.getPiece(TE_ZP) && facing == Hinge.getFacing(TE_ZP)
                             && hinge == Hinge.HINGE_LEFT
                             && Hinge.getHinge(TE_ZP) == Hinge.HINGE_RIGHT) {
                         list.add(TE_ZP);
@@ -166,8 +160,7 @@ public class BlockHinged extends BlockCoverable {
 
             case Hinge.FACING_ZN: {
                 if (TE_XN != null) {
-                    if (piece == Hinge.getPiece(TE_XN)
-                            && facing == Hinge.getFacing(TE_XN)
+                    if (piece == Hinge.getPiece(TE_XN) && facing == Hinge.getFacing(TE_XN)
                             && hinge == Hinge.HINGE_RIGHT
                             && Hinge.getHinge(TE_XN) == Hinge.HINGE_LEFT) {
                         list.add(TE_XN);
@@ -175,8 +168,7 @@ public class BlockHinged extends BlockCoverable {
                     }
                 }
                 if (TE_XP != null) {
-                    if (piece == Hinge.getPiece(TE_XP)
-                            && facing == Hinge.getFacing(TE_XP)
+                    if (piece == Hinge.getPiece(TE_XP) && facing == Hinge.getFacing(TE_XP)
                             && hinge == Hinge.HINGE_LEFT
                             && Hinge.getHinge(TE_XP) == Hinge.HINGE_RIGHT) {
                         list.add(TE_XP);
@@ -187,8 +179,7 @@ public class BlockHinged extends BlockCoverable {
             }
             case Hinge.FACING_ZP:
                 if (TE_XN != null) {
-                    if (piece == Hinge.getPiece(TE_XN)
-                            && facing == Hinge.getFacing(TE_XN)
+                    if (piece == Hinge.getPiece(TE_XN) && facing == Hinge.getFacing(TE_XN)
                             && hinge == Hinge.HINGE_LEFT
                             && Hinge.getHinge(TE_XN) == Hinge.HINGE_RIGHT) {
                         list.add(TE_XN);
@@ -196,8 +187,7 @@ public class BlockHinged extends BlockCoverable {
                     }
                 }
                 if (TE_XP != null) {
-                    if (piece == Hinge.getPiece(TE_XP)
-                            && facing == Hinge.getFacing(TE_XP)
+                    if (piece == Hinge.getPiece(TE_XP) && facing == Hinge.getFacing(TE_XP)
                             && hinge == Hinge.HINGE_RIGHT
                             && Hinge.getHinge(TE_XP) == Hinge.HINGE_LEFT) {
                         list.add(TE_XP);
@@ -298,8 +288,7 @@ public class BlockHinged extends BlockCoverable {
     }
 
     /**
-     * Cycle hinge state.
-     * Will update all connecting hinge pieces.
+     * Cycle hinge state. Will update all connecting hinge pieces.
      */
     public void setHingeState(TEBase TE, int state) {
         List<TEBase> hingePieces = getHingePieces(TE);
@@ -309,8 +298,7 @@ public class BlockHinged extends BlockCoverable {
     }
 
     /**
-     * Updates hinge type.
-     * Will also update adjoining hinge piece.
+     * Updates hinge type. Will also update adjoining hinge piece.
      */
     public void setHingeType(TEBase TE, int type) {
         Hinge.setType(TE, type);
@@ -318,8 +306,7 @@ public class BlockHinged extends BlockCoverable {
     }
 
     /**
-     * Set hinge rigidity.
-     * Will update all connecting hinge pieces.
+     * Set hinge rigidity. Will update all connecting hinge pieces.
      */
     public void setHingeRigidity(TEBase TE, int rigidity) {
         List<TEBase> hingePieces = getHingePieces(TE);
@@ -329,8 +316,7 @@ public class BlockHinged extends BlockCoverable {
     }
 
     /**
-     * Updates hinge hinge side.
-     * Will also update adjoining hinge piece.
+     * Updates hinge hinge side. Will also update adjoining hinge piece.
      */
     public void setHingeSide(TEBase TE, int side) {
         Hinge.setHingeSide(TE, side);
@@ -367,9 +353,8 @@ public class BlockHinged extends BlockCoverable {
                 }
 
                 /*
-                 * Create list of hinge pieces and check state of each so
-                 * that they act as a single entity regardless of which
-                 * hinge piece receives this event.
+                 * Create list of hinge pieces and check state of each so that they act as a single entity regardless of
+                 * which hinge piece receives this event.
                  */
 
                 boolean isPowered = false;

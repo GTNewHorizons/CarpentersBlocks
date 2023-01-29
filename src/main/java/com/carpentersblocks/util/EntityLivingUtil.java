@@ -38,11 +38,10 @@ public class EntityLivingUtil {
     }
 
     /**
-     * Gets the {@link ForgeDirection} for a player rotation value returned
-     * by {@link #getRotationValue(EntityLivingBase)}, which by default will
-     * be the opposite facing of the {@link Entity}.
+     * Gets the {@link ForgeDirection} for a player rotation value returned by
+     * {@link #getRotationValue(EntityLivingBase)}, which by default will be the opposite facing of the {@link Entity}.
      *
-     * @param  rot the rotation value
+     * @param rot the rotation value
      * @return the {@link ForgeDirection}
      */
     public static ForgeDirection getRotationFacing(int rot) {
@@ -52,7 +51,7 @@ public class EntityLivingUtil {
     /**
      * Gets player facing as {@link ForgeDirection}.
      *
-     * @param  entityPlayer the {@link EntityLivingBase}
+     * @param entityPlayer the {@link EntityLivingBase}
      * @return the {@link ForgeDirection}
      */
     public static ForgeDirection getFacing(EntityLivingBase entity) {

@@ -1,18 +1,20 @@
 package com.carpentersblocks.item;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Hinge;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Hinge;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.BlockRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCarpentersDoor extends ItemBlock {
 
@@ -32,23 +34,13 @@ public class ItemCarpentersDoor extends ItemBlock {
      * Callback for item usage. If the item does something special on right clicking, it will have one of these. Return
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
      */
-    public boolean onItemUse(
-            ItemStack itemStack,
-            EntityPlayer entityPlayer,
-            World world,
-            int x,
-            int y,
-            int z,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ) {
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side,
+            float hitX, float hitY, float hitZ) {
         if (side == 1) {
 
             ++y;
 
-            if (y < 255
-                    && entityPlayer.canPlayerEdit(x, y, z, side, itemStack)
+            if (y < 255 && entityPlayer.canPlayerEdit(x, y, z, side, itemStack)
                     && entityPlayer.canPlayerEdit(x, y + 1, z, side, itemStack)
                     && world.isAirBlock(x, y, z)
                     && world.isAirBlock(x, y + 1, z)
@@ -110,8 +102,8 @@ public class ItemCarpentersDoor extends ItemBlock {
                 BlockProperties.playBlockSound(world, new ItemStack(BlockRegistry.blockCarpentersDoor), x, y, z, false);
 
                 if (!entityPlayer.capabilities.isCreativeMode && --itemStack.stackSize <= 0) {
-                    entityPlayer.inventory.setInventorySlotContents(
-                            entityPlayer.inventory.currentItem, (ItemStack) null);
+                    entityPlayer.inventory
+                            .setInventorySlotContents(entityPlayer.inventory.currentItem, (ItemStack) null);
                 }
 
                 return true;
@@ -122,8 +114,8 @@ public class ItemCarpentersDoor extends ItemBlock {
     }
 
     /**
-     * Returns a hinge point allowing double-doors if a matching neighboring door is found.
-     * It returns the default hinge point if no neighboring doors are found.
+     * Returns a hinge point allowing double-doors if a matching neighboring door is found. It returns the default hinge
+     * point if no neighboring doors are found.
      */
     private int getHingePoint(TEBase TE, Block block) {
         int facing = Hinge.getFacing(TE);
@@ -149,8 +141,7 @@ public class ItemCarpentersDoor extends ItemBlock {
         switch (facing) {
             case Hinge.FACING_XN:
                 if (TE_ZP != null) {
-                    if (piece == Hinge.getPiece(TE_ZP)
-                            && facing == Hinge.getFacing(TE_ZP)
+                    if (piece == Hinge.getPiece(TE_ZP) && facing == Hinge.getFacing(TE_ZP)
                             && Hinge.getHinge(TE_ZP) == Hinge.HINGE_LEFT) {
                         return Hinge.HINGE_RIGHT;
                     }
@@ -159,8 +150,7 @@ public class ItemCarpentersDoor extends ItemBlock {
                 break;
             case Hinge.FACING_XP:
                 if (TE_ZN != null) {
-                    if (piece == Hinge.getPiece(TE_ZN)
-                            && facing == Hinge.getFacing(TE_ZN)
+                    if (piece == Hinge.getPiece(TE_ZN) && facing == Hinge.getFacing(TE_ZN)
                             && Hinge.getHinge(TE_ZN) == Hinge.HINGE_LEFT) {
                         return Hinge.HINGE_RIGHT;
                     }
@@ -169,8 +159,7 @@ public class ItemCarpentersDoor extends ItemBlock {
                 break;
             case Hinge.FACING_ZN:
                 if (TE_XN != null) {
-                    if (piece == Hinge.getPiece(TE_XN)
-                            && facing == Hinge.getFacing(TE_XN)
+                    if (piece == Hinge.getPiece(TE_XN) && facing == Hinge.getFacing(TE_XN)
                             && Hinge.getHinge(TE_XN) == Hinge.HINGE_LEFT) {
                         return Hinge.HINGE_RIGHT;
                     }
@@ -179,8 +168,7 @@ public class ItemCarpentersDoor extends ItemBlock {
                 break;
             case Hinge.FACING_ZP:
                 if (TE_XP != null) {
-                    if (piece == Hinge.getPiece(TE_XP)
-                            && facing == Hinge.getFacing(TE_XP)
+                    if (piece == Hinge.getPiece(TE_XP) && facing == Hinge.getFacing(TE_XP)
                             && Hinge.getHinge(TE_XP) == Hinge.HINGE_LEFT) {
                         return Hinge.HINGE_RIGHT;
                     }

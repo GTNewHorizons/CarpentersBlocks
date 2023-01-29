@@ -1,18 +1,20 @@
 package com.carpentersblocks.renderer.helper;
 
-import com.carpentersblocks.data.FlowerPot;
-import com.carpentersblocks.renderer.BlockHandlerBase;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+
+import com.carpentersblocks.data.FlowerPot;
+import com.carpentersblocks.renderer.BlockHandlerBase;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderHelperFlowerPot extends RenderHelper {
@@ -24,8 +26,8 @@ public class RenderHelperFlowerPot extends RenderHelper {
         Block block = FlowerPotProperties.toBlock(itemStack);
         Tessellator tessellator = Tessellator.instance;
 
-        float[] rgb =
-                LightingHelper.getRGB(blockHandler.getBlockColor(block, itemStack.getItemDamage(), x, y, z, 1, null));
+        float[] rgb = LightingHelper
+                .getRGB(blockHandler.getBlockColor(block, itemStack.getItemDamage(), x, y, z, 1, null));
         blockHandler.lightingHelper.applyAnaglyph(rgb);
 
         tessellator.setColorOpaque_F(rgb[0], rgb[1], rgb[2]);
@@ -40,8 +42,8 @@ public class RenderHelperFlowerPot extends RenderHelper {
     /**
      * Renders a vanilla double tall plant.
      */
-    public static boolean renderBlockDoublePlant(
-            TEBase TE, RenderBlocks renderBlocks, ItemStack itemStack, int x, int y, int z, boolean thin) {
+    public static boolean renderBlockDoublePlant(TEBase TE, RenderBlocks renderBlocks, ItemStack itemStack, int x,
+            int y, int z, boolean thin) {
         BlockDoublePlant block = (BlockDoublePlant) FlowerPotProperties.toBlock(itemStack);
 
         Tessellator tessellator = Tessellator.instance;
@@ -121,15 +123,8 @@ public class RenderHelperFlowerPot extends RenderHelper {
     /**
      * Renders plant using crossed squares.
      */
-    public static boolean renderPlantCrossedSquares(
-            RenderBlocks renderBlocks,
-            Block block,
-            IIcon icon,
-            int x,
-            int y,
-            int z,
-            float scale,
-            boolean flip_vertical) {
+    public static boolean renderPlantCrossedSquares(RenderBlocks renderBlocks, Block block, IIcon icon, int x, int y,
+            int z, float scale, boolean flip_vertical) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y, z));
 
@@ -172,8 +167,8 @@ public class RenderHelperFlowerPot extends RenderHelper {
     /**
      * Renders thin plant using crossed squares.
      */
-    public static void renderPlantThinCrossedSquares(
-            RenderBlocks renderBlocks, Block block, IIcon icon, int x, int y, int z, boolean flip_vertical) {
+    public static void renderPlantThinCrossedSquares(RenderBlocks renderBlocks, Block block, IIcon icon, int x, int y,
+            int z, boolean flip_vertical) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y, z));
 
@@ -240,8 +235,8 @@ public class RenderHelperFlowerPot extends RenderHelper {
     /**
      * Renders vanilla cactus using "prickly" method.
      */
-    public static void drawPlantCactus(
-            LightingHelper lightingHelper, RenderBlocks renderBlocks, ItemStack itemStack, int x, int y, int z) {
+    public static void drawPlantCactus(LightingHelper lightingHelper, RenderBlocks renderBlocks, ItemStack itemStack,
+            int x, int y, int z) {
         Block block = BlockProperties.toBlock(itemStack);
         IIcon icon = block.getBlockTextureFromSide(2);
 

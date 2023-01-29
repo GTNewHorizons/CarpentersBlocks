@@ -1,18 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Safe;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.tileentity.TECarpentersSafe;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.EntityLivingUtil;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.protection.PlayerPermissions;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -26,15 +15,28 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Safe;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.tileentity.TECarpentersSafe;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.EntityLivingUtil;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.protection.PlayerPermissions;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockCarpentersSafe extends BlockCoverable {
 
     /** OreDictionary names for safe upgrade materials. */
-    public static final String[] upgradeOres = {"ingotGold", "gemDiamond", "gemEmerald"};
+    public static final String[] upgradeOres = { "ingotGold", "gemDiamond", "gemEmerald" };
 
     /** ItemStacks that represent panel material for {@link upgradeOres}. */
-    public static final ItemStack[] upgradeStack = {
-        new ItemStack(Blocks.gold_block), new ItemStack(Blocks.diamond_block), new ItemStack(Blocks.emerald_block)
-    };
+    public static final ItemStack[] upgradeStack = { new ItemStack(Blocks.gold_block),
+            new ItemStack(Blocks.diamond_block), new ItemStack(Blocks.emerald_block) };
 
     public BlockCarpentersSafe(Material material) {
         super(material);
@@ -159,14 +161,8 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * Called upon block activation (right click on the block.)
      */
-    protected void postOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         actionResult.setAltered();
 
         if (!Safe.isOpen(TE) && canPlayerActivate(TE, entityPlayer)) {
@@ -195,18 +191,18 @@ public class BlockCarpentersSafe extends BlockCoverable {
      * Location sensitive version of getExplosionRestance
      *
      * @param par1Entity The entity that caused the explosion
-     * @param world The current world
-     * @param x X Position
-     * @param y Y Position
-     * @param z Z Position
+     * @param world      The current world
+     * @param x          X Position
+     * @param y          Y Position
+     * @param z          Z Position
      * @param explosionX Explosion source X Position
      * @param explosionY Explosion source X Position
      * @param explosionZ Explosion source X Position
      * @return The amount of the explosion absorbed.
      */
     @Override
-    public float getExplosionResistance(
-            Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ) {
+    public float getExplosionResistance(Entity entity, World world, int x, int y, int z, double explosionX,
+            double explosionY, double explosionZ) {
         return Blocks.bedrock.getExplosionResistance(entity);
     }
 
@@ -215,10 +211,10 @@ public class BlockCarpentersSafe extends BlockCoverable {
      * Checks if the block is a solid face on the given side, used by placement logic.
      *
      * @param world The current world
-     * @param x X Position
-     * @param y Y position
-     * @param z Z position
-     * @param side The side to check
+     * @param x     X Position
+     * @param y     Y position
+     * @param z     Z position
+     * @param side  The side to check
      * @return True if the block is solid on the specified side.
      */
     public boolean isSideSolid(IBlockAccess blockAccess, int x, int y, int z, ForgeDirection side) {
@@ -236,12 +232,12 @@ public class BlockCarpentersSafe extends BlockCoverable {
     /**
      * This returns a complete list of items dropped from this block.
      *
-     * @param world The current world
-     * @param x X Position
-     * @param y Y Position
-     * @param z Z Position
+     * @param world    The current world
+     * @param x        X Position
+     * @param y        Y Position
+     * @param z        Z Position
      * @param metadata Current metadata
-     * @param fortune Breakers fortune level
+     * @param fortune  Breakers fortune level
      * @return A ArrayList containing all items this block drops
      */
     @Override
@@ -313,7 +309,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
 
     @Override
     public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
-        ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
+        ForgeDirection[] axises = { ForgeDirection.UP, ForgeDirection.DOWN };
         return axises;
     }
 
@@ -321,7 +317,7 @@ public class BlockCarpentersSafe extends BlockCoverable {
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
-        // if Axis is UP, block rotates to the right:  north -> east -> south -> west
+        // if Axis is UP, block rotates to the right: north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TEBase) {

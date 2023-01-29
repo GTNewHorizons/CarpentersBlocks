@@ -1,11 +1,12 @@
 package com.carpentersblocks.entity.item;
 
-import com.carpentersblocks.util.protection.IProtected;
-import com.carpentersblocks.util.protection.ProtectedObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.util.protection.IProtected;
+import com.carpentersblocks.util.protection.ProtectedObject;
 
 public class EntityBase extends Entity implements IProtected {
 

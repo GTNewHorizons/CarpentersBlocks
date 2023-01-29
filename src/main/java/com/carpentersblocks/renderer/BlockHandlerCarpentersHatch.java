@@ -1,14 +1,16 @@
 package com.carpentersblocks.renderer;
 
-import com.carpentersblocks.data.Hatch;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Hatch;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
@@ -110,7 +112,10 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     private void renderTypeFrame(ItemStack itemStack, int x, int y, int z) {
         renderPartFrame(itemStack, x, y, z);
         renderPartPane(
-                type == Hatch.TYPE_SCREEN ? IconRegistry.icon_hatch_screen : IconRegistry.icon_hatch_glass, x, y, z);
+                type == Hatch.TYPE_SCREEN ? IconRegistry.icon_hatch_screen : IconRegistry.icon_hatch_glass,
+                x,
+                y,
+                z);
         renderPartHandle(new ItemStack(Blocks.iron_block), x, y, z, true, true);
     }
 
@@ -139,8 +144,8 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     /**
      * Renders a hatch handle for the given coordinates.
      */
-    private void renderPartHandle(
-            ItemStack itemStack, int x, int y, int z, boolean renderInterior, boolean renderExterior) {
+    private void renderPartHandle(ItemStack itemStack, int x, int y, int z, boolean renderInterior,
+            boolean renderExterior) {
         if (!renderInterior && !renderExterior) {
             return;
         }
@@ -163,22 +168,85 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
                 int zTemp = z - dir.offsetZ;
 
                 renderBlockWithRotation(
-                        itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.9375D, 0.4375D, yMax, 1.0D, dir);
+                        itemStack,
+                        xTemp,
+                        yTemp,
+                        zTemp,
+                        0.375D,
+                        yMin,
+                        0.9375D,
+                        0.4375D,
+                        yMax,
+                        1.0D,
+                        dir);
                 renderBlockWithRotation(
-                        itemStack, xTemp, yTemp, zTemp, 0.5625D, yMin, 0.9375D, 0.625D, yMax, 1.0D, dir);
+                        itemStack,
+                        xTemp,
+                        yTemp,
+                        zTemp,
+                        0.5625D,
+                        yMin,
+                        0.9375D,
+                        0.625D,
+                        yMax,
+                        1.0D,
+                        dir);
                 renderBlockWithRotation(
-                        itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.875D, 0.625D, yMax, 0.9375D, dir);
+                        itemStack,
+                        xTemp,
+                        yTemp,
+                        zTemp,
+                        0.375D,
+                        yMin,
+                        0.875D,
+                        0.625D,
+                        yMax,
+                        0.9375D,
+                        dir);
 
             } else {
 
                 ForgeDirection dir = isHigh ? baseDir : baseDir.getOpposite();
 
                 renderBlockWithRotation(
-                        itemStack, x, y, z, 0.375D, yMin, 0.9375D - zOffset, 0.4375D, yMax, 1.0D - zOffset, side, dir);
+                        itemStack,
+                        x,
+                        y,
+                        z,
+                        0.375D,
+                        yMin,
+                        0.9375D - zOffset,
+                        0.4375D,
+                        yMax,
+                        1.0D - zOffset,
+                        side,
+                        dir);
                 renderBlockWithRotation(
-                        itemStack, x, y, z, 0.5625D, yMin, 0.9375D - zOffset, 0.625D, yMax, 1.0D - zOffset, side, dir);
+                        itemStack,
+                        x,
+                        y,
+                        z,
+                        0.5625D,
+                        yMin,
+                        0.9375D - zOffset,
+                        0.625D,
+                        yMax,
+                        1.0D - zOffset,
+                        side,
+                        dir);
                 renderBlockWithRotation(
-                        itemStack, x, y, z, 0.375D, yMin, 0.875D - zOffset, 0.625D, yMax, 0.9375D - zOffset, side, dir);
+                        itemStack,
+                        x,
+                        y,
+                        z,
+                        0.375D,
+                        yMin,
+                        0.875D - zOffset,
+                        0.625D,
+                        yMax,
+                        0.9375D - zOffset,
+                        side,
+                        dir);
             }
         }
 
@@ -187,11 +255,41 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
             if (isOpen) {
 
                 renderBlockWithRotation(
-                        itemStack, x, y, z, 0.375D, yMin, 0.9375D - zOffset, 0.4375D, yMax, 1.0D - zOffset, baseDir);
+                        itemStack,
+                        x,
+                        y,
+                        z,
+                        0.375D,
+                        yMin,
+                        0.9375D - zOffset,
+                        0.4375D,
+                        yMax,
+                        1.0D - zOffset,
+                        baseDir);
                 renderBlockWithRotation(
-                        itemStack, x, y, z, 0.5625D, yMin, 0.9375D - zOffset, 0.625D, yMax, 1.0D - zOffset, baseDir);
+                        itemStack,
+                        x,
+                        y,
+                        z,
+                        0.5625D,
+                        yMin,
+                        0.9375D - zOffset,
+                        0.625D,
+                        yMax,
+                        1.0D - zOffset,
+                        baseDir);
                 renderBlockWithRotation(
-                        itemStack, x, y, z, 0.375D, yMin, 0.875D - zOffset, 0.625D, yMax, 0.9375D - zOffset, baseDir);
+                        itemStack,
+                        x,
+                        y,
+                        z,
+                        0.375D,
+                        yMin,
+                        0.875D - zOffset,
+                        0.625D,
+                        yMax,
+                        0.9375D - zOffset,
+                        baseDir);
 
             } else {
 
@@ -202,11 +300,44 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
                 int zTemp = z - dir1.offsetZ;
 
                 renderBlockWithRotation(
-                        itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.9375D, 0.4375D, yMax, 1.0D, dir1, dir2);
+                        itemStack,
+                        xTemp,
+                        yTemp,
+                        zTemp,
+                        0.375D,
+                        yMin,
+                        0.9375D,
+                        0.4375D,
+                        yMax,
+                        1.0D,
+                        dir1,
+                        dir2);
                 renderBlockWithRotation(
-                        itemStack, xTemp, yTemp, zTemp, 0.5625D, yMin, 0.9375D, 0.625D, yMax, 1.0D, dir1, dir2);
+                        itemStack,
+                        xTemp,
+                        yTemp,
+                        zTemp,
+                        0.5625D,
+                        yMin,
+                        0.9375D,
+                        0.625D,
+                        yMax,
+                        1.0D,
+                        dir1,
+                        dir2);
                 renderBlockWithRotation(
-                        itemStack, xTemp, yTemp, zTemp, 0.375D, yMin, 0.875D, 0.625D, yMax, 0.9375D, dir1, dir2);
+                        itemStack,
+                        xTemp,
+                        yTemp,
+                        zTemp,
+                        0.375D,
+                        yMin,
+                        0.875D,
+                        0.625D,
+                        yMax,
+                        0.9375D,
+                        dir1,
+                        dir2);
             }
         }
 

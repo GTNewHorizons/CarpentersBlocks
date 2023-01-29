@@ -1,15 +1,15 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.tileentity.TEBase;
 
 public class Ladder implements ISided {
 
     /**
      * 16-bit data components:
      *
-     * [000000000] [0000] [000]
-     * Unused      Type   Dir
+     * [000000000] [0000] [000] Unused Type Dir
      */
     public static final byte DIR_ON_X = 0;
 

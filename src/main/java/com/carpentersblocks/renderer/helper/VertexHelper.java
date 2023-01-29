@@ -1,10 +1,12 @@
 package com.carpentersblocks.renderer.helper;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+
 import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class VertexHelper {
@@ -43,11 +45,10 @@ public class VertexHelper {
     /**
      * Sets draw mode internally.
      * <p>
-     * This would ordinarily force a draw and prepare the {@link Tessellator}
-     * with a new draw mode, but because alpha pass and ShadersModCore
-     * have issues with {@link GL11#GL11_GL_TRIANGLES Triangles}, we'll use
-     * a faux draw mode and transform {@link GL11#GL11_GL_TRIANGLES Triangles}
-     * to {@link GL11#GL11_GL_QUADS Quads} instead in method {@link #setupVertex}.
+     * This would ordinarily force a draw and prepare the {@link Tessellator} with a new draw mode, but because alpha
+     * pass and ShadersModCore have issues with {@link GL11#GL11_GL_TRIANGLES Triangles}, we'll use a faux draw mode and
+     * transform {@link GL11#GL11_GL_TRIANGLES Triangles} to {@link GL11#GL11_GL_QUADS Quads} instead in method
+     * {@link #setupVertex}.
      */
     public static void startDrawing(int inDrawMode) {
         drawMode = inDrawMode;
@@ -56,8 +57,7 @@ public class VertexHelper {
     /**
      * Gets floating icon flag.
      * <p>
-     * Floating icons translate down on y-axis so top of icon
-     * meets {@link RenderBlocks#renderMaxY}.
+     * Floating icons translate down on y-axis so top of icon meets {@link RenderBlocks#renderMaxY}.
      *
      * @return <code>true</code> if icon is floating
      */
@@ -122,20 +122,20 @@ public class VertexHelper {
     /**
      * Applies brightness, color, and adds vertex through tessellator.
      * <p>
-     * If {@link #drawMode} is {@link GL11#GL_TRIANGLES Triangles}, will automatically
-     * duplicate the third vertex to form a {@link GL11#GL_QUADS Quad}.
+     * If {@link #drawMode} is {@link GL11#GL_TRIANGLES Triangles}, will automatically duplicate the third vertex to
+     * form a {@link GL11#GL_QUADS Quad}.
      *
      * @param renderBlocks the {@link RenderBlocks}
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param z the z coordinate
-     * @param u the texture coordinate x-offset
-     * @param v the texture coordinate y-offset
-     * @param vertex the vertex corner
-     * @see   {@link #startDrawing(int)}
+     * @param x            the x coordinate
+     * @param y            the y coordinate
+     * @param z            the z coordinate
+     * @param u            the texture coordinate x-offset
+     * @param v            the texture coordinate y-offset
+     * @param vertex       the vertex corner
+     * @see {@link #startDrawing(int)}
      */
-    public static void setupVertex(
-            RenderBlocks renderBlocks, double x, double y, double z, double u, double v, int vertex) {
+    public static void setupVertex(RenderBlocks renderBlocks, double x, double y, double z, double u, double v,
+            int vertex) {
         Tessellator tessellator = Tessellator.instance;
 
         if (renderBlocks != null && renderBlocks.enableAO) {
@@ -146,32 +146,40 @@ public class VertexHelper {
                             (renderBlocks.colorRedBottomLeft + renderBlocks.colorRedBottomRight) / 2.0F,
                             (renderBlocks.colorGreenBottomLeft + renderBlocks.colorGreenBottomRight) / 2.0F,
                             (renderBlocks.colorBlueBottomLeft + renderBlocks.colorBlueBottomRight) / 2.0F);
-                    tessellator.setBrightness(LightingHelper.getAverageBrightness(
-                            renderBlocks.brightnessBottomLeft, renderBlocks.brightnessBottomRight));
+                    tessellator.setBrightness(
+                            LightingHelper.getAverageBrightness(
+                                    renderBlocks.brightnessBottomLeft,
+                                    renderBlocks.brightnessBottomRight));
                     break;
                 case TOP_CENTER:
                     tessellator.setColorOpaque_F(
                             (renderBlocks.colorRedTopLeft + renderBlocks.colorRedTopRight) / 2.0F,
                             (renderBlocks.colorGreenTopLeft + renderBlocks.colorGreenTopRight) / 2.0F,
                             (renderBlocks.colorBlueTopLeft + renderBlocks.colorBlueTopRight) / 2);
-                    tessellator.setBrightness(LightingHelper.getAverageBrightness(
-                            renderBlocks.brightnessTopLeft, renderBlocks.brightnessTopRight));
+                    tessellator.setBrightness(
+                            LightingHelper.getAverageBrightness(
+                                    renderBlocks.brightnessTopLeft,
+                                    renderBlocks.brightnessTopRight));
                     break;
                 case LEFT_CENTER:
                     tessellator.setColorOpaque_F(
                             (renderBlocks.colorRedTopLeft + renderBlocks.colorRedBottomLeft) / 2.0F,
                             (renderBlocks.colorGreenTopLeft + renderBlocks.colorGreenBottomLeft) / 2.0F,
                             (renderBlocks.colorBlueTopLeft + renderBlocks.colorBlueBottomLeft) / 2.0F);
-                    tessellator.setBrightness(LightingHelper.getAverageBrightness(
-                            renderBlocks.brightnessTopLeft, renderBlocks.brightnessBottomLeft));
+                    tessellator.setBrightness(
+                            LightingHelper.getAverageBrightness(
+                                    renderBlocks.brightnessTopLeft,
+                                    renderBlocks.brightnessBottomLeft));
                     break;
                 case RIGHT_CENTER:
                     tessellator.setColorOpaque_F(
                             (renderBlocks.colorRedTopRight + renderBlocks.colorRedBottomRight) / 2.0F,
                             (renderBlocks.colorGreenTopRight + renderBlocks.colorGreenBottomRight) / 2.0F,
                             (renderBlocks.colorBlueTopRight + renderBlocks.colorBlueBottomRight) / 2);
-                    tessellator.setBrightness(LightingHelper.getAverageBrightness(
-                            renderBlocks.brightnessTopRight, renderBlocks.brightnessBottomRight));
+                    tessellator.setBrightness(
+                            LightingHelper.getAverageBrightness(
+                                    renderBlocks.brightnessTopRight,
+                                    renderBlocks.brightnessBottomRight));
                     break;
                 case TOP_LEFT:
                     tessellator.setColorOpaque_F(

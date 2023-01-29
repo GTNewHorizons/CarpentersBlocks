@@ -1,12 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.Collapsible;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.collapsible.CollapsibleUtil;
-import com.carpentersblocks.util.handler.EventHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -19,6 +14,13 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Collapsible;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.collapsible.CollapsibleUtil;
+import com.carpentersblocks.util.handler.EventHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
 
 public class BlockCarpentersCollapsibleBlock extends BlockSided {
 
@@ -67,8 +69,7 @@ public class BlockCarpentersCollapsibleBlock extends BlockSided {
     }
 
     /**
-     * Will attempt to smooth transitions to any adjacent collapsible blocks
-     * given a TE and source quadrant.
+     * Will attempt to smooth transitions to any adjacent collapsible blocks given a TE and source quadrant.
      */
     private void smoothAdjacentCollapsibles(TEBase TE, int src_quadrant) {
         Collapsible data = Collapsible.INSTANCE;
@@ -223,8 +224,8 @@ public class BlockCarpentersCollapsibleBlock extends BlockSided {
     /**
      * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z, side, hitX, hitY, hitZ, block metadata
      */
-    public int onBlockPlaced(
-            World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
+    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ,
+            int metadata) {
         // If side not supported, select best side based on y hit coordinates
         if (!canAttachToSide(side)) {
             return hitY > 0.5F ? 0 : 1;
@@ -270,9 +271,7 @@ public class BlockCarpentersCollapsibleBlock extends BlockSided {
                 TEBase TE_ZN = getTileEntity(world, x, y, zn);
                 TEBase TE_ZP = getTileEntity(world, x, y, zp);
 
-                int height_XZNN = MIN_HEIGHT,
-                        height_XZPN = MIN_HEIGHT,
-                        height_XZPP = MIN_HEIGHT,
+                int height_XZNN = MIN_HEIGHT, height_XZPN = MIN_HEIGHT, height_XZPP = MIN_HEIGHT,
                         height_XZNP = MIN_HEIGHT;
                 Collapsible data = Collapsible.INSTANCE;
 
@@ -347,8 +346,8 @@ public class BlockCarpentersCollapsibleBlock extends BlockSided {
      * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
      * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
      */
-    public void addCollisionBoxesToList(
-            World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list,
+            Entity entity) {
         TEBase TE = getTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -358,7 +357,12 @@ public class BlockCarpentersCollapsibleBlock extends BlockSided {
             for (int quad = 0; quad < 4; ++quad) {
                 float[] bounds = CollapsibleUtil.genBounds(TE, quad);
                 colBox = AxisAlignedBB.getBoundingBox(
-                        x + bounds[0], y + bounds[1], z + bounds[2], x + bounds[3], y + bounds[4], z + bounds[5]);
+                        x + bounds[0],
+                        y + bounds[1],
+                        z + bounds[2],
+                        x + bounds[3],
+                        y + bounds[4],
+                        z + bounds[5]);
 
                 if (axisAlignedBB.intersectsWith(colBox)) {
                     list.add(colBox);
@@ -428,8 +432,7 @@ public class BlockCarpentersCollapsibleBlock extends BlockSided {
                 case EAST:
                     return data.getQuadDepth(TE_adj, data.QUAD_XZPP) == data.getQuadDepth(TE_src, data.QUAD_XZNP)
                             && data.getQuadDepth(TE_adj, data.QUAD_XZPN) == data.getQuadDepth(TE_src, data.QUAD_XZNN);
-                default: {
-                }
+                default: {}
             }
         }
 
@@ -439,7 +442,7 @@ public class BlockCarpentersCollapsibleBlock extends BlockSided {
     /**
      * Whether block can be attached to specified side of another block.
      *
-     * @param  side the side
+     * @param side the side
      * @return whether side is supported
      */
     @Override

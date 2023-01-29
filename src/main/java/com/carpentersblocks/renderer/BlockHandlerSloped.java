@@ -5,10 +5,11 @@ import static com.carpentersblocks.renderer.helper.VertexHelper.BOTTOM_RIGHT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_LEFT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_RIGHT;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public abstract class BlockHandlerSloped extends BlockHandlerBase {
@@ -32,8 +33,7 @@ public abstract class BlockHandlerSloped extends BlockHandlerBase {
     protected int[][] offset_brightness = new int[6][4];
 
     /**
-     * Sets renderID to identify which RenderHelper to use
-     * and passes control to delegateSideRender().
+     * Sets renderID to identify which RenderHelper to use and passes control to delegateSideRender().
      */
     protected final void setIDAndRender(ItemStack itemStack, int renderID, int x, int y, int z, int side) {
         this.renderID = renderID;

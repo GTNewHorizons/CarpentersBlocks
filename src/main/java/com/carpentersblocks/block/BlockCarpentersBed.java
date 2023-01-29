@@ -1,16 +1,8 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Bed;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Iterator;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -25,6 +17,17 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Bed;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersBed extends BlockCoverable {
 
@@ -45,9 +48,8 @@ public class BlockCarpentersBed extends BlockCoverable {
 
     @Override
     /**
-     * Determines if this block is classified as a Bed, Allowing
-     * players to sleep in it, though the block has to specifically
-     * perform the sleeping functionality in it's activated event.
+     * Determines if this block is classified as a Bed, Allowing players to sleep in it, though the block has to
+     * specifically perform the sleeping functionality in it's activated event.
      */
     public boolean isBed(IBlockAccess blockAccess, int x, int y, int z, EntityLivingBase player) {
         return true;
@@ -83,14 +85,8 @@ public class BlockCarpentersBed extends BlockCoverable {
     /**
      * Called upon block activation (right click on the block.)
      */
-    protected void postOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         actionResult.setAltered();
         World world = TE.getWorldObj();
 
@@ -191,11 +187,11 @@ public class BlockCarpentersBed extends BlockCoverable {
     /**
      * Called when a user either starts or stops sleeping in the bed.
      *
-     * @param world The current world
-     * @param x X Position
-     * @param y Y Position
-     * @param z Z Position
-     * @param player The player or camera entity, null in some cases.
+     * @param world    The current world
+     * @param x        X Position
+     * @param y        Y Position
+     * @param z        Z Position
+     * @param player   The player or camera entity, null in some cases.
      * @param occupied True if we are occupying the bed, or false if they are stopping use of the bed
      */
     public void setBedOccupied(IBlockAccess blockAccess, int x, int y, int z, EntityPlayer player, boolean occupied) {
@@ -215,13 +211,12 @@ public class BlockCarpentersBed extends BlockCoverable {
 
     @Override
     /**
-     * Returns the direction of the block. Same values that
-     * are returned by BlockDirectional
+     * Returns the direction of the block. Same values that are returned by BlockDirectional
      *
      * @param world The current world
-     * @param x X Position
-     * @param y Y Position
-     * @param z Z Position
+     * @param x     X Position
+     * @param y     Y Position
+     * @param z     Z Position
      * @return Bed direction
      */
     public int getBedDirection(IBlockAccess blockAccess, int x, int y, int z) {
@@ -258,7 +253,7 @@ public class BlockCarpentersBed extends BlockCoverable {
 
     @Override
     public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
-        ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
+        ForgeDirection[] axises = { ForgeDirection.UP, ForgeDirection.DOWN };
         return axises;
     }
 
@@ -266,7 +261,7 @@ public class BlockCarpentersBed extends BlockCoverable {
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
-        // if Axis is UP, block rotates to the right:  north -> east -> south -> west
+        // if Axis is UP, block rotates to the right: north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TEBase) {

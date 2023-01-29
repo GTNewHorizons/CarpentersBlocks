@@ -1,22 +1,8 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.FlowerPot;
-import com.carpentersblocks.network.PacketEnrichPlant;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.tileentity.TECarpentersFlowerPot;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.flowerpot.FlowerPotHandler;
-import com.carpentersblocks.util.flowerpot.FlowerPotHandler.Profile;
-import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
-import com.carpentersblocks.util.handler.EventHandler;
-import com.carpentersblocks.util.handler.PacketHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -33,6 +19,23 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.FlowerPot;
+import com.carpentersblocks.network.PacketEnrichPlant;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.tileentity.TECarpentersFlowerPot;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.flowerpot.FlowerPotHandler;
+import com.carpentersblocks.util.flowerpot.FlowerPotHandler.Profile;
+import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
+import com.carpentersblocks.util.handler.EventHandler;
+import com.carpentersblocks.util.handler.PacketHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockCarpentersFlowerPot extends BlockCoverable {
 
     public BlockCarpentersFlowerPot(Material material) {
@@ -43,8 +46,8 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
     @Override
     public void registerBlockIcons(IIconRegister iconRegister) {
         IconRegistry.icon_flower_pot = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "flowerpot/flower_pot");
-        IconRegistry.icon_flower_pot_glass =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "flowerpot/flower_pot_glass");
+        IconRegistry.icon_flower_pot_glass = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "flowerpot/flower_pot_glass");
     }
 
     @SideOnly(Side.CLIENT)
@@ -54,9 +57,8 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
      */
     public IIcon getIcon(int side, int metadata) {
         /*
-         * This doesn't work perfectly, but it's necessary to render
-         * the pot as an Item in the inventory.  Block destruction will
-         * spawn cover and block icons as a result.
+         * This doesn't work perfectly, but it's necessary to render the pot as an Item in the inventory. Block
+         * destruction will spawn cover and block icons as a result.
          */
         if (side == 1 && metadata == 0) {
             return IconRegistry.icon_flower_pot;
@@ -102,8 +104,8 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
     /**
      * Sneak-click removes plant and/or soil.
      */
-    protected void preOnBlockClicked(
-            TEBase TE, World world, int x, int y, int z, EntityPlayer entityPlayer, ActionResult actionResult) {
+    protected void preOnBlockClicked(TEBase TE, World world, int x, int y, int z, EntityPlayer entityPlayer,
+            ActionResult actionResult) {
         if (entityPlayer.isSneaking()) {
 
             if (EventHandler.hitY > 0.375F) {
@@ -122,8 +124,7 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
 
             } else if (TE.hasAttribute(TE.ATTR_SOIL)) {
 
-                if (EventHandler.eventFace == 1
-                        && EventHandler.hitX > 0.375F
+                if (EventHandler.eventFace == 1 && EventHandler.hitX > 0.375F
                         && EventHandler.hitX < 0.625F
                         && EventHandler.hitZ > 0.375F
                         && EventHandler.hitZ < 0.625F) {
@@ -137,17 +138,11 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
 
     @Override
     /**
-     * Everything contained in this will run before default onBlockActivated events take place,
-     * but after the player has been verified to have permission to edit block.
+     * Everything contained in this will run before default onBlockActivated events take place, but after the player has
+     * been verified to have permission to edit block.
      */
-    protected void preOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void preOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         ItemStack itemStack = entityPlayer.getHeldItem();
 
         if (itemStack != null) {
@@ -159,9 +154,8 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
             if (TE.hasAttribute(TE.ATTR_SOIL)) {
 
                 /*
-                 * Leaf blocks can be plants or covers.  We need to differentiate
-                 * it based on where the block is clicked, and whether it already
-                 * has a cover.
+                 * Leaf blocks can be plants or covers. We need to differentiate it based on where the block is clicked,
+                 * and whether it already has a cover.
                  */
                 if (!soilAreaClicked) {
                     if (!hasCover && BlockProperties.isCover(itemStack)
@@ -171,8 +165,8 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
                 }
 
                 if (!TE.hasAttribute(TE.ATTR_PLANT) && FlowerPotProperties.isPlant(itemStack)) {
-                    int angle =
-                            MathHelper.floor_double((entityPlayer.rotationYaw + 180.0F) * 16.0F / 360.0F + 0.5D) & 15;
+                    int angle = MathHelper.floor_double((entityPlayer.rotationYaw + 180.0F) * 16.0F / 360.0F + 0.5D)
+                            & 15;
                     FlowerPot.setAngle(TE, angle);
                     TE.addAttribute(TE.ATTR_PLANT, itemStack);
                     actionResult.setAltered().setSoundSource(itemStack).decInventory();
@@ -194,14 +188,12 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
     /**
      * Called upon block activation (right click on the block.)
      */
-    public boolean onBlockActivated(
-            World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX,
+            float hitY, float hitZ) {
         /*
-         * Need to handle plant enrichment here since the properties
-         * needing to be compared against are client-side only.
-         *
-         * Client will send relevant properties to the server using a packet,
-         * and from there the server will determine if plant should be affected.
+         * Need to handle plant enrichment here since the properties needing to be compared against are client-side
+         * only. Client will send relevant properties to the server using a packet, and from there the server will
+         * determine if plant should be affected.
          */
 
         if (world.isRemote) {
@@ -302,19 +294,18 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
 
         if (TE != null && TE instanceof TECarpentersFlowerPot) {
 
-            AxisAlignedBB axisAlignedBB =
-                    AxisAlignedBB.getBoundingBox(x + 0.3125F, y, z + 0.3125F, x + 0.6875F, y + 0.375F, z + 0.6875F);
+            AxisAlignedBB axisAlignedBB = AxisAlignedBB
+                    .getBoundingBox(x + 0.3125F, y, z + 0.3125F, x + 0.6875F, y + 0.375F, z + 0.6875F);
 
             if (TE.hasAttribute(TE.ATTR_PLANT)) {
 
                 switch (FlowerPotHandler.getPlantProfile(TE)) {
                     case CACTUS:
                     case LEAVES:
-                        axisAlignedBB = AxisAlignedBB.getBoundingBox(
-                                x + 0.3125F, y, z + 0.3125F, x + 0.6875F, y + 0.99F, z + 0.6875F);
+                        axisAlignedBB = AxisAlignedBB
+                                .getBoundingBox(x + 0.3125F, y, z + 0.3125F, x + 0.6875F, y + 0.99F, z + 0.6875F);
                         break;
-                    default: {
-                    }
+                    default: {}
                 }
             }
 
@@ -368,9 +359,8 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
         if (TE != null && TE instanceof TECarpentersFlowerPot) {
 
             /*
-             * Metadata at coordinates are for the base cover only.
-             * We need to set it for appropriate attributes in order
-             * to get accurate results.
+             * Metadata at coordinates are for the base cover only. We need to set it for appropriate attributes in
+             * order to get accurate results.
              */
 
             if (TE.hasAttribute(TE.ATTR_PLANT)) {
@@ -394,12 +384,12 @@ public class BlockCarpentersFlowerPot extends BlockCoverable {
     /**
      * This returns a complete list of items dropped from this block.
      *
-     * @param world The current world
-     * @param x X Position
-     * @param y Y Position
-     * @param z Z Position
+     * @param world    The current world
+     * @param x        X Position
+     * @param y        Y Position
+     * @param z        Z Position
      * @param metadata Current metadata
-     * @param fortune Breakers fortune level
+     * @param fortune  Breakers fortune level
      * @return A ArrayList containing all items this block drops
      */
     @Override

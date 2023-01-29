@@ -5,17 +5,19 @@ import static com.carpentersblocks.renderer.helper.VertexHelper.BOTTOM_RIGHT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_LEFT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_RIGHT;
 
-import com.carpentersblocks.renderer.BlockHandlerBase;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.handler.ShadersHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+
+import com.carpentersblocks.renderer.BlockHandlerBase;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.handler.ShadersHandler;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class LightingHelper {
@@ -28,7 +30,7 @@ public class LightingHelper {
     private boolean hasColorOverride;
     private int colorOverride = 0xffffff;
     public final int MAX_BRIGHTNESS = 0xf000f0;
-    public float[] LIGHTNESS = {0.5F, 1.0F, 0.8F, 0.8F, 0.6F, 0.6F};
+    public float[] LIGHTNESS = { 0.5F, 1.0F, 0.8F, 0.8F, 0.6F, 0.6F };
 
     /** Ambient occlusion values for all four corners of side. */
     public float[] ao = new float[4];
@@ -39,7 +41,7 @@ public class LightingHelper {
     /**
      * Class constructor specifying the {@link BlockHandlerBase}.
      *
-     * @param  blockHandler the {@link BlockHandlerBase}
+     * @param blockHandler the {@link BlockHandlerBase}
      * @return the {@link LightingHelper}
      */
     public LightingHelper(RenderBlocks renderBlocks) {
@@ -65,7 +67,7 @@ public class LightingHelper {
     /**
      * Sets lightness override.
      *
-     * @param  lightness the lightness override
+     * @param lightness the lightness override
      * @return the {@link LightingHelper}
      */
     public LightingHelper setLightnessOverride(float lightness) {
@@ -86,7 +88,7 @@ public class LightingHelper {
     /**
      * Sets brightness override.
      *
-     * @param  lightness the brightness override
+     * @param lightness the brightness override
      * @return the {@link LightingHelper}
      */
     public LightingHelper setBrightnessOverride(int brightness) {
@@ -107,7 +109,7 @@ public class LightingHelper {
     /**
      * Sets color override.
      *
-     * @param  color the color override
+     * @param color the color override
      * @return nothing
      */
     public void setColorOverride(int color) {
@@ -127,7 +129,7 @@ public class LightingHelper {
     /**
      * Gets rgb color from integer.
      *
-     * @param  color the hex color
+     * @param color the hex color
      * @return a float array with rgb values
      */
     public static float[] getRGB(int hexColor) {
@@ -135,25 +137,24 @@ public class LightingHelper {
         float green = (hexColor >> 8 & 255) / 255.0F;
         float blue = (hexColor & 255) / 255.0F;
 
-        return new float[] {red, green, blue};
+        return new float[] { red, green, blue };
     }
 
     /**
-     * Sets up the color using lightness, brightness, and the primary color
-     * value (usually the dye color) for the side.
+     * Sets up the color using lightness, brightness, and the primary color value (usually the dye color) for the side.
      * <p>
-     * If ShadersModCore is loaded and {@link ShadersHandler#oldLighting} is false,
-     * will automatically override lightness.
+     * If ShadersModCore is loaded and {@link ShadersHandler#oldLighting} is false, will automatically override
+     * lightness.
      *
-     * @param  itemStack the cover {@link ItemStack}
-     * @param  block the {@link Block} inside the {@link ItemStack}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
-     * @param  side the side
-     * @param  hexColor the color
-     * @param  icon the icon
-     * @see    {@link ShadersHandler}
+     * @param itemStack the cover {@link ItemStack}
+     * @param block     the {@link Block} inside the {@link ItemStack}
+     * @param x         the x coordinate
+     * @param y         the y coordinate
+     * @param z         the z coordinate
+     * @param side      the side
+     * @param hexColor  the color
+     * @param icon      the icon
+     * @see {@link ShadersHandler}
      * @return a float array with rgb values
      */
     public void setupColor(int x, int y, int z, int side, int hexColor, IIcon icon) {
@@ -177,21 +178,18 @@ public class LightingHelper {
 
             if (renderBlocks.hasOverrideBlockTexture()) {
 
-                renderBlocks.colorRedTopLeft = renderBlocks.colorRedBottomLeft =
-                        renderBlocks.colorRedBottomRight = renderBlocks.colorRedTopRight = rgb[0];
-                renderBlocks.colorGreenTopLeft = renderBlocks.colorGreenBottomLeft =
-                        renderBlocks.colorGreenBottomRight = renderBlocks.colorGreenTopRight = rgb[1];
-                renderBlocks.colorBlueTopLeft = renderBlocks.colorBlueBottomLeft =
-                        renderBlocks.colorBlueBottomRight = renderBlocks.colorBlueTopRight = rgb[2];
+                renderBlocks.colorRedTopLeft = renderBlocks.colorRedBottomLeft = renderBlocks.colorRedBottomRight = renderBlocks.colorRedTopRight = rgb[0];
+                renderBlocks.colorGreenTopLeft = renderBlocks.colorGreenBottomLeft = renderBlocks.colorGreenBottomRight = renderBlocks.colorGreenTopRight = rgb[1];
+                renderBlocks.colorBlueTopLeft = renderBlocks.colorBlueBottomLeft = renderBlocks.colorBlueBottomRight = renderBlocks.colorBlueTopRight = rgb[2];
 
             } else {
 
-                renderBlocks.colorRedTopLeft = renderBlocks.colorRedBottomLeft =
-                        renderBlocks.colorRedBottomRight = renderBlocks.colorRedTopRight = rgb[0] * lightness;
-                renderBlocks.colorGreenTopLeft = renderBlocks.colorGreenBottomLeft =
-                        renderBlocks.colorGreenBottomRight = renderBlocks.colorGreenTopRight = rgb[1] * lightness;
-                renderBlocks.colorBlueTopLeft = renderBlocks.colorBlueBottomLeft =
-                        renderBlocks.colorBlueBottomRight = renderBlocks.colorBlueTopRight = rgb[2] * lightness;
+                renderBlocks.colorRedTopLeft = renderBlocks.colorRedBottomLeft = renderBlocks.colorRedBottomRight = renderBlocks.colorRedTopRight = rgb[0]
+                        * lightness;
+                renderBlocks.colorGreenTopLeft = renderBlocks.colorGreenBottomLeft = renderBlocks.colorGreenBottomRight = renderBlocks.colorGreenTopRight = rgb[1]
+                        * lightness;
+                renderBlocks.colorBlueTopLeft = renderBlocks.colorBlueBottomLeft = renderBlocks.colorBlueBottomRight = renderBlocks.colorBlueTopRight = rgb[2]
+                        * lightness;
 
                 renderBlocks.colorRedTopLeft *= ao[TOP_LEFT];
                 renderBlocks.colorGreenTopLeft *= ao[TOP_LEFT];
@@ -216,10 +214,9 @@ public class LightingHelper {
     /**
      * Will apply anaglyph color multipliers to RGB float array.
      * <p>
-     * If {@link EntityRenderer#anaglyphEnable} is false,
-     * will do nothing.
+     * If {@link EntityRenderer#anaglyphEnable} is false, will do nothing.
      *
-     * @param  rgb array containing red [0], green [1] and blue [2] float values
+     * @param rgb array containing red [0], green [1] and blue [2] float values
      * @return nothing
      */
     public void applyAnaglyph(float[] rgb) {
@@ -231,12 +228,11 @@ public class LightingHelper {
     }
 
     /**
-     * Gets mixed ambient occlusion value from two inputs, with a
-     * ratio applied to the final result.
+     * Gets mixed ambient occlusion value from two inputs, with a ratio applied to the final result.
      *
-     * @param  ao1 the primary face ambient occlusion value
-     * @param  ao2 the second ambient occlusion value
-     * @param  ratio the ratio for mixing
+     * @param ao1   the primary face ambient occlusion value
+     * @param ao2   the second ambient occlusion value
+     * @param ratio the ratio for mixing
      * @return the mixed red, green, blue float values
      */
     public static float getMixedAo(float ao1, float ao2, double ratio) {
@@ -247,8 +243,8 @@ public class LightingHelper {
     /**
      * Gets average brightness from two brightness values.
      *
-     * @param brightness1  the first brightness value
-     * @param brightness2  the second brightness value
+     * @param brightness1 the first brightness value
+     * @param brightness2 the second brightness value
      * @return the mixed brightness
      */
     public static int getAverageBrightness(int brightness1, int brightness2) {
@@ -267,18 +263,17 @@ public class LightingHelper {
     /**
      * Sets up lighting for the bottom face and returns the {@link LightingHelper}.
      * <p>
-     * This is a consolidated <code>method</code> that sets side shading
-     * with respect to the following attributes:
+     * This is a consolidated <code>method</code> that sets side shading with respect to the following attributes:
      * <p>
      * <ul>
-     *   <li>{@link RenderBlocks#enableAO}</li>
-     *   <li>{@link RenderBlocks#partialRenderBounds}</li>
+     * <li>{@link RenderBlocks#enableAO}</li>
+     * <li>{@link RenderBlocks#partialRenderBounds}</li>
      * </ul>
      *
-     * @param  itemStack the cover {@link ItemStack}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param itemStack the cover {@link ItemStack}
+     * @param x         the x coordinate
+     * @param y         the y coordinate
+     * @param z         the z coordinate
      * @return the {@link LightingHelper}
      */
     public LightingHelper setupLightingYNeg(ItemStack itemStack, int x, int y, int z) {
@@ -289,25 +284,24 @@ public class LightingHelper {
         if (renderBlocks.enableAO) {
 
             float ratio = (float) (1.0F - renderBlocks.renderMinY);
-            float aoLightValue =
-                    renderBlocks.blockAccess.getBlock(x, y_offset, z).getAmbientOcclusionLightValue();
+            float aoLightValue = renderBlocks.blockAccess.getBlock(x, y_offset, z).getAmbientOcclusionLightValue();
 
-            renderBlocks.aoBrightnessXYNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z);
-            renderBlocks.aoBrightnessYZNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y_offset, z - 1);
-            renderBlocks.aoBrightnessYZNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y_offset, z + 1);
-            renderBlocks.aoBrightnessXYPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z);
-            renderBlocks.aoBrightnessXYZNNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z - 1);
-            renderBlocks.aoBrightnessXYZNNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z + 1);
-            renderBlocks.aoBrightnessXYZPNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z - 1);
-            renderBlocks.aoBrightnessXYZPNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z + 1);
+            renderBlocks.aoBrightnessXYNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z);
+            renderBlocks.aoBrightnessYZNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y_offset, z - 1);
+            renderBlocks.aoBrightnessYZNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y_offset, z + 1);
+            renderBlocks.aoBrightnessXYPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z);
+            renderBlocks.aoBrightnessXYZNNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z - 1);
+            renderBlocks.aoBrightnessXYZNNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z + 1);
+            renderBlocks.aoBrightnessXYZPNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z - 1);
+            renderBlocks.aoBrightnessXYZPNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z + 1);
             renderBlocks.aoLightValueScratchXYNN = getMixedAo(
                     renderBlocks.blockAccess.getBlock(x - 1, y - 1, z).getAmbientOcclusionLightValue(),
                     renderBlocks.blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue(),
@@ -341,26 +335,20 @@ public class LightingHelper {
                     renderBlocks.blockAccess.getBlock(x + 1, y, z + 1).getAmbientOcclusionLightValue(),
                     ratio);
 
-            float aoMixed_XYZPNP = ao[TOP_LEFT /*SE*/] = (renderBlocks.aoLightValueScratchYZNP
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchXYZPNP
-                            + renderBlocks.aoLightValueScratchXYPN)
-                    / 4.0F;
-            float aoMixed_XYZPNN = ao[BOTTOM_LEFT /*NE*/] = (aoLightValue
-                            + renderBlocks.aoLightValueScratchYZNN
-                            + renderBlocks.aoLightValueScratchXYPN
-                            + renderBlocks.aoLightValueScratchXYZPNN)
-                    / 4.0F;
-            float aoMixed_XYZNNN = ao[BOTTOM_RIGHT /*NW*/] = (renderBlocks.aoLightValueScratchXYNN
-                            + renderBlocks.aoLightValueScratchXYZNNN
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchYZNN)
-                    / 4.0F;
-            float aoMixed_XYZNNP = ao[TOP_RIGHT /*SW*/] = (renderBlocks.aoLightValueScratchXYZNNP
-                            + renderBlocks.aoLightValueScratchXYNN
-                            + renderBlocks.aoLightValueScratchYZNP
-                            + aoLightValue)
-                    / 4.0F;
+            float aoMixed_XYZPNP = ao[TOP_LEFT /* SE */] = (renderBlocks.aoLightValueScratchYZNP + aoLightValue
+                    + renderBlocks.aoLightValueScratchXYZPNP
+                    + renderBlocks.aoLightValueScratchXYPN) / 4.0F;
+            float aoMixed_XYZPNN = ao[BOTTOM_LEFT /* NE */] = (aoLightValue + renderBlocks.aoLightValueScratchYZNN
+                    + renderBlocks.aoLightValueScratchXYPN
+                    + renderBlocks.aoLightValueScratchXYZPNN) / 4.0F;
+            float aoMixed_XYZNNN = ao[BOTTOM_RIGHT /* NW */] = (renderBlocks.aoLightValueScratchXYNN
+                    + renderBlocks.aoLightValueScratchXYZNNN
+                    + aoLightValue
+                    + renderBlocks.aoLightValueScratchYZNN) / 4.0F;
+            float aoMixed_XYZNNP = ao[TOP_RIGHT /* SW */] = (renderBlocks.aoLightValueScratchXYZNNP
+                    + renderBlocks.aoLightValueScratchXYNN
+                    + renderBlocks.aoLightValueScratchYZNP
+                    + aoLightValue) / 4.0F;
 
             int brightnessMixed_XYZPNP = renderBlocks.brightnessTopLeft = renderBlocks.getAoBrightness(
                     renderBlocks.aoBrightnessYZNP,
@@ -385,26 +373,26 @@ public class LightingHelper {
 
             if (renderBlocks.partialRenderBounds) {
 
-                ao[TOP_LEFT /*SE*/] =
-                        (float) (aoMixed_XYZNNP * renderBlocks.renderMaxZ * (1.0D - renderBlocks.renderMaxX)
-                                + aoMixed_XYZPNP * renderBlocks.renderMaxZ * renderBlocks.renderMaxX
-                                + aoMixed_XYZPNN * (1.0D - renderBlocks.renderMaxZ) * renderBlocks.renderMaxX
-                                + aoMixed_XYZNNN * (1.0D - renderBlocks.renderMaxZ) * (1.0D - renderBlocks.renderMaxX));
-                ao[BOTTOM_LEFT /*NE*/] =
-                        (float) (aoMixed_XYZNNP * renderBlocks.renderMinZ * (1.0D - renderBlocks.renderMaxX)
-                                + aoMixed_XYZPNP * renderBlocks.renderMinZ * renderBlocks.renderMaxX
-                                + aoMixed_XYZPNN * (1.0D - renderBlocks.renderMinZ) * renderBlocks.renderMaxX
-                                + aoMixed_XYZNNN * (1.0D - renderBlocks.renderMinZ) * (1.0D - renderBlocks.renderMaxX));
-                ao[BOTTOM_RIGHT /*NW*/] =
-                        (float) (aoMixed_XYZNNP * renderBlocks.renderMinZ * (1.0D - renderBlocks.renderMinX)
-                                + aoMixed_XYZPNP * renderBlocks.renderMinZ * renderBlocks.renderMinX
-                                + aoMixed_XYZPNN * (1.0D - renderBlocks.renderMinZ) * renderBlocks.renderMinX
-                                + aoMixed_XYZNNN * (1.0D - renderBlocks.renderMinZ) * (1.0D - renderBlocks.renderMinX));
-                ao[TOP_RIGHT /*SW*/] =
-                        (float) (aoMixed_XYZNNP * renderBlocks.renderMaxZ * (1.0D - renderBlocks.renderMinX)
-                                + aoMixed_XYZPNP * renderBlocks.renderMaxZ * renderBlocks.renderMinX
-                                + aoMixed_XYZPNN * (1.0D - renderBlocks.renderMaxZ) * renderBlocks.renderMinX
-                                + aoMixed_XYZNNN * (1.0D - renderBlocks.renderMaxZ) * (1.0D - renderBlocks.renderMinX));
+                ao[TOP_LEFT /* SE */] = (float) (aoMixed_XYZNNP * renderBlocks.renderMaxZ
+                        * (1.0D - renderBlocks.renderMaxX)
+                        + aoMixed_XYZPNP * renderBlocks.renderMaxZ * renderBlocks.renderMaxX
+                        + aoMixed_XYZPNN * (1.0D - renderBlocks.renderMaxZ) * renderBlocks.renderMaxX
+                        + aoMixed_XYZNNN * (1.0D - renderBlocks.renderMaxZ) * (1.0D - renderBlocks.renderMaxX));
+                ao[BOTTOM_LEFT /* NE */] = (float) (aoMixed_XYZNNP * renderBlocks.renderMinZ
+                        * (1.0D - renderBlocks.renderMaxX)
+                        + aoMixed_XYZPNP * renderBlocks.renderMinZ * renderBlocks.renderMaxX
+                        + aoMixed_XYZPNN * (1.0D - renderBlocks.renderMinZ) * renderBlocks.renderMaxX
+                        + aoMixed_XYZNNN * (1.0D - renderBlocks.renderMinZ) * (1.0D - renderBlocks.renderMaxX));
+                ao[BOTTOM_RIGHT /* NW */] = (float) (aoMixed_XYZNNP * renderBlocks.renderMinZ
+                        * (1.0D - renderBlocks.renderMinX)
+                        + aoMixed_XYZPNP * renderBlocks.renderMinZ * renderBlocks.renderMinX
+                        + aoMixed_XYZPNN * (1.0D - renderBlocks.renderMinZ) * renderBlocks.renderMinX
+                        + aoMixed_XYZNNN * (1.0D - renderBlocks.renderMinZ) * (1.0D - renderBlocks.renderMinX));
+                ao[TOP_RIGHT /* SW */] = (float) (aoMixed_XYZNNP * renderBlocks.renderMaxZ
+                        * (1.0D - renderBlocks.renderMinX)
+                        + aoMixed_XYZPNP * renderBlocks.renderMaxZ * renderBlocks.renderMinX
+                        + aoMixed_XYZPNN * (1.0D - renderBlocks.renderMaxZ) * renderBlocks.renderMinX
+                        + aoMixed_XYZNNN * (1.0D - renderBlocks.renderMaxZ) * (1.0D - renderBlocks.renderMinX));
 
                 renderBlocks.brightnessTopLeft = renderBlocks.mixAoBrightness(
                         brightnessMixed_XYZNNP,
@@ -451,18 +439,17 @@ public class LightingHelper {
     /**
      * Sets up lighting for the top face and returns the {@link LightingHelper}.
      * <p>
-     * This is a consolidated <code>method</code> that sets side shading
-     * with respect to the following attributes:
+     * This is a consolidated <code>method</code> that sets side shading with respect to the following attributes:
      * <p>
      * <ul>
-     *   <li>{@link RenderBlocks#enableAO}</li>
-     *   <li>{@link RenderBlocks#partialRenderBounds}</li>
+     * <li>{@link RenderBlocks#enableAO}</li>
+     * <li>{@link RenderBlocks#partialRenderBounds}</li>
      * </ul>
      *
-     * @param  itemStack the cover {@link ItemStack}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param itemStack the cover {@link ItemStack}
+     * @param x         the x coordinate
+     * @param y         the y coordinate
+     * @param z         the z coordinate
      * @return the {@link LightingHelper}
      */
     public LightingHelper setupLightingYPos(ItemStack itemStack, int x, int y, int z) {
@@ -472,25 +459,24 @@ public class LightingHelper {
 
         if (renderBlocks.enableAO) {
 
-            float aoLightValue =
-                    renderBlocks.blockAccess.getBlock(x, y_offset, z).getAmbientOcclusionLightValue();
+            float aoLightValue = renderBlocks.blockAccess.getBlock(x, y_offset, z).getAmbientOcclusionLightValue();
 
-            renderBlocks.aoBrightnessXYNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z);
-            renderBlocks.aoBrightnessXYPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z);
-            renderBlocks.aoBrightnessYZPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y_offset, z - 1);
-            renderBlocks.aoBrightnessYZPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y_offset, z + 1);
-            renderBlocks.aoBrightnessXYZNPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z - 1);
-            renderBlocks.aoBrightnessXYZPPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z - 1);
-            renderBlocks.aoBrightnessXYZNPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z + 1);
-            renderBlocks.aoBrightnessXYZPPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z + 1);
+            renderBlocks.aoBrightnessXYNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z);
+            renderBlocks.aoBrightnessXYPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z);
+            renderBlocks.aoBrightnessYZPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y_offset, z - 1);
+            renderBlocks.aoBrightnessYZPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y_offset, z + 1);
+            renderBlocks.aoBrightnessXYZNPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z - 1);
+            renderBlocks.aoBrightnessXYZPPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z - 1);
+            renderBlocks.aoBrightnessXYZNPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y_offset, z + 1);
+            renderBlocks.aoBrightnessXYZPPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y_offset, z + 1);
             renderBlocks.aoLightValueScratchXYNP = getMixedAo(
                     renderBlocks.blockAccess.getBlock(x - 1, y + 1, z).getAmbientOcclusionLightValue(),
                     renderBlocks.blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue(),
@@ -524,26 +510,20 @@ public class LightingHelper {
                     renderBlocks.blockAccess.getBlock(x + 1, y, z + 1).getAmbientOcclusionLightValue(),
                     renderBlocks.renderMaxY);
 
-            float aoMixed_XYZPPP = ao[TOP_LEFT /*SE*/] = (renderBlocks.aoLightValueScratchYZPP
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchXYZPPP
-                            + renderBlocks.aoLightValueScratchXYPP)
-                    / 4.0F;
-            float aoMixed_XYZPPN = ao[BOTTOM_LEFT /*NE*/] = (aoLightValue
-                            + renderBlocks.aoLightValueScratchYZPN
-                            + renderBlocks.aoLightValueScratchXYPP
-                            + renderBlocks.aoLightValueScratchXYZPPN)
-                    / 4.0F;
-            float aoMixed_XYZNPN = ao[BOTTOM_RIGHT /*NW*/] = (renderBlocks.aoLightValueScratchXYNP
-                            + renderBlocks.aoLightValueScratchXYZNPN
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchYZPN)
-                    / 4.0F;
-            float aoMixed_XYZNPP = ao[TOP_RIGHT /*SW*/] = (renderBlocks.aoLightValueScratchXYZNPP
-                            + renderBlocks.aoLightValueScratchXYNP
-                            + renderBlocks.aoLightValueScratchYZPP
-                            + aoLightValue)
-                    / 4.0F;
+            float aoMixed_XYZPPP = ao[TOP_LEFT /* SE */] = (renderBlocks.aoLightValueScratchYZPP + aoLightValue
+                    + renderBlocks.aoLightValueScratchXYZPPP
+                    + renderBlocks.aoLightValueScratchXYPP) / 4.0F;
+            float aoMixed_XYZPPN = ao[BOTTOM_LEFT /* NE */] = (aoLightValue + renderBlocks.aoLightValueScratchYZPN
+                    + renderBlocks.aoLightValueScratchXYPP
+                    + renderBlocks.aoLightValueScratchXYZPPN) / 4.0F;
+            float aoMixed_XYZNPN = ao[BOTTOM_RIGHT /* NW */] = (renderBlocks.aoLightValueScratchXYNP
+                    + renderBlocks.aoLightValueScratchXYZNPN
+                    + aoLightValue
+                    + renderBlocks.aoLightValueScratchYZPN) / 4.0F;
+            float aoMixed_XYZNPP = ao[TOP_RIGHT /* SW */] = (renderBlocks.aoLightValueScratchXYZNPP
+                    + renderBlocks.aoLightValueScratchXYNP
+                    + renderBlocks.aoLightValueScratchYZPP
+                    + aoLightValue) / 4.0F;
 
             int brightnessMixed_XYZPPP = renderBlocks.brightnessTopLeft = renderBlocks.getAoBrightness(
                     renderBlocks.aoBrightnessYZPP,
@@ -568,26 +548,26 @@ public class LightingHelper {
 
             if (renderBlocks.partialRenderBounds) {
 
-                ao[TOP_LEFT /*SE*/] =
-                        (float) (aoMixed_XYZNPP * renderBlocks.renderMaxZ * (1.0D - renderBlocks.renderMaxX)
-                                + aoMixed_XYZPPP * renderBlocks.renderMaxZ * renderBlocks.renderMaxX
-                                + aoMixed_XYZPPN * (1.0D - renderBlocks.renderMaxZ) * renderBlocks.renderMaxX
-                                + aoMixed_XYZNPN * (1.0D - renderBlocks.renderMaxZ) * (1.0D - renderBlocks.renderMaxX));
-                ao[BOTTOM_LEFT /*NE*/] =
-                        (float) (aoMixed_XYZNPP * renderBlocks.renderMinZ * (1.0D - renderBlocks.renderMaxX)
-                                + aoMixed_XYZPPP * renderBlocks.renderMinZ * renderBlocks.renderMaxX
-                                + aoMixed_XYZPPN * (1.0D - renderBlocks.renderMinZ) * renderBlocks.renderMaxX
-                                + aoMixed_XYZNPN * (1.0D - renderBlocks.renderMinZ) * (1.0D - renderBlocks.renderMaxX));
-                ao[BOTTOM_RIGHT /*NW*/] =
-                        (float) (aoMixed_XYZNPP * renderBlocks.renderMinZ * (1.0D - renderBlocks.renderMinX)
-                                + aoMixed_XYZPPP * renderBlocks.renderMinZ * renderBlocks.renderMinX
-                                + aoMixed_XYZPPN * (1.0D - renderBlocks.renderMinZ) * renderBlocks.renderMinX
-                                + aoMixed_XYZNPN * (1.0D - renderBlocks.renderMinZ) * (1.0D - renderBlocks.renderMinX));
-                ao[TOP_RIGHT /*SW*/] =
-                        (float) (aoMixed_XYZNPP * renderBlocks.renderMaxZ * (1.0D - renderBlocks.renderMinX)
-                                + aoMixed_XYZPPP * renderBlocks.renderMaxZ * renderBlocks.renderMinX
-                                + aoMixed_XYZPPN * (1.0D - renderBlocks.renderMaxZ) * renderBlocks.renderMinX
-                                + aoMixed_XYZNPN * (1.0D - renderBlocks.renderMaxZ) * (1.0D - renderBlocks.renderMinX));
+                ao[TOP_LEFT /* SE */] = (float) (aoMixed_XYZNPP * renderBlocks.renderMaxZ
+                        * (1.0D - renderBlocks.renderMaxX)
+                        + aoMixed_XYZPPP * renderBlocks.renderMaxZ * renderBlocks.renderMaxX
+                        + aoMixed_XYZPPN * (1.0D - renderBlocks.renderMaxZ) * renderBlocks.renderMaxX
+                        + aoMixed_XYZNPN * (1.0D - renderBlocks.renderMaxZ) * (1.0D - renderBlocks.renderMaxX));
+                ao[BOTTOM_LEFT /* NE */] = (float) (aoMixed_XYZNPP * renderBlocks.renderMinZ
+                        * (1.0D - renderBlocks.renderMaxX)
+                        + aoMixed_XYZPPP * renderBlocks.renderMinZ * renderBlocks.renderMaxX
+                        + aoMixed_XYZPPN * (1.0D - renderBlocks.renderMinZ) * renderBlocks.renderMaxX
+                        + aoMixed_XYZNPN * (1.0D - renderBlocks.renderMinZ) * (1.0D - renderBlocks.renderMaxX));
+                ao[BOTTOM_RIGHT /* NW */] = (float) (aoMixed_XYZNPP * renderBlocks.renderMinZ
+                        * (1.0D - renderBlocks.renderMinX)
+                        + aoMixed_XYZPPP * renderBlocks.renderMinZ * renderBlocks.renderMinX
+                        + aoMixed_XYZPPN * (1.0D - renderBlocks.renderMinZ) * renderBlocks.renderMinX
+                        + aoMixed_XYZNPN * (1.0D - renderBlocks.renderMinZ) * (1.0D - renderBlocks.renderMinX));
+                ao[TOP_RIGHT /* SW */] = (float) (aoMixed_XYZNPP * renderBlocks.renderMaxZ
+                        * (1.0D - renderBlocks.renderMinX)
+                        + aoMixed_XYZPPP * renderBlocks.renderMaxZ * renderBlocks.renderMinX
+                        + aoMixed_XYZPPN * (1.0D - renderBlocks.renderMaxZ) * renderBlocks.renderMinX
+                        + aoMixed_XYZNPN * (1.0D - renderBlocks.renderMaxZ) * (1.0D - renderBlocks.renderMinX));
 
                 renderBlocks.brightnessTopLeft = renderBlocks.mixAoBrightness(
                         brightnessMixed_XYZNPP,
@@ -634,18 +614,17 @@ public class LightingHelper {
     /**
      * Sets up lighting for the North face and returns the {@link LightingHelper}.
      * <p>
-     * This is a consolidated <code>method</code> that sets side shading
-     * with respect to the following attributes:
+     * This is a consolidated <code>method</code> that sets side shading with respect to the following attributes:
      * <p>
      * <ul>
-     *   <li>{@link RenderBlocks#enableAO}</li>
-     *   <li>{@link RenderBlocks#partialRenderBounds}</li>
+     * <li>{@link RenderBlocks#enableAO}</li>
+     * <li>{@link RenderBlocks#partialRenderBounds}</li>
      * </ul>
      *
-     * @param  itemStack the cover {@link ItemStack}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param itemStack the cover {@link ItemStack}
+     * @param x         the x coordinate
+     * @param y         the y coordinate
+     * @param z         the z coordinate
      * @return the {@link LightingHelper}
      */
     public LightingHelper setupLightingZNeg(ItemStack itemStack, int x, int y, int z) {
@@ -656,25 +635,24 @@ public class LightingHelper {
         if (renderBlocks.enableAO) {
 
             float ratio = (float) (1.0F - renderBlocks.renderMinZ);
-            float aoLightValue =
-                    renderBlocks.blockAccess.getBlock(x, y, z_offset).getAmbientOcclusionLightValue();
+            float aoLightValue = renderBlocks.blockAccess.getBlock(x, y, z_offset).getAmbientOcclusionLightValue();
 
-            renderBlocks.aoBrightnessXZNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y, z_offset);
-            renderBlocks.aoBrightnessYZNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y - 1, z_offset);
-            renderBlocks.aoBrightnessYZPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y + 1, z_offset);
-            renderBlocks.aoBrightnessXZPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y, z_offset);
-            renderBlocks.aoBrightnessXYZNNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y - 1, z_offset);
-            renderBlocks.aoBrightnessXYZNPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y + 1, z_offset);
-            renderBlocks.aoBrightnessXYZPNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y - 1, z_offset);
-            renderBlocks.aoBrightnessXYZPPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y + 1, z_offset);
+            renderBlocks.aoBrightnessXZNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y, z_offset);
+            renderBlocks.aoBrightnessYZNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y - 1, z_offset);
+            renderBlocks.aoBrightnessYZPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y + 1, z_offset);
+            renderBlocks.aoBrightnessXZPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y, z_offset);
+            renderBlocks.aoBrightnessXYZNNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y - 1, z_offset);
+            renderBlocks.aoBrightnessXYZNPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y + 1, z_offset);
+            renderBlocks.aoBrightnessXYZPNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y - 1, z_offset);
+            renderBlocks.aoBrightnessXYZPPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y + 1, z_offset);
             renderBlocks.aoLightValueScratchXZNN = getMixedAo(
                     renderBlocks.blockAccess.getBlock(x - 1, y, z - 1).getAmbientOcclusionLightValue(),
                     renderBlocks.blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue(),
@@ -708,26 +686,20 @@ public class LightingHelper {
                     renderBlocks.blockAccess.getBlock(x + 1, y + 1, z).getAmbientOcclusionLightValue(),
                     ratio);
 
-            float aoMixed_XYZPPN = ao[TOP_LEFT] = (aoLightValue
-                            + renderBlocks.aoLightValueScratchYZPN
-                            + renderBlocks.aoLightValueScratchXZPN
-                            + renderBlocks.aoLightValueScratchXYZPPN)
-                    / 4.0F;
-            float aoMixed_XYZPNN = ao[BOTTOM_LEFT] = (renderBlocks.aoLightValueScratchYZNN
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchXYZPNN
-                            + renderBlocks.aoLightValueScratchXZPN)
-                    / 4.0F;
+            float aoMixed_XYZPPN = ao[TOP_LEFT] = (aoLightValue + renderBlocks.aoLightValueScratchYZPN
+                    + renderBlocks.aoLightValueScratchXZPN
+                    + renderBlocks.aoLightValueScratchXYZPPN) / 4.0F;
+            float aoMixed_XYZPNN = ao[BOTTOM_LEFT] = (renderBlocks.aoLightValueScratchYZNN + aoLightValue
+                    + renderBlocks.aoLightValueScratchXYZPNN
+                    + renderBlocks.aoLightValueScratchXZPN) / 4.0F;
             float aoMixed_XYZNNN = ao[BOTTOM_RIGHT] = (renderBlocks.aoLightValueScratchXYZNNN
-                            + renderBlocks.aoLightValueScratchXZNN
-                            + renderBlocks.aoLightValueScratchYZNN
-                            + aoLightValue)
-                    / 4.0F;
+                    + renderBlocks.aoLightValueScratchXZNN
+                    + renderBlocks.aoLightValueScratchYZNN
+                    + aoLightValue) / 4.0F;
             float aoMixed_XYZNPN = ao[TOP_RIGHT] = (renderBlocks.aoLightValueScratchXZNN
-                            + renderBlocks.aoLightValueScratchXYZNPN
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchYZPN)
-                    / 4.0F;
+                    + renderBlocks.aoLightValueScratchXYZNPN
+                    + aoLightValue
+                    + renderBlocks.aoLightValueScratchYZPN) / 4.0F;
 
             int brightnessMixed_XYZPPN = renderBlocks.brightnessTopLeft = renderBlocks.getAoBrightness(
                     renderBlocks.aoBrightnessYZPN,
@@ -814,18 +786,17 @@ public class LightingHelper {
     /**
      * Sets up lighting for the South face and returns the {@link LightingHelper}.
      * <p>
-     * This is a consolidated <code>method</code> that sets side shading
-     * with respect to the following attributes:
+     * This is a consolidated <code>method</code> that sets side shading with respect to the following attributes:
      * <p>
      * <ul>
-     *   <li>{@link RenderBlocks#enableAO}</li>
-     *   <li>{@link RenderBlocks#partialRenderBounds}</li>
+     * <li>{@link RenderBlocks#enableAO}</li>
+     * <li>{@link RenderBlocks#partialRenderBounds}</li>
      * </ul>
      *
-     * @param  itemStack the cover {@link ItemStack}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param itemStack the cover {@link ItemStack}
+     * @param x         the x coordinate
+     * @param y         the y coordinate
+     * @param z         the z coordinate
      * @return the {@link LightingHelper}
      */
     public LightingHelper setupLightingZPos(ItemStack itemStack, int x, int y, int z) {
@@ -835,25 +806,24 @@ public class LightingHelper {
 
         if (renderBlocks.enableAO) {
 
-            float aoLightValue =
-                    renderBlocks.blockAccess.getBlock(x, y, z_offset).getAmbientOcclusionLightValue();
+            float aoLightValue = renderBlocks.blockAccess.getBlock(x, y, z_offset).getAmbientOcclusionLightValue();
 
-            renderBlocks.aoBrightnessXZNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y, z_offset);
-            renderBlocks.aoBrightnessXZPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y, z_offset);
-            renderBlocks.aoBrightnessYZNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y - 1, z_offset);
-            renderBlocks.aoBrightnessYZPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y + 1, z_offset);
-            renderBlocks.aoBrightnessXYZNNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y - 1, z_offset);
-            renderBlocks.aoBrightnessXYZNPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y + 1, z_offset);
-            renderBlocks.aoBrightnessXYZPNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y - 1, z_offset);
-            renderBlocks.aoBrightnessXYZPPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y + 1, z_offset);
+            renderBlocks.aoBrightnessXZNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y, z_offset);
+            renderBlocks.aoBrightnessXZPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y, z_offset);
+            renderBlocks.aoBrightnessYZNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y - 1, z_offset);
+            renderBlocks.aoBrightnessYZPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y + 1, z_offset);
+            renderBlocks.aoBrightnessXYZNNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y - 1, z_offset);
+            renderBlocks.aoBrightnessXYZNPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x - 1, y + 1, z_offset);
+            renderBlocks.aoBrightnessXYZPNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y - 1, z_offset);
+            renderBlocks.aoBrightnessXYZPPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x + 1, y + 1, z_offset);
             renderBlocks.aoLightValueScratchXZNP = getMixedAo(
                     renderBlocks.blockAccess.getBlock(x - 1, y, z + 1).getAmbientOcclusionLightValue(),
                     renderBlocks.blockAccess.getBlock(x - 1, y, z).getAmbientOcclusionLightValue(),
@@ -888,25 +858,19 @@ public class LightingHelper {
                     renderBlocks.renderMaxZ);
 
             float aoMixed_XYZNPP = ao[TOP_LEFT] = (renderBlocks.aoLightValueScratchXZNP
-                            + renderBlocks.aoLightValueScratchXYZNPP
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchYZPP)
-                    / 4.0F;
+                    + renderBlocks.aoLightValueScratchXYZNPP
+                    + aoLightValue
+                    + renderBlocks.aoLightValueScratchYZPP) / 4.0F;
             float aoMixed_XYZNNP = ao[BOTTOM_LEFT] = (renderBlocks.aoLightValueScratchXYZNNP
-                            + renderBlocks.aoLightValueScratchXZNP
-                            + renderBlocks.aoLightValueScratchYZNP
-                            + aoLightValue)
-                    / 4.0F;
-            float aoMixed_XYZPNP = ao[BOTTOM_RIGHT] = (renderBlocks.aoLightValueScratchYZNP
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchXYZPNP
-                            + renderBlocks.aoLightValueScratchXZPP)
-                    / 4.0F;
-            float aoMixed_XYZPPP = ao[TOP_RIGHT] = (aoLightValue
-                            + renderBlocks.aoLightValueScratchYZPP
-                            + renderBlocks.aoLightValueScratchXZPP
-                            + renderBlocks.aoLightValueScratchXYZPPP)
-                    / 4.0F;
+                    + renderBlocks.aoLightValueScratchXZNP
+                    + renderBlocks.aoLightValueScratchYZNP
+                    + aoLightValue) / 4.0F;
+            float aoMixed_XYZPNP = ao[BOTTOM_RIGHT] = (renderBlocks.aoLightValueScratchYZNP + aoLightValue
+                    + renderBlocks.aoLightValueScratchXYZPNP
+                    + renderBlocks.aoLightValueScratchXZPP) / 4.0F;
+            float aoMixed_XYZPPP = ao[TOP_RIGHT] = (aoLightValue + renderBlocks.aoLightValueScratchYZPP
+                    + renderBlocks.aoLightValueScratchXZPP
+                    + renderBlocks.aoLightValueScratchXYZPPP) / 4.0F;
 
             int brightnessMixed_XYZNPP = renderBlocks.brightnessTopLeft = renderBlocks.getAoBrightness(
                     renderBlocks.aoBrightnessXZNP,
@@ -993,18 +957,17 @@ public class LightingHelper {
     /**
      * Sets up lighting for the West face and returns the {@link LightingHelper}.
      * <p>
-     * This is a consolidated <code>method</code> that sets side shading
-     * with respect to the following attributes:
+     * This is a consolidated <code>method</code> that sets side shading with respect to the following attributes:
      * <p>
      * <ul>
-     *   <li>{@link RenderBlocks#enableAO}</li>
-     *   <li>{@link RenderBlocks#partialRenderBounds}</li>
+     * <li>{@link RenderBlocks#enableAO}</li>
+     * <li>{@link RenderBlocks#partialRenderBounds}</li>
      * </ul>
      *
-     * @param  itemStack the cover {@link ItemStack}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param itemStack the cover {@link ItemStack}
+     * @param x         the x coordinate
+     * @param y         the y coordinate
+     * @param z         the z coordinate
      * @return the {@link LightingHelper}
      */
     public LightingHelper setupLightingXNeg(ItemStack itemStack, int x, int y, int z) {
@@ -1015,25 +978,24 @@ public class LightingHelper {
         if (renderBlocks.enableAO) {
 
             float ratio = (float) (1.0F - renderBlocks.renderMinX);
-            float aoLightValue =
-                    renderBlocks.blockAccess.getBlock(x_offset, y, z).getAmbientOcclusionLightValue();
+            float aoLightValue = renderBlocks.blockAccess.getBlock(x_offset, y, z).getAmbientOcclusionLightValue();
 
-            renderBlocks.aoBrightnessXYNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z);
-            renderBlocks.aoBrightnessXZNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y, z - 1);
-            renderBlocks.aoBrightnessXZNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y, z + 1);
-            renderBlocks.aoBrightnessXYNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z);
-            renderBlocks.aoBrightnessXYZNNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z - 1);
-            renderBlocks.aoBrightnessXYZNNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z + 1);
-            renderBlocks.aoBrightnessXYZNPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z - 1);
-            renderBlocks.aoBrightnessXYZNPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z + 1);
+            renderBlocks.aoBrightnessXYNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z);
+            renderBlocks.aoBrightnessXZNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y, z - 1);
+            renderBlocks.aoBrightnessXZNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y, z + 1);
+            renderBlocks.aoBrightnessXYNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z);
+            renderBlocks.aoBrightnessXYZNNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z - 1);
+            renderBlocks.aoBrightnessXYZNNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z + 1);
+            renderBlocks.aoBrightnessXYZNPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z - 1);
+            renderBlocks.aoBrightnessXYZNPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z + 1);
             renderBlocks.aoLightValueScratchXYNN = getMixedAo(
                     renderBlocks.blockAccess.getBlock(x - 1, y - 1, z).getAmbientOcclusionLightValue(),
                     renderBlocks.blockAccess.getBlock(x, y - 1, z).getAmbientOcclusionLightValue(),
@@ -1067,26 +1029,20 @@ public class LightingHelper {
                     renderBlocks.blockAccess.getBlock(x, y + 1, z + 1).getAmbientOcclusionLightValue(),
                     ratio);
 
-            float aoMixed_XYZNPN = ao[TOP_LEFT] = (renderBlocks.aoLightValueScratchXZNN
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchXYZNPN
-                            + renderBlocks.aoLightValueScratchXYNP)
-                    / 4.0F;
+            float aoMixed_XYZNPN = ao[TOP_LEFT] = (renderBlocks.aoLightValueScratchXZNN + aoLightValue
+                    + renderBlocks.aoLightValueScratchXYZNPN
+                    + renderBlocks.aoLightValueScratchXYNP) / 4.0F;
             float aoMixed_XYZNNN = ao[BOTTOM_LEFT] = (renderBlocks.aoLightValueScratchXYZNNN
-                            + renderBlocks.aoLightValueScratchXYNN
-                            + renderBlocks.aoLightValueScratchXZNN
-                            + aoLightValue)
-                    / 4.0F;
+                    + renderBlocks.aoLightValueScratchXYNN
+                    + renderBlocks.aoLightValueScratchXZNN
+                    + aoLightValue) / 4.0F;
             float aoMixed_XYZNNP = ao[BOTTOM_RIGHT] = (renderBlocks.aoLightValueScratchXYNN
-                            + renderBlocks.aoLightValueScratchXYZNNP
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchXZNP)
-                    / 4.0F;
-            float aoMixed_XYZNPP = ao[TOP_RIGHT] = (aoLightValue
-                            + renderBlocks.aoLightValueScratchXZNP
-                            + renderBlocks.aoLightValueScratchXYNP
-                            + renderBlocks.aoLightValueScratchXYZNPP)
-                    / 4.0F;
+                    + renderBlocks.aoLightValueScratchXYZNNP
+                    + aoLightValue
+                    + renderBlocks.aoLightValueScratchXZNP) / 4.0F;
+            float aoMixed_XYZNPP = ao[TOP_RIGHT] = (aoLightValue + renderBlocks.aoLightValueScratchXZNP
+                    + renderBlocks.aoLightValueScratchXYNP
+                    + renderBlocks.aoLightValueScratchXYZNPP) / 4.0F;
 
             int brightnessMixed_XYZNPN = renderBlocks.brightnessTopLeft = renderBlocks.getAoBrightness(
                     renderBlocks.aoBrightnessXZNN,
@@ -1173,18 +1129,17 @@ public class LightingHelper {
     /**
      * Sets up lighting for the East face and returns the {@link LightingHelper}.
      * <p>
-     * This is a consolidated <code>method</code> that sets side shading
-     * with respect to the following attributes:
+     * This is a consolidated <code>method</code> that sets side shading with respect to the following attributes:
      * <p>
      * <ul>
-     *   <li>{@link RenderBlocks#enableAO}</li>
-     *   <li>{@link RenderBlocks#partialRenderBounds}</li>
+     * <li>{@link RenderBlocks#enableAO}</li>
+     * <li>{@link RenderBlocks#partialRenderBounds}</li>
      * </ul>
      *
-     * @param  itemStack the cover {@link ItemStack}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param itemStack the cover {@link ItemStack}
+     * @param x         the x coordinate
+     * @param y         the y coordinate
+     * @param z         the z coordinate
      * @return the {@link LightingHelper}
      */
     public LightingHelper setupLightingXPos(ItemStack itemStack, int x, int y, int z) {
@@ -1194,25 +1149,24 @@ public class LightingHelper {
 
         if (renderBlocks.enableAO) {
 
-            float aoLightValue =
-                    renderBlocks.blockAccess.getBlock(x_offset, y, z).getAmbientOcclusionLightValue();
+            float aoLightValue = renderBlocks.blockAccess.getBlock(x_offset, y, z).getAmbientOcclusionLightValue();
 
-            renderBlocks.aoBrightnessXYPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z);
-            renderBlocks.aoBrightnessXZPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y, z - 1);
-            renderBlocks.aoBrightnessXZPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y, z + 1);
-            renderBlocks.aoBrightnessXYPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z);
-            renderBlocks.aoBrightnessXYZPNN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z - 1);
-            renderBlocks.aoBrightnessXYZPNP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z + 1);
-            renderBlocks.aoBrightnessXYZPPN =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z - 1);
-            renderBlocks.aoBrightnessXYZPPP =
-                    block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z + 1);
+            renderBlocks.aoBrightnessXYPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z);
+            renderBlocks.aoBrightnessXZPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y, z - 1);
+            renderBlocks.aoBrightnessXZPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y, z + 1);
+            renderBlocks.aoBrightnessXYPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z);
+            renderBlocks.aoBrightnessXYZPNN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z - 1);
+            renderBlocks.aoBrightnessXYZPNP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y - 1, z + 1);
+            renderBlocks.aoBrightnessXYZPPN = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z - 1);
+            renderBlocks.aoBrightnessXYZPPP = block
+                    .getMixedBrightnessForBlock(renderBlocks.blockAccess, x_offset, y + 1, z + 1);
             renderBlocks.aoLightValueScratchXYPN = getMixedAo(
                     renderBlocks.blockAccess.getBlock(x + 1, y - 1, z).getAmbientOcclusionLightValue(),
                     renderBlocks.blockAccess.getBlock(x, y - 1, z).getAmbientOcclusionLightValue(),
@@ -1246,26 +1200,20 @@ public class LightingHelper {
                     renderBlocks.blockAccess.getBlock(x, y + 1, z + 1).getAmbientOcclusionLightValue(),
                     renderBlocks.renderMaxX);
 
-            float aoMixed_XYZPPP = ao[TOP_LEFT] = (aoLightValue
-                            + renderBlocks.aoLightValueScratchXZPP
-                            + renderBlocks.aoLightValueScratchXYPP
-                            + renderBlocks.aoLightValueScratchXYZPPP)
-                    / 4.0F;
+            float aoMixed_XYZPPP = ao[TOP_LEFT] = (aoLightValue + renderBlocks.aoLightValueScratchXZPP
+                    + renderBlocks.aoLightValueScratchXYPP
+                    + renderBlocks.aoLightValueScratchXYZPPP) / 4.0F;
             float aoMixed_XYZPNP = ao[BOTTOM_LEFT] = (renderBlocks.aoLightValueScratchXYPN
-                            + renderBlocks.aoLightValueScratchXYZPNP
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchXZPP)
-                    / 4.0F;
+                    + renderBlocks.aoLightValueScratchXYZPNP
+                    + aoLightValue
+                    + renderBlocks.aoLightValueScratchXZPP) / 4.0F;
             float aoMixed_XYZPNN = ao[BOTTOM_RIGHT] = (renderBlocks.aoLightValueScratchXYZPNN
-                            + renderBlocks.aoLightValueScratchXYPN
-                            + renderBlocks.aoLightValueScratchXZPN
-                            + aoLightValue)
-                    / 4.0F;
-            float aoMixed_XYZPPN = ao[TOP_RIGHT] = (renderBlocks.aoLightValueScratchXZPN
-                            + aoLightValue
-                            + renderBlocks.aoLightValueScratchXYZPPN
-                            + renderBlocks.aoLightValueScratchXYPP)
-                    / 4.0F;
+                    + renderBlocks.aoLightValueScratchXYPN
+                    + renderBlocks.aoLightValueScratchXZPN
+                    + aoLightValue) / 4.0F;
+            float aoMixed_XYZPPN = ao[TOP_RIGHT] = (renderBlocks.aoLightValueScratchXZPN + aoLightValue
+                    + renderBlocks.aoLightValueScratchXYZPPN
+                    + renderBlocks.aoLightValueScratchXYPP) / 4.0F;
 
             int brightnessMixed_XYZPPP = renderBlocks.brightnessTopLeft = renderBlocks.getAoBrightness(
                     renderBlocks.aoBrightnessXZPP,

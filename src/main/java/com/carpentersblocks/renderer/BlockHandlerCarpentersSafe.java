@@ -1,19 +1,22 @@
 package com.carpentersblocks.renderer;
 
-import com.carpentersblocks.block.BlockCarpentersSafe;
-import com.carpentersblocks.data.Safe;
-import com.carpentersblocks.tileentity.TECarpentersSafe;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.block.BlockCarpentersSafe;
+import com.carpentersblocks.data.Safe;
+import com.carpentersblocks.tileentity.TECarpentersSafe;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
@@ -138,8 +141,8 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
         /* Set panel material */
 
         if (TE.hasAttribute(TE.ATTR_UPGRADE)) {
-            String name =
-                    BlockProperties.getOreDictMatch(TE.getAttribute(TE.ATTR_UPGRADE), BlockCarpentersSafe.upgradeOres);
+            String name = BlockProperties
+                    .getOreDictMatch(TE.getAttribute(TE.ATTR_UPGRADE), BlockCarpentersSafe.upgradeOres);
             if (!"".equals(name)) {
                 for (int idx = 0; idx < BlockCarpentersSafe.upgradeOres.length; ++idx) {
                     if (BlockCarpentersSafe.upgradeOres[idx].equals(name)) {
@@ -155,7 +158,17 @@ public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
 
         for (Component comp : coverList) {
             renderBlockWithRotation(
-                    itemStack, x, y, z, comp.xMin, comp.yMin, comp.zMin, comp.xMax, comp.yMax, comp.zMax, dir);
+                    itemStack,
+                    x,
+                    y,
+                    z,
+                    comp.xMin,
+                    comp.yMin,
+                    comp.zMin,
+                    comp.xMax,
+                    comp.yMax,
+                    comp.zMax,
+                    dir);
         }
 
         renderBlockWithRotation(

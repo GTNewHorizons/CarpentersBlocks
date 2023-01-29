@@ -1,15 +1,5 @@
 package com.carpentersblocks;
 
-import com.carpentersblocks.util.ModLogger;
-import com.carpentersblocks.util.handler.DesignHandler;
-import com.google.common.base.Charsets;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.FMLFileResourcePack;
-import cpw.mods.fml.common.DummyModContainer;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -20,21 +10,38 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+
 import javax.imageio.ImageIO;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.ResourcePackFileNotFoundException;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.Level;
+
+import com.carpentersblocks.util.ModLogger;
+import com.carpentersblocks.util.handler.DesignHandler;
+import com.google.common.base.Charsets;
+
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.FMLFileResourcePack;
+import cpw.mods.fml.common.DummyModContainer;
+import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class CarpentersBlocksCachedResources extends DummyModContainer {
 
     public static final CarpentersBlocksCachedResources INSTANCE = new CarpentersBlocksCachedResources();
     private String MODID = "CarpentersBlocksCachedResources";
-    private String resourceDir = FilenameUtils.normalizeNoEndSeparator(
-                    Minecraft.getMinecraft().mcDataDir.getAbsolutePath())
-            + File.separator + "mods" + File.separator + CarpentersBlocks.MODID.toLowerCase();
+    private String resourceDir = FilenameUtils
+            .normalizeNoEndSeparator(Minecraft.getMinecraft().mcDataDir.getAbsolutePath()) + File.separator
+            + "mods"
+            + File.separator
+            + CarpentersBlocks.MODID.toLowerCase();
     private static ZipFile resourcePackZipFile;
     private static ArrayList<Object[]> resources = new ArrayList<Object[]>();
     private final int RESOURCE_PATH = 0;
@@ -79,9 +86,13 @@ public class CarpentersBlocksCachedResources extends DummyModContainer {
             try {
                 if ("pack.mcmeta".equals(resourceName)) {
                     return new ByteArrayInputStream(
-                            ("{\n" + " \"pack\": {\n" + "   \"description\": \"dummy FML pack for " + getPackName()
-                                            + "\",\n" + "   \"pack_format\": 1\n" + "}\n" + "}")
-                                    .getBytes(Charsets.UTF_8));
+                            ("{\n" + " \"pack\": {\n"
+                                    + "   \"description\": \"dummy FML pack for "
+                                    + getPackName()
+                                    + "\",\n"
+                                    + "   \"pack_format\": 1\n"
+                                    + "}\n"
+                                    + "}").getBytes(Charsets.UTF_8));
                 } else {
                     return zipfile.getInputStream(zipentry);
                 }
@@ -110,7 +121,7 @@ public class CarpentersBlocksCachedResources extends DummyModContainer {
      * Adds a resource to list to be added to resource pack.
      */
     public void addResource(String path, BufferedImage bufferedImage) {
-        resources.add(new Object[] {path, bufferedImage});
+        resources.add(new Object[] { path, bufferedImage });
     }
 
     /**

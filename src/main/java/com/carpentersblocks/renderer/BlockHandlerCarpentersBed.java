@@ -1,17 +1,19 @@
 package com.carpentersblocks.renderer;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.carpentersblocks.data.Bed;
 import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.handler.DyeHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBed extends BlockHandlerBase {
@@ -35,16 +37,10 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
 
     private boolean getIsParallelPos() {
         if (dir.ordinal() < 4
-                && renderBlocks
-                        .blockAccess
-                        .getBlock(TE.xCoord + 1, TE.yCoord, TE.zCoord)
-                        .equals(srcBlock)) {
+                && renderBlocks.blockAccess.getBlock(TE.xCoord + 1, TE.yCoord, TE.zCoord).equals(srcBlock)) {
             TEBase TE_adj = (TEBase) renderBlocks.blockAccess.getTileEntity(TE.xCoord + 1, TE.yCoord, TE.zCoord);
             return Bed.isHeadOfBed(TE) == Bed.isHeadOfBed(TE_adj) && Bed.getDirection(TE) == Bed.getDirection(TE_adj);
-        } else if (renderBlocks
-                .blockAccess
-                .getBlock(TE.xCoord, TE.yCoord, TE.zCoord + 1)
-                .equals(srcBlock)) {
+        } else if (renderBlocks.blockAccess.getBlock(TE.xCoord, TE.yCoord, TE.zCoord + 1).equals(srcBlock)) {
             TEBase TE_adj = (TEBase) renderBlocks.blockAccess.getTileEntity(TE.xCoord, TE.yCoord, TE.zCoord + 1);
             return Bed.isHeadOfBed(TE) == Bed.isHeadOfBed(TE_adj) && Bed.getDirection(TE) == Bed.getDirection(TE_adj);
         } else {
@@ -54,16 +50,10 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
 
     private boolean getIsParallelNeg() {
         if (dir.ordinal() < 4
-                && renderBlocks
-                        .blockAccess
-                        .getBlock(TE.xCoord - 1, TE.yCoord, TE.zCoord)
-                        .equals(srcBlock)) {
+                && renderBlocks.blockAccess.getBlock(TE.xCoord - 1, TE.yCoord, TE.zCoord).equals(srcBlock)) {
             TEBase TE_adj = (TEBase) renderBlocks.blockAccess.getTileEntity(TE.xCoord - 1, TE.yCoord, TE.zCoord);
             return Bed.isHeadOfBed(TE) == Bed.isHeadOfBed(TE_adj) && Bed.getDirection(TE) == Bed.getDirection(TE_adj);
-        } else if (renderBlocks
-                .blockAccess
-                .getBlock(TE.xCoord, TE.yCoord, TE.zCoord - 1)
-                .equals(srcBlock)) {
+        } else if (renderBlocks.blockAccess.getBlock(TE.xCoord, TE.yCoord, TE.zCoord - 1).equals(srcBlock)) {
             TEBase TE_adj = (TEBase) renderBlocks.blockAccess.getTileEntity(TE.xCoord, TE.yCoord, TE.zCoord - 1);
             return Bed.isHeadOfBed(TE) == Bed.isHeadOfBed(TE_adj) && Bed.getDirection(TE) == Bed.getDirection(TE_adj);
         } else {
@@ -142,7 +132,7 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
         suppressOverlay = true;
         suppressChiselDesign = true;
 
-        int[] rotateTop = {2, 0, 1, 3};
+        int[] rotateTop = { 2, 0, 1, 3 };
         renderBlocks.uvRotateTop = renderBlocks.uvRotateBottom = rotateTop[dir.ordinal() - 2];
         renderPillow(itemStack, x, y, z);
         renderBlanket(itemStack, x, y, z);
@@ -173,30 +163,19 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
         VertexHelper.setFloatingIconLock();
 
         if (hasDesign) {
-            int[] idxHead = {2, 2, 2, 7, 1, 3};
-            int[] idxFoot = {5, 5, 2, 7, 4, 6};
-            int[][] idxRot = {{3, 2, 5, 4}, {2, 3, 4, 5}, {4, 5, 3, 2}, {5, 4, 2, 3}};
+            int[] idxHead = { 2, 2, 2, 7, 1, 3 };
+            int[] idxFoot = { 5, 5, 2, 7, 4, 6 };
+            int[][] idxRot = { { 3, 2, 5, 4 }, { 2, 3, 4, 5 }, { 4, 5, 3, 2 }, { 5, 4, 2, 3 } };
             int valDir = dir.ordinal() - 2;
 
             /** 0 = head, 1 = foot */
             IIcon[][] icon = {
-                {
-                    icon_design[idxHead[0]],
-                    icon_design[idxHead[1]],
-                    icon_design[idxHead[idxRot[valDir][0]]],
-                    icon_design[idxHead[idxRot[valDir][1]]],
-                    icon_design[idxHead[idxRot[valDir][2]]],
-                    icon_design[idxHead[idxRot[valDir][3]]]
-                },
-                {
-                    icon_design[idxFoot[0]],
-                    icon_design[idxFoot[1]],
-                    icon_design[idxFoot[idxRot[valDir][0]]],
-                    icon_design[idxFoot[idxRot[valDir][1]]],
-                    icon_design[idxFoot[idxRot[valDir][2]]],
-                    icon_design[idxFoot[idxRot[valDir][3]]]
-                }
-            };
+                    { icon_design[idxHead[0]], icon_design[idxHead[1]], icon_design[idxHead[idxRot[valDir][0]]],
+                            icon_design[idxHead[idxRot[valDir][1]]], icon_design[idxHead[idxRot[valDir][2]]],
+                            icon_design[idxHead[idxRot[valDir][3]]] },
+                    { icon_design[idxFoot[0]], icon_design[idxFoot[1]], icon_design[idxFoot[idxRot[valDir][0]]],
+                            icon_design[idxFoot[idxRot[valDir][1]]], icon_design[idxFoot[idxRot[valDir][2]]],
+                            icon_design[idxFoot[idxRot[valDir][3]]] } };
 
             int idx = isHead ? 0 : 1;
             for (int side = 0; side < 6; ++side) {
@@ -272,8 +251,7 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
                         0.5625D,
                         bedParallelPos ? 1.0D : 0.9375D);
                 break;
-            default: {
-            }
+            default: {}
         }
 
         renderBlock(itemStack, x, y, z);
@@ -426,20 +404,20 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
                 }
                 break;
             }
-            default: {
-            }
+            default: {}
         }
 
         /* Render components that are safe to rotate */
 
         if (isHead) {
-            renderBlockWithRotation(
-                    itemStack, x, y, z, 0.125D, 0.1875D, 0.0D, 0.875D, 0.875D, 0.125D, dir); // Render headboard
-            renderBlockWithRotation(
-                    itemStack, x, y, z, 0.0D, 0.1875D, 0.125D, 1.0D, 0.3125D, 1.0D, dir); // Render support board
+            renderBlockWithRotation(itemStack, x, y, z, 0.125D, 0.1875D, 0.0D, 0.875D, 0.875D, 0.125D, dir); // Render
+                                                                                                             // headboard
+            renderBlockWithRotation(itemStack, x, y, z, 0.0D, 0.1875D, 0.125D, 1.0D, 0.3125D, 1.0D, dir); // Render
+                                                                                                          // support
+                                                                                                          // board
         } else {
-            renderBlockWithRotation(
-                    itemStack, x, y, z, 0.0D, 0.1875D, 0.0D, 1.0D, 0.3125D, 1.0D, dir); // Render support board
+            renderBlockWithRotation(itemStack, x, y, z, 0.0D, 0.1875D, 0.0D, 1.0D, 0.3125D, 1.0D, dir); // Render
+                                                                                                        // support board
         }
     }
 }

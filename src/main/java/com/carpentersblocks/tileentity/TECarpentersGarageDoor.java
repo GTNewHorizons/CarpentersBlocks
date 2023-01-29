@@ -1,15 +1,15 @@
 package com.carpentersblocks.tileentity;
 
-import com.carpentersblocks.data.GarageDoor;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+
+import com.carpentersblocks.data.GarageDoor;
 
 public class TECarpentersGarageDoor extends TEBase {
 
     @Override
     /**
-     * Garage door state change sounds are handled strictly
-     * client-side so that only the nearest state change is
+     * Garage door state change sounds are handled strictly client-side so that only the nearest state change is
      * audible.
      *
      * @param net The NetworkManager the packet originated from

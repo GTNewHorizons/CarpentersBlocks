@@ -1,5 +1,12 @@
 package com.carpentersblocks.renderer;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+
 import com.carpentersblocks.block.BlockCoverable;
 import com.carpentersblocks.renderer.helper.RenderHelperFlowerPot;
 import com.carpentersblocks.util.BlockProperties;
@@ -7,14 +14,9 @@ import com.carpentersblocks.util.flowerpot.FlowerPotHandler;
 import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
 import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
@@ -81,8 +83,8 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
      */
     public boolean renderPot(ItemStack itemStack, int x, int y, int z) {
         if (TE.hasDesign()) {
-            IIcon designIcon =
-                    IconRegistry.icon_design_flower_pot.get(DesignHandler.listFlowerPot.indexOf(TE.getDesign()));
+            IIcon designIcon = IconRegistry.icon_design_flower_pot
+                    .get(DesignHandler.listFlowerPot.indexOf(TE.getDesign()));
             setIconOverride(6, designIcon);
         }
 

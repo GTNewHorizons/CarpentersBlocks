@@ -1,18 +1,18 @@
 package com.carpentersblocks.data;
 
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.EntityLivingUtil;
 import com.carpentersblocks.util.registry.BlockRegistry;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class Bed {
 
     /**
      * 16-bit data components:
      *
-     * [0]     [00]       [00000000]  [0]         [0000]
-     * isHead  Direction  Unused      isOccupied  Type
+     * [0] [00] [00000000] [0] [0000] isHead Direction Unused isOccupied Type
      */
     public static final byte TYPE_NORMAL = 0;
 
@@ -52,8 +52,8 @@ public class Bed {
     }
 
     /**
-     * Returns TE for opposite piece.
-     * Will return null if opposite piece doesn't exist (when creating or destroying block, for instance).
+     * Returns TE for opposite piece. Will return null if opposite piece doesn't exist (when creating or destroying
+     * block, for instance).
      */
     public static TEBase getOppositeTE(TEBase TE) {
         ForgeDirection dir = getDirection(TE);
@@ -101,8 +101,7 @@ public class Bed {
     }
 
     /**
-     * Sets direction of bed piece.
-     * Stored as player facing from 0 to 3.
+     * Sets direction of bed piece. Stored as player facing from 0 to 3.
      */
     public static void setDirection(TEBase TE, int facing) {
         int temp = (TE.getData() & ~0x6000) | (facing << 13);

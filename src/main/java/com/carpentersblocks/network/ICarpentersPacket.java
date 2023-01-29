@@ -1,9 +1,11 @@
 package com.carpentersblocks.network;
 
+import java.io.IOException;
+
+import net.minecraft.entity.player.EntityPlayer;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
-import java.io.IOException;
-import net.minecraft.entity.player.EntityPlayer;
 
 public interface ICarpentersPacket {
 

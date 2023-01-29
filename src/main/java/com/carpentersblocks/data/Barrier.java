@@ -7,8 +7,7 @@ public class Barrier {
     /**
      * 16-bit data components:
      *
-     * [00000000000]  [0]   [0000]
-     * Unused         Post  Type
+     * [00000000000] [0] [0000] Unused Post Type
      */
     public static final byte TYPE_VANILLA = 0;
 

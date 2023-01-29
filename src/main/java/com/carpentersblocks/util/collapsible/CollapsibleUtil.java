@@ -57,8 +57,7 @@ public class CollapsibleUtil {
         double NE_SW = Math.abs(offset_XZPN - offset_XZNP);
 
         /*
-         * Changing this to NW_SE > NE_SW will change how slopes are split.
-         * It's really a matter of personal preference.
+         * Changing this to NW_SE > NE_SW will change how slopes are split. It's really a matter of personal preference.
          */
         if (NW_SE < NE_SW) {
             CENTER_YMAX = (offset_XZPN + offset_XZNP) / 2.0F;
@@ -119,9 +118,9 @@ public class CollapsibleUtil {
             if (maxDepth - depth > 0.5F) {
                 depth = maxDepth - 0.5F;
             }
-            return new float[] {xMin, 0.0F, zMin, xMax, depth, zMax};
+            return new float[] { xMin, 0.0F, zMin, xMax, depth, zMax };
         } else {
-            return new float[] {xMin, 1.0F - depth, zMin, xMax, 1.0F, zMax};
+            return new float[] { xMin, 1.0F - depth, zMin, xMax, 1.0F, zMax };
         }
     }
 }

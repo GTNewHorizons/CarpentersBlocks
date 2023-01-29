@@ -1,18 +1,20 @@
 package com.carpentersblocks.item;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.carpentersblocks.CarpentersBlocks;
 import com.carpentersblocks.data.Bed;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.EntityLivingUtil;
 import com.carpentersblocks.util.registry.BlockRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemCarpentersBed extends ItemBlock {
 
@@ -36,17 +38,8 @@ public class ItemCarpentersBed extends ItemBlock {
      * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
      */
-    public boolean onItemUse(
-            ItemStack itemStack,
-            EntityPlayer entityPlayer,
-            World world,
-            int x,
-            int y,
-            int z,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ) {
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side,
+            float hitX, float hitY, float hitZ) {
         if (side == 1) {
 
             ++y;
@@ -65,7 +58,13 @@ public class ItemCarpentersBed extends ItemBlock {
                     && World.doesBlockHaveSolidTopSurface(world, x_offset, y - 1, z_offset)
                     && placeBlock(world, BlockRegistry.blockCarpentersBed, entityPlayer, itemStack, x, y, z)
                     && placeBlock(
-                            world, BlockRegistry.blockCarpentersBed, entityPlayer, itemStack, x_offset, y, z_offset)) {
+                            world,
+                            BlockRegistry.blockCarpentersBed,
+                            entityPlayer,
+                            itemStack,
+                            x_offset,
+                            y,
+                            z_offset)) {
 
                 /* Foot of bed. */
 
@@ -81,8 +80,8 @@ public class ItemCarpentersBed extends ItemBlock {
                 BlockProperties.playBlockSound(world, new ItemStack(BlockRegistry.blockCarpentersBed), x, y, z, false);
 
                 if (!entityPlayer.capabilities.isCreativeMode && --itemStack.stackSize <= 0) {
-                    entityPlayer.inventory.setInventorySlotContents(
-                            entityPlayer.inventory.currentItem, (ItemStack) null);
+                    entityPlayer.inventory
+                            .setInventorySlotContents(entityPlayer.inventory.currentItem, (ItemStack) null);
                 }
 
                 return true;

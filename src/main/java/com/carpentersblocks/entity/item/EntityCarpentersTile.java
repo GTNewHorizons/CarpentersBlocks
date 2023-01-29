@@ -1,16 +1,8 @@
 package com.carpentersblocks.entity.item;
 
-import com.carpentersblocks.api.ICarpentersHammer;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.handler.DesignHandler;
-import com.carpentersblocks.util.handler.DyeHandler;
-import com.carpentersblocks.util.protection.PlayerPermissions;
-import com.carpentersblocks.util.registry.IconRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -24,6 +16,17 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.api.ICarpentersHammer;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.handler.DesignHandler;
+import com.carpentersblocks.util.handler.DyeHandler;
+import com.carpentersblocks.util.protection.PlayerPermissions;
+import com.carpentersblocks.util.registry.IconRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityCarpentersTile extends EntityBase {
 
@@ -43,28 +46,17 @@ public class EntityCarpentersTile extends EntityBase {
     /** Depth of tile. */
     private static final double depth = 0.0625D;
 
-    private static final double[][] bounds = {
-        {0.0D, 1.0D - depth, 0.0D, 1.0D, 1.0D, 1.0D},
-        {0.0D, 0.0D, 0.0D, 1.0D, depth, 1.0D},
-        {0.0D, 0.0D, 1.0D - depth, 1.0D, 1.0D, 1.0D},
-        {0.0D, 0.0D, 0.0D, 1.0D, 1.0D, depth},
-        {1.0D - depth, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D},
-        {0.0D, 0.0D, 0.0D, depth, 1.0D, 1.0D}
-    };
+    private static final double[][] bounds = { { 0.0D, 1.0D - depth, 0.0D, 1.0D, 1.0D, 1.0D },
+            { 0.0D, 0.0D, 0.0D, 1.0D, depth, 1.0D }, { 0.0D, 0.0D, 1.0D - depth, 1.0D, 1.0D, 1.0D },
+            { 0.0D, 0.0D, 0.0D, 1.0D, 1.0D, depth }, { 1.0D - depth, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D },
+            { 0.0D, 0.0D, 0.0D, depth, 1.0D, 1.0D } };
 
     public EntityCarpentersTile(World world) {
         super(world);
     }
 
-    public EntityCarpentersTile(
-            EntityPlayer entityPlayer,
-            World world,
-            int x,
-            int y,
-            int z,
-            ForgeDirection dir,
-            ForgeDirection offset_side,
-            boolean ignoreNeighbors) {
+    public EntityCarpentersTile(EntityPlayer entityPlayer, World world, int x, int y, int z, ForgeDirection dir,
+            ForgeDirection offset_side, boolean ignoreNeighbors) {
         super(world, entityPlayer);
         posX = x;
         posY = y;
@@ -81,48 +73,50 @@ public class EntityCarpentersTile extends EntityBase {
 
             switch (offset_side) {
                 case DOWN:
-                    list = world.getEntitiesWithinAABB(
-                            EntityCarpentersTile.class, boundingBox.offset(0.0D, -factor, 0.0D));
+                    list = world
+                            .getEntitiesWithinAABB(EntityCarpentersTile.class, boundingBox.offset(0.0D, -factor, 0.0D));
                     break;
                 case UP:
-                    list = world.getEntitiesWithinAABB(
-                            EntityCarpentersTile.class, boundingBox.offset(0.0D, factor, 0.0D));
+                    list = world
+                            .getEntitiesWithinAABB(EntityCarpentersTile.class, boundingBox.offset(0.0D, factor, 0.0D));
                     break;
                 case NORTH:
-                    list = world.getEntitiesWithinAABB(
-                            EntityCarpentersTile.class, boundingBox.offset(0.0D, 0.0D, -factor));
+                    list = world
+                            .getEntitiesWithinAABB(EntityCarpentersTile.class, boundingBox.offset(0.0D, 0.0D, -factor));
                     break;
                 case SOUTH:
-                    list = world.getEntitiesWithinAABB(
-                            EntityCarpentersTile.class, boundingBox.offset(0.0D, 0.0D, factor));
+                    list = world
+                            .getEntitiesWithinAABB(EntityCarpentersTile.class, boundingBox.offset(0.0D, 0.0D, factor));
                     break;
                 case WEST:
-                    list = world.getEntitiesWithinAABB(
-                            EntityCarpentersTile.class, boundingBox.offset(-factor, 0.0D, 0.0D));
+                    list = world
+                            .getEntitiesWithinAABB(EntityCarpentersTile.class, boundingBox.offset(-factor, 0.0D, 0.0D));
                     break;
                 case EAST:
-                    list = world.getEntitiesWithinAABB(
-                            EntityCarpentersTile.class, boundingBox.offset(factor, 0.0D, 0.0D));
+                    list = world
+                            .getEntitiesWithinAABB(EntityCarpentersTile.class, boundingBox.offset(factor, 0.0D, 0.0D));
                     break;
                 default:
                     switch (dir) {
                         case DOWN:
                         case UP:
                             list = world.getEntitiesWithinAABB(
-                                    EntityCarpentersTile.class, boundingBox.expand(factor, 0.0D, factor));
+                                    EntityCarpentersTile.class,
+                                    boundingBox.expand(factor, 0.0D, factor));
                             break;
                         case NORTH:
                         case SOUTH:
                             list = world.getEntitiesWithinAABB(
-                                    EntityCarpentersTile.class, boundingBox.expand(factor, factor, 0.0D));
+                                    EntityCarpentersTile.class,
+                                    boundingBox.expand(factor, factor, 0.0D));
                             break;
                         case WEST:
                         case EAST:
                             list = world.getEntitiesWithinAABB(
-                                    EntityCarpentersTile.class, boundingBox.expand(0.0D, factor, factor));
+                                    EntityCarpentersTile.class,
+                                    boundingBox.expand(0.0D, factor, factor));
                             break;
-                        default: {
-                        }
+                        default: {}
                     }
             }
 
@@ -149,8 +143,7 @@ public class EntityCarpentersTile extends EntityBase {
                                 continue;
                             }
                             break;
-                        default: {
-                        }
+                        default: {}
                     }
                 }
 

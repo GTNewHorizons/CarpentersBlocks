@@ -1,12 +1,14 @@
 package com.carpentersblocks.renderer.helper.slope.oblique;
 
-import com.carpentersblocks.data.Slope;
-import com.carpentersblocks.renderer.helper.RenderHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Slope;
+import com.carpentersblocks.renderer.helper.RenderHelper;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class HelperPrism extends RenderHelper {

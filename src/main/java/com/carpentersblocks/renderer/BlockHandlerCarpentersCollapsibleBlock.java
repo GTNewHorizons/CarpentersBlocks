@@ -9,19 +9,22 @@ import static com.carpentersblocks.renderer.helper.VertexHelper.SOUTHWEST;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_LEFT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_RIGHT;
 
-import com.carpentersblocks.data.Collapsible;
-import com.carpentersblocks.renderer.helper.RenderHelper;
-import com.carpentersblocks.renderer.helper.RenderHelperCollapsible;
-import com.carpentersblocks.renderer.helper.VertexHelper;
-import com.carpentersblocks.util.collapsible.CollapsibleUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+
 import org.lwjgl.opengl.GL11;
+
+import com.carpentersblocks.data.Collapsible;
+import com.carpentersblocks.renderer.helper.RenderHelper;
+import com.carpentersblocks.renderer.helper.RenderHelperCollapsible;
+import com.carpentersblocks.renderer.helper.VertexHelper;
+import com.carpentersblocks.util.collapsible.CollapsibleUtil;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
@@ -62,20 +65,20 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                 RenderHelper.renderFaceYPos(renderBlocks, x, y, z, icon);
                 break;
             case NORMAL_ZN:
-                RenderHelperCollapsible.renderFaceZNeg(
-                        renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
+                RenderHelperCollapsible
+                        .renderFaceZNeg(renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
                 break;
             case NORMAL_ZP:
-                RenderHelperCollapsible.renderFaceZPos(
-                        renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
+                RenderHelperCollapsible
+                        .renderFaceZPos(renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
                 break;
             case NORMAL_XN:
-                RenderHelperCollapsible.renderFaceXNeg(
-                        renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
+                RenderHelperCollapsible
+                        .renderFaceXNeg(renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
                 break;
             case NORMAL_XP:
-                RenderHelperCollapsible.renderFaceXPos(
-                        renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
+                RenderHelperCollapsible
+                        .renderFaceXPos(renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
                 break;
             case SLOPE_YZNN:
                 RenderHelperCollapsible.renderSlopeYNegZNeg(renderBlocks, x, y, z, icon);
@@ -193,8 +196,9 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                     double lightness_WE = (1.0F - lightingHelper.LIGHTNESS[2])
                             * Math.abs(CollapsibleUtil.offset_XZNN - CollapsibleUtil.offset_XZPN);
                     double lightness_NS = (1.0F - lightingHelper.LIGHTNESS[4])
-                            * Math.abs(CollapsibleUtil.CENTER_YMAX
-                                    - (CollapsibleUtil.offset_XZPN + CollapsibleUtil.offset_XZNN) / 2.0F)
+                            * Math.abs(
+                                    CollapsibleUtil.CENTER_YMAX
+                                            - (CollapsibleUtil.offset_XZPN + CollapsibleUtil.offset_XZNN) / 2.0F)
                             * 2.0F;
                     return (float) (lightingHelper.LIGHTNESS[0] + (lightness_WE + lightness_NS) / 2.0F);
                 }
@@ -202,8 +206,9 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                     double lightness_WE = (1.0F - lightingHelper.LIGHTNESS[2])
                             * Math.abs(CollapsibleUtil.offset_XZNP - CollapsibleUtil.offset_XZPP);
                     double lightness_NS = (1.0F - lightingHelper.LIGHTNESS[4])
-                            * Math.abs(CollapsibleUtil.CENTER_YMAX
-                                    - (CollapsibleUtil.offset_XZPP + CollapsibleUtil.offset_XZNP) / 2.0F)
+                            * Math.abs(
+                                    CollapsibleUtil.CENTER_YMAX
+                                            - (CollapsibleUtil.offset_XZPP + CollapsibleUtil.offset_XZNP) / 2.0F)
                             * 2.0F;
                     return (float) (lightingHelper.LIGHTNESS[0] + (lightness_WE + lightness_NS) / 2.0F);
                 }
@@ -211,8 +216,9 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                     double lightness_WE = (1.0F - lightingHelper.LIGHTNESS[4])
                             * Math.abs(CollapsibleUtil.offset_XZNN - CollapsibleUtil.offset_XZNP);
                     double lightness_NS = (1.0F - lightingHelper.LIGHTNESS[2])
-                            * Math.abs(CollapsibleUtil.CENTER_YMAX
-                                    - (CollapsibleUtil.offset_XZNP + CollapsibleUtil.offset_XZNN) / 2.0F)
+                            * Math.abs(
+                                    CollapsibleUtil.CENTER_YMAX
+                                            - (CollapsibleUtil.offset_XZNP + CollapsibleUtil.offset_XZNN) / 2.0F)
                             * 2.0F;
                     return (float) (lightingHelper.LIGHTNESS[0] + (lightness_WE + lightness_NS) / 2.0F);
                 }
@@ -220,8 +226,9 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                     double lightness_WE = (1.0F - lightingHelper.LIGHTNESS[4])
                             * Math.abs(CollapsibleUtil.offset_XZPP - CollapsibleUtil.offset_XZPN);
                     double lightness_NS = (1.0F - lightingHelper.LIGHTNESS[2])
-                            * Math.abs(CollapsibleUtil.CENTER_YMAX
-                                    - (CollapsibleUtil.offset_XZPP + CollapsibleUtil.offset_XZPN) / 2.0F)
+                            * Math.abs(
+                                    CollapsibleUtil.CENTER_YMAX
+                                            - (CollapsibleUtil.offset_XZPP + CollapsibleUtil.offset_XZPN) / 2.0F)
                             * 2.0F;
                     return (float) (lightingHelper.LIGHTNESS[0] + (lightness_WE + lightness_NS) / 2.0F);
                 }
@@ -236,8 +243,9 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                     double lightness_WE = (1.0F - lightingHelper.LIGHTNESS[4])
                             * Math.abs(CollapsibleUtil.offset_XZNN - CollapsibleUtil.offset_XZPN);
                     double lightness_NS = (1.0F - lightingHelper.LIGHTNESS[2])
-                            * Math.abs(CollapsibleUtil.CENTER_YMAX
-                                    - (CollapsibleUtil.offset_XZPN + CollapsibleUtil.offset_XZNN) / 2.0F)
+                            * Math.abs(
+                                    CollapsibleUtil.CENTER_YMAX
+                                            - (CollapsibleUtil.offset_XZPN + CollapsibleUtil.offset_XZNN) / 2.0F)
                             * 2.0F;
                     return (float) (lightingHelper.LIGHTNESS[1] - (lightness_WE + lightness_NS) / 2.0F);
                 }
@@ -245,8 +253,9 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                     double lightness_WE = (1.0F - lightingHelper.LIGHTNESS[4])
                             * Math.abs(CollapsibleUtil.offset_XZNP - CollapsibleUtil.offset_XZPP);
                     double lightness_NS = (1.0F - lightingHelper.LIGHTNESS[2])
-                            * Math.abs(CollapsibleUtil.CENTER_YMAX
-                                    - (CollapsibleUtil.offset_XZPP + CollapsibleUtil.offset_XZNP) / 2.0F)
+                            * Math.abs(
+                                    CollapsibleUtil.CENTER_YMAX
+                                            - (CollapsibleUtil.offset_XZPP + CollapsibleUtil.offset_XZNP) / 2.0F)
                             * 2.0F;
                     return (float) (lightingHelper.LIGHTNESS[1] - (lightness_WE + lightness_NS) / 2.0F);
                 }
@@ -254,8 +263,9 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                     double lightness_WE = (1.0F - lightingHelper.LIGHTNESS[2])
                             * Math.abs(CollapsibleUtil.offset_XZNN - CollapsibleUtil.offset_XZNP);
                     double lightness_NS = (1.0F - lightingHelper.LIGHTNESS[4])
-                            * Math.abs(CollapsibleUtil.CENTER_YMAX
-                                    - (CollapsibleUtil.offset_XZNP + CollapsibleUtil.offset_XZNN) / 2.0F)
+                            * Math.abs(
+                                    CollapsibleUtil.CENTER_YMAX
+                                            - (CollapsibleUtil.offset_XZNP + CollapsibleUtil.offset_XZNN) / 2.0F)
                             * 2.0F;
                     return (float) (lightingHelper.LIGHTNESS[1] - (lightness_WE + lightness_NS) / 2.0F);
                 }
@@ -263,8 +273,9 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
                     double lightness_WE = (1.0F - lightingHelper.LIGHTNESS[2])
                             * Math.abs(CollapsibleUtil.offset_XZPP - CollapsibleUtil.offset_XZPN);
                     double lightness_NS = (1.0F - lightingHelper.LIGHTNESS[4])
-                            * Math.abs(CollapsibleUtil.CENTER_YMAX
-                                    - (CollapsibleUtil.offset_XZPP + CollapsibleUtil.offset_XZPN) / 2.0F)
+                            * Math.abs(
+                                    CollapsibleUtil.CENTER_YMAX
+                                            - (CollapsibleUtil.offset_XZPP + CollapsibleUtil.offset_XZPN) / 2.0F)
                             * 2.0F;
                     return (float) (lightingHelper.LIGHTNESS[1] - (lightness_WE + lightness_NS) / 2.0F);
                 }

@@ -1,16 +1,16 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.tileentity.TEBase;
 
 public class Gate {
 
     /**
      * 16-bit data components:
      *
-     * [000000000]  [0]    [0]     [0]      [0000]
-     * Unused       State  Facing  OpenDir  Type
+     * [000000000] [0] [0] [0] [0000] Unused State Facing OpenDir Type
      */
     public static final byte TYPE_VANILLA = Barrier.TYPE_VANILLA;
 

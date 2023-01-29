@@ -1,17 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Torch;
-import com.carpentersblocks.data.Torch.State;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.tileentity.TECarpentersTorch;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.FeatureRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -26,10 +16,23 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Torch;
+import com.carpentersblocks.data.Torch.State;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.tileentity.TECarpentersTorch;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.FeatureRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockCarpentersTorch extends BlockSided {
 
     private static final Torch data = new Torch();
-    public static final String type[] = {"vanilla", "lantern"};
+    public static final String type[] = { "vanilla", "lantern" };
 
     public BlockCarpentersTorch(Material material) {
         super(material, data);
@@ -43,14 +46,14 @@ public class BlockCarpentersTorch extends BlockSided {
      */
     public void registerBlockIcons(IIconRegister iconRegister) {
         IconRegistry.icon_torch = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch");
-        IconRegistry.icon_torch_head_lit =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_lit");
-        IconRegistry.icon_torch_head_smoldering =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_smoldering");
-        IconRegistry.icon_torch_head_unlit =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_unlit");
-        IconRegistry.icon_lantern_glass =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "torch/lantern_glass");
+        IconRegistry.icon_torch_head_lit = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_lit");
+        IconRegistry.icon_torch_head_smoldering = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_smoldering");
+        IconRegistry.icon_torch_head_unlit = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "torch/torch_head_unlit");
+        IconRegistry.icon_lantern_glass = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "torch/lantern_glass");
     }
 
     @SideOnly(Side.CLIENT)
@@ -96,14 +99,8 @@ public class BlockCarpentersTorch extends BlockSided {
      * Called when block is activated (right-click), before normal processing resumes.
      */
     @Override
-    protected void preOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void preOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         ItemStack itemStack = entityPlayer.getHeldItem();
 
         if (itemStack != null && itemStack.getItem() instanceof ItemBlock) {
@@ -168,7 +165,7 @@ public class BlockCarpentersTorch extends BlockSided {
     /**
      * Whether block can be attached to specified side of another block.
      *
-     * @param  side the side
+     * @param side the side
      * @return whether side is supported
      */
     @Override
@@ -208,8 +205,7 @@ public class BlockCarpentersTorch extends BlockSided {
                             data.setState(TE, State.SMOLDERING);
                         }
                         break;
-                    default: {
-                    }
+                    default: {}
                 }
             }
         }

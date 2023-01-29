@@ -1,16 +1,16 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.tileentity.TEBase;
 
 public class Hinge {
 
     /**
      * 16-bit data components:
      *
-     * [0000000]  [0]    [0]    [0]    [00]    [0]    [000]
-     * Unused     Rigid  Piece  State  Facing  Hinge  Type
+     * [0000000] [0] [0] [0] [00] [0] [000] Unused Rigid Piece State Facing Hinge Type
      */
     public static final byte TYPE_GLASS_TOP = 0;
 

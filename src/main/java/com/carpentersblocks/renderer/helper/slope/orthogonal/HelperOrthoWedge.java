@@ -1,12 +1,14 @@
 package com.carpentersblocks.renderer.helper.slope.orthogonal;
 
-import com.carpentersblocks.data.Slope;
-import com.carpentersblocks.renderer.helper.RenderHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Slope;
+import com.carpentersblocks.renderer.helper.RenderHelper;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class HelperOrthoWedge extends RenderHelper {
@@ -14,8 +16,8 @@ public class HelperOrthoWedge extends RenderHelper {
     /**
      * Renders the given texture to the bottom face of the block.
      */
-    public static void renderFaceYNeg(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderFaceYNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.DOWN, x, y, z, icon);
 
         switch (slopeID) {
@@ -53,8 +55,8 @@ public class HelperOrthoWedge extends RenderHelper {
     /**
      * Renders the given texture to the top face of the block.
      */
-    public static void renderFaceYPos(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderFaceYPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.UP, x, y, z, icon);
 
         switch (slopeID) {
@@ -92,8 +94,8 @@ public class HelperOrthoWedge extends RenderHelper {
     /**
      * Renders the given texture to the North face of the block.
      */
-    public static void renderFaceZNeg(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderFaceZNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         Slope slope = Slope.getSlopeById(slopeID);
@@ -124,8 +126,8 @@ public class HelperOrthoWedge extends RenderHelper {
     /**
      * Renders the given texture to the South face of the block.
      */
-    public static void renderFaceZPos(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderFaceZPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.SOUTH, x, y, z, icon);
 
         Slope slope = Slope.getSlopeById(slopeID);
@@ -156,8 +158,8 @@ public class HelperOrthoWedge extends RenderHelper {
     /**
      * Renders the given texture to the West face of the block.
      */
-    public static void renderFaceXNeg(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderFaceXNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.WEST, x, y, z, icon);
 
         Slope slope = Slope.getSlopeById(slopeID);
@@ -188,8 +190,8 @@ public class HelperOrthoWedge extends RenderHelper {
     /**
      * Renders the given texture to the East face of the block.
      */
-    public static void renderFaceXPos(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderFaceXPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.EAST, x, y, z, icon);
 
         Slope slope = Slope.getSlopeById(slopeID);

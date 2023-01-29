@@ -1,14 +1,8 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.PressurePlate;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -18,6 +12,15 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.data.PressurePlate;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersPressurePlate extends BlockSided {
 
@@ -33,8 +36,7 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     @Override
     @SideOnly(Side.CLIENT)
     /**
-     * Returns a base icon that doesn't rely on blockIcon, which
-     * is set prior to texture stitch events.
+     * Returns a base icon that doesn't rely on blockIcon, which is set prior to texture stitch events.
      */
     public IIcon getIcon() {
         return IconRegistry.icon_uncovered_full;
@@ -150,17 +152,16 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     }
 
     /**
-     * Returns whether sensitive area contains an entity that can
-     * trigger a state change.
+     * Returns whether sensitive area contains an entity that can trigger a state change.
      *
-     * @param  TE the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return whether sensitive area contains valid {@link Entity}
      */
     private boolean hasTriggerInBounds(TEBase TE) {
         fullBounds = true;
-        List entityList = TE.getWorldObj()
-                .getEntitiesWithinAABB(
-                        Entity.class, getSensitiveAABB(TE.getWorldObj(), TE.xCoord, TE.yCoord, TE.zCoord));
+        List entityList = TE.getWorldObj().getEntitiesWithinAABB(
+                Entity.class,
+                getSensitiveAABB(TE.getWorldObj(), TE.xCoord, TE.yCoord, TE.zCoord));
         fullBounds = false;
 
         if (!entityList.isEmpty()) {
@@ -177,9 +178,9 @@ public class BlockCarpentersPressurePlate extends BlockSided {
     /**
      * Gets the area of bounding box that is sensitive to changes.
      *
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param z the z coordinate
      * @return the {@link AxisAlignedBB}
      */
     private AxisAlignedBB getSensitiveAABB(World world, int x, int y, int z) {

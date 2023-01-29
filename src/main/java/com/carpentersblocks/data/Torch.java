@@ -1,16 +1,16 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.tileentity.TEBase;
 
 public class Torch implements ISided {
 
     /**
      * 16-bit data components:
      *
-     * [0000000] [0000] [00]  [000]
-     * Unused    Type   State Dir
+     * [0000000] [0000] [00] [000] Unused Type State Dir
      */
     public enum State {
         LIT,
@@ -58,8 +58,7 @@ public class Torch implements ISided {
      */
     public State getState(TEBase TE) {
         int temp = (TE.getData() & 0x18) >> 3;
-        return temp == State.LIT.ordinal()
-                ? State.LIT
+        return temp == State.LIT.ordinal() ? State.LIT
                 : temp == State.SMOLDERING.ordinal() ? State.SMOLDERING : State.UNLIT;
     }
 
@@ -98,23 +97,23 @@ public class Torch implements ISided {
             ForgeDirection side = getDirection(TE);
             switch (side) {
                 case NORTH:
-                    coords = new double[] {xOffset, yOffset + offset1, zOffset + offset2};
+                    coords = new double[] { xOffset, yOffset + offset1, zOffset + offset2 };
                     break;
                 case SOUTH:
-                    coords = new double[] {xOffset, yOffset + offset1, zOffset - offset2};
+                    coords = new double[] { xOffset, yOffset + offset1, zOffset - offset2 };
                     break;
                 case WEST:
-                    coords = new double[] {xOffset + offset2, yOffset + offset1, zOffset};
+                    coords = new double[] { xOffset + offset2, yOffset + offset1, zOffset };
                     break;
                 case EAST:
-                    coords = new double[] {xOffset - offset2, yOffset + offset1, zOffset};
+                    coords = new double[] { xOffset - offset2, yOffset + offset1, zOffset };
                     break;
                 default:
-                    coords = new double[] {xOffset, yOffset, zOffset}; // Default UP
+                    coords = new double[] { xOffset, yOffset, zOffset }; // Default UP
                     break;
             }
         } else {
-            coords = new double[] {xOffset, TE.yCoord + 0.5625F, zOffset};
+            coords = new double[] { xOffset, TE.yCoord + 0.5625F, zOffset };
         }
 
         return coords;

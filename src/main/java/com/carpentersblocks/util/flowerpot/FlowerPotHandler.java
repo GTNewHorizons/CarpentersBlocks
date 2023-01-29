@@ -1,14 +1,16 @@
 package com.carpentersblocks.util.flowerpot;
 
-import com.carpentersblocks.tileentity.TEBase;
 import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
+import com.carpentersblocks.tileentity.TEBase;
 
 public class FlowerPotHandler {
 

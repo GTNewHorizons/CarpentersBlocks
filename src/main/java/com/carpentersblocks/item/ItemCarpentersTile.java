@@ -8,16 +8,18 @@ import static net.minecraftforge.common.util.ForgeDirection.UNKNOWN;
 import static net.minecraftforge.common.util.ForgeDirection.UP;
 import static net.minecraftforge.common.util.ForgeDirection.WEST;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.entity.item.EntityCarpentersTile;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.entity.item.EntityCarpentersTile;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCarpentersTile extends Item {
 
@@ -36,17 +38,8 @@ public class ItemCarpentersTile extends Item {
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
      */
     @Override
-    public boolean onItemUse(
-            ItemStack itemStack,
-            EntityPlayer entityPlayer,
-            World world,
-            int x,
-            int y,
-            int z,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ) {
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side,
+            float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
 
             return true;

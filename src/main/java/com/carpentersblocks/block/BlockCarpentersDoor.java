@@ -1,14 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Hinge;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,9 +10,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Hinge;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockCarpentersDoor extends BlockHinged {
 
-    public static final String type[] = {"glassTop", "glassTall", "panel", "screenTall", "french", "hidden"};
+    public static final String type[] = { "glassTop", "glassTall", "panel", "screenTall", "french", "hidden" };
 
     public BlockCarpentersDoor(Material material) {
         super(material);
@@ -32,18 +35,18 @@ public class BlockCarpentersDoor extends BlockHinged {
      * is the only chance you get to register icons.
      */
     public void registerBlockIcons(IIconRegister iconRegister) {
-        IconRegistry.icon_door_screen_tall =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "door/door_screen_tall");
-        IconRegistry.icon_door_glass_tall_top =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "door/door_glass_tall_top");
-        IconRegistry.icon_door_glass_tall_bottom =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "door/door_glass_tall_bottom");
-        IconRegistry.icon_door_glass_top =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "door/door_glass_top");
-        IconRegistry.icon_door_french_glass_top =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "door/door_french_glass_top");
-        IconRegistry.icon_door_french_glass_bottom =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "door/door_french_glass_bottom");
+        IconRegistry.icon_door_screen_tall = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "door/door_screen_tall");
+        IconRegistry.icon_door_glass_tall_top = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "door/door_glass_tall_top");
+        IconRegistry.icon_door_glass_tall_bottom = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "door/door_glass_tall_bottom");
+        IconRegistry.icon_door_glass_top = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "door/door_glass_top");
+        IconRegistry.icon_door_french_glass_top = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "door/door_french_glass_top");
+        IconRegistry.icon_door_french_glass_bottom = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "door/door_french_glass_bottom");
     }
 
     @Override
@@ -94,7 +97,7 @@ public class BlockCarpentersDoor extends BlockHinged {
 
     @Override
     public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
-        ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
+        ForgeDirection[] axises = { ForgeDirection.UP, ForgeDirection.DOWN };
         return axises;
     }
 
@@ -102,7 +105,7 @@ public class BlockCarpentersDoor extends BlockHinged {
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
-        // if Axis is UP, block rotates to the right:  north -> east -> south -> west
+        // if Axis is UP, block rotates to the right: north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TEBase) {

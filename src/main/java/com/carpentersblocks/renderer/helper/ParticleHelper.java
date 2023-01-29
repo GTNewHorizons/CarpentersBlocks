@@ -1,11 +1,5 @@
 package com.carpentersblocks.renderer.helper;
 
-import com.carpentersblocks.data.Torch;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.tileentity.TECarpentersTorch;
-import com.carpentersblocks.util.BlockProperties;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.entity.Entity;
@@ -13,6 +7,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.data.Torch;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.tileentity.TECarpentersTorch;
+import com.carpentersblocks.util.BlockProperties;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ParticleHelper {
@@ -28,9 +30,9 @@ public class ParticleHelper {
     /**
      * Spawns a particle at the base of an entity.
      *
-     * @param world the world to spawn the particle
-     * @param entity the entity at which feet the particles will spawn
-     * @param blockID the ID of the block to reference for the particle
+     * @param world    the world to spawn the particle
+     * @param entity   the entity at which feet the particles will spawn
+     * @param blockID  the ID of the block to reference for the particle
      * @param metadata the metadata of the block for the particle
      */
     public static void spawnTileParticleAt(Entity entity, ItemStack itemStack) {
@@ -49,8 +51,8 @@ public class ParticleHelper {
     /**
      * Produces block destruction particles at coordinates.
      */
-    public static void addDestroyEffect(
-            World world, int x, int y, int z, ItemStack itemStack, EffectRenderer effectRenderer) {
+    public static void addDestroyEffect(World world, int x, int y, int z, ItemStack itemStack,
+            EffectRenderer effectRenderer) {
         BlockProperties.prepareItemStackForRendering(itemStack);
         byte factor = 4;
 
@@ -80,14 +82,8 @@ public class ParticleHelper {
     /**
      * Produces block hit particles at coordinates.
      */
-    public static void addHitEffect(
-            TEBase TE,
-            MovingObjectPosition target,
-            double x,
-            double y,
-            double z,
-            ItemStack itemStack,
-            EffectRenderer effectRenderer) {
+    public static void addHitEffect(TEBase TE, MovingObjectPosition target, double x, double y, double z,
+            ItemStack itemStack, EffectRenderer effectRenderer) {
         BlockProperties.prepareItemStackForRendering(itemStack);
 
         EntityDiggingFX particle = new EntityDiggingFX(
@@ -100,8 +96,8 @@ public class ParticleHelper {
                 0.0D,
                 BlockProperties.toBlock(itemStack),
                 itemStack.getItemDamage());
-        effectRenderer.addEffect(particle.applyColourMultiplier(target.blockX, target.blockY, target.blockZ)
-                .multiplyVelocity(0.2F)
-                .multipleParticleScaleBy(0.6F));
+        effectRenderer.addEffect(
+                particle.applyColourMultiplier(target.blockX, target.blockY, target.blockZ).multiplyVelocity(0.2F)
+                        .multipleParticleScaleBy(0.6F));
     }
 }

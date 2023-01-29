@@ -1,9 +1,10 @@
 package com.carpentersblocks.renderer;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerHinged extends BlockHandlerBase {
@@ -15,14 +16,10 @@ public class BlockHandlerHinged extends BlockHandlerBase {
     protected boolean isOpen;
 
     /** Bounds for glass or other type of pane. */
-    protected static final double[][] paneBounds = new double[][] {
-        {0.0D, 0.09375D, 0.0D, 1.0D, 0.09375D, 1.0D},
-        {0.0D, 0.90625D, 0.0D, 1.0D, 0.90625D, 1.0D},
-        {0.0D, 0.0D, 0.09375D, 1.0D, 1.0D, 0.09375D},
-        {0.0D, 0.0D, 0.90625D, 1.0D, 1.0D, 0.90625D},
-        {0.09375D, 0.0D, 0.0D, 0.09375D, 1.0D, 1.0D},
-        {0.90625D, 0.0D, 0.0D, 0.90625D, 1.0D, 1.0D}
-    };
+    protected static final double[][] paneBounds = new double[][] { { 0.0D, 0.09375D, 0.0D, 1.0D, 0.09375D, 1.0D },
+            { 0.0D, 0.90625D, 0.0D, 1.0D, 0.90625D, 1.0D }, { 0.0D, 0.0D, 0.09375D, 1.0D, 1.0D, 0.09375D },
+            { 0.0D, 0.0D, 0.90625D, 1.0D, 1.0D, 0.90625D }, { 0.09375D, 0.0D, 0.0D, 0.09375D, 1.0D, 1.0D },
+            { 0.90625D, 0.0D, 0.0D, 0.90625D, 1.0D, 1.0D } };
 
     /**
      * Renders pane like glass or screen.

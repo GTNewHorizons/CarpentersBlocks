@@ -1,14 +1,5 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.DaylightSensor;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.tileentity.TECarpentersDaylightSensor;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockDaylightDetector;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,6 +9,17 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.DaylightSensor;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.tileentity.TECarpentersDaylightSensor;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersDaylightSensor extends BlockSided {
 
@@ -34,8 +36,8 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
      * is the only chance you get to register icons.
      */
     public void registerBlockIcons(IIconRegister iconRegister) {
-        IconRegistry.icon_daylight_sensor_glass_top =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "daylightsensor/daylight_sensor_glass_top");
+        IconRegistry.icon_daylight_sensor_glass_top = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "daylightsensor/daylight_sensor_glass_top");
     }
 
     @Override
@@ -95,7 +97,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
     /**
      * Gets block-specific power level from 0 to 15.
      *
-     * @param  TE  the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return the power output
      */
     @Override
@@ -106,10 +108,10 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
     /**
      * Calculates and saves the current light level at this space.
      *
-     * @param  world the {@link World}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param world the {@link World}
+     * @param x     the x coordinate
+     * @param y     the y coordinate
+     * @param z     the z coordinate
      * @return nothing
      */
     public void updateLightLevel(World world, int x, int y, int z) {
@@ -141,14 +143,23 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
                                 break;
                             case EAST:
                                 lightValue = getCelestialRedstoneOutput(
-                                        world, x, y, z, lightValue, (float) (angle + Math.PI / 2));
+                                        world,
+                                        x,
+                                        y,
+                                        z,
+                                        lightValue,
+                                        (float) (angle + Math.PI / 2));
                                 break;
                             case WEST:
                                 lightValue = getCelestialRedstoneOutput(
-                                        world, x, y, z, lightValue, (float) (angle - Math.PI / 2));
+                                        world,
+                                        x,
+                                        y,
+                                        z,
+                                        lightValue,
+                                        (float) (angle - Math.PI / 2));
                                 break;
-                            default: {
-                            }
+                            default: {}
                         }
 
                     } else {
@@ -173,15 +184,15 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
     /**
      * Gets redstone output strength based on the angle of the sun.
      * <p>
-     * This is copied from {@link BlockDaylightDetector#func_149957_e BlockDaylightDetector}
-     * with a parameterized skylight and angle added.
+     * This is copied from {@link BlockDaylightDetector#func_149957_e BlockDaylightDetector} with a parameterized
+     * skylight and angle added.
      *
-     * @param  world the {@link World}
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
-     * @param  skylight the saved light value
-     * @param  angle the angle of the sun in radians
+     * @param world    the {@link World}
+     * @param x        the x coordinate
+     * @param y        the y coordinate
+     * @param z        the z coordinate
+     * @param skylight the saved light value
+     * @param angle    the angle of the sun in radians
      * @return the output strength from 0 to 15
      */
     public int getCelestialRedstoneOutput(World world, int x, int y, int z, int skylight, float angle) {
@@ -208,7 +219,7 @@ public class BlockCarpentersDaylightSensor extends BlockSided {
     /**
      * Whether block can be attached to specified side of another block.
      *
-     * @param  side the side
+     * @param side the side
      * @return whether side is supported
      */
     @Override

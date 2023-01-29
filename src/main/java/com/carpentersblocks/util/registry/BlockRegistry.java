@@ -1,5 +1,13 @@
 package com.carpentersblocks.util.registry;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+
 import com.carpentersblocks.CarpentersBlocks;
 import com.carpentersblocks.block.BlockCarpentersBarrier;
 import com.carpentersblocks.block.BlockCarpentersBed;
@@ -40,18 +48,12 @@ import com.carpentersblocks.renderer.BlockHandlerCarpentersSlope;
 import com.carpentersblocks.renderer.BlockHandlerCarpentersStairs;
 import com.carpentersblocks.renderer.BlockHandlerCarpentersTorch;
 import com.carpentersblocks.util.BlockProperties;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class BlockRegistry {
 
@@ -150,10 +152,8 @@ public class BlockRegistry {
         enableDaylightSensor = config.get("blocks", "Enable Daylight Sensor", enableDaylightSensor)
                 .getBoolean(enableDaylightSensor);
         enableDoor = config.get("blocks", "Enable Door", enableDoor).getBoolean(enableDoor);
-        enableFlowerPot =
-                config.get("blocks", "Enable Flower Pot", enableFlowerPot).getBoolean(enableFlowerPot);
-        enableGarageDoor =
-                config.get("blocks", "Enable Garage Door", enableGarageDoor).getBoolean(enableGarageDoor);
+        enableFlowerPot = config.get("blocks", "Enable Flower Pot", enableFlowerPot).getBoolean(enableFlowerPot);
+        enableGarageDoor = config.get("blocks", "Enable Garage Door", enableGarageDoor).getBoolean(enableGarageDoor);
         enableGate = config.get("blocks", "Enable Gate", enableGate).getBoolean(enableGate);
         enableHatch = config.get("blocks", "Enable Hatch", enableHatch).getBoolean(enableHatch);
         enableLadder = config.get("blocks", "Enable Ladder", enableLadder).getBoolean(enableLadder);
@@ -167,41 +167,32 @@ public class BlockRegistry {
 
         recipeQuantityBarrier = config.get("recipe quantities", "Barrier", recipeQuantityBarrier)
                 .getInt(recipeQuantityBarrier);
-        recipeQuantityBed =
-                config.get("recipe quantities", "Bed", recipeQuantityBed).getInt(recipeQuantityBed);
-        recipeQuantityBlock =
-                config.get("recipe quantities", "Block", recipeQuantityBlock).getInt(recipeQuantityBlock);
-        recipeQuantityButton =
-                config.get("recipe quantities", "Button", recipeQuantityButton).getInt(recipeQuantityButton);
-        recipeQuantityCollapsibleBlock = config.get(
-                        "recipe quantities", "Collapsible Block", recipeQuantityCollapsibleBlock)
+        recipeQuantityBed = config.get("recipe quantities", "Bed", recipeQuantityBed).getInt(recipeQuantityBed);
+        recipeQuantityBlock = config.get("recipe quantities", "Block", recipeQuantityBlock).getInt(recipeQuantityBlock);
+        recipeQuantityButton = config.get("recipe quantities", "Button", recipeQuantityButton)
+                .getInt(recipeQuantityButton);
+        recipeQuantityCollapsibleBlock = config
+                .get("recipe quantities", "Collapsible Block", recipeQuantityCollapsibleBlock)
                 .getInt(recipeQuantityCollapsibleBlock);
         recipeQuantityDaylightSensor = config.get("recipe quantities", "Daylight Sensor", recipeQuantityDaylightSensor)
                 .getInt(recipeQuantityDaylightSensor);
-        recipeQuantityDoor =
-                config.get("recipe quantities", "Door", recipeQuantityDoor).getInt(recipeQuantityDoor);
+        recipeQuantityDoor = config.get("recipe quantities", "Door", recipeQuantityDoor).getInt(recipeQuantityDoor);
         recipeQuantityFlowerPot = config.get("recipe quantities", "Flower Pot", recipeQuantityFlowerPot)
                 .getInt(recipeQuantityFlowerPot);
         recipeQuantityGarageDoor = config.get("recipe quantities", "Garage Door", recipeQuantityGarageDoor)
                 .getInt(recipeQuantityGarageDoor);
-        recipeQuantityGate =
-                config.get("recipe quantities", "Gate", recipeQuantityGate).getInt(recipeQuantityGate);
-        recipeQuantityHatch =
-                config.get("recipe quantities", "Hatch", recipeQuantityHatch).getInt(recipeQuantityHatch);
-        recipeQuantityLadder =
-                config.get("recipe quantities", "Ladder", recipeQuantityLadder).getInt(recipeQuantityLadder);
-        recipeQuantityLever =
-                config.get("recipe quantities", "Lever", recipeQuantityLever).getInt(recipeQuantityLever);
+        recipeQuantityGate = config.get("recipe quantities", "Gate", recipeQuantityGate).getInt(recipeQuantityGate);
+        recipeQuantityHatch = config.get("recipe quantities", "Hatch", recipeQuantityHatch).getInt(recipeQuantityHatch);
+        recipeQuantityLadder = config.get("recipe quantities", "Ladder", recipeQuantityLadder)
+                .getInt(recipeQuantityLadder);
+        recipeQuantityLever = config.get("recipe quantities", "Lever", recipeQuantityLever).getInt(recipeQuantityLever);
         recipeQuantityPressurePlate = config.get("recipe quantities", "Pressure Plate", recipeQuantityPressurePlate)
                 .getInt(recipeQuantityPressurePlate);
-        recipeQuantitySafe =
-                config.get("recipe quantities", "Safe", recipeQuantitySafe).getInt(recipeQuantitySafe);
-        recipeQuantitySlope =
-                config.get("recipe quantities", "Slope", recipeQuantitySlope).getInt(recipeQuantitySlope);
-        recipeQuantityStairs =
-                config.get("recipe quantities", "Stairs", recipeQuantityStairs).getInt(recipeQuantityStairs);
-        recipeQuantityTorch =
-                config.get("recipe quantities", "Torch", recipeQuantityTorch).getInt(recipeQuantityTorch);
+        recipeQuantitySafe = config.get("recipe quantities", "Safe", recipeQuantitySafe).getInt(recipeQuantitySafe);
+        recipeQuantitySlope = config.get("recipe quantities", "Slope", recipeQuantitySlope).getInt(recipeQuantitySlope);
+        recipeQuantityStairs = config.get("recipe quantities", "Stairs", recipeQuantityStairs)
+                .getInt(recipeQuantityStairs);
+        recipeQuantityTorch = config.get("recipe quantities", "Torch", recipeQuantityTorch).getInt(recipeQuantityTorch);
 
         registerBlocks();
     }
@@ -228,12 +219,13 @@ public class BlockRegistry {
             if (enableDaylightSensor) {
                 carpentersDaylightSensorRenderID = RenderingRegistry.getNextAvailableRenderId();
                 RenderingRegistry.registerBlockHandler(
-                        carpentersDaylightSensorRenderID, new BlockHandlerCarpentersDaylightSensor());
+                        carpentersDaylightSensorRenderID,
+                        new BlockHandlerCarpentersDaylightSensor());
             }
             if (enableGarageDoor) {
                 carpentersGarageDoorRenderID = RenderingRegistry.getNextAvailableRenderId();
-                RenderingRegistry.registerBlockHandler(
-                        carpentersGarageDoorRenderID, new BlockHandlerCarpentersGarageDoor());
+                RenderingRegistry
+                        .registerBlockHandler(carpentersGarageDoorRenderID, new BlockHandlerCarpentersGarageDoor());
             }
             if (enableGate) {
                 carpentersGateRenderID = RenderingRegistry.getNextAvailableRenderId();
@@ -246,7 +238,8 @@ public class BlockRegistry {
             if (enablePressurePlate) {
                 carpentersPressurePlateRenderID = RenderingRegistry.getNextAvailableRenderId();
                 RenderingRegistry.registerBlockHandler(
-                        carpentersPressurePlateRenderID, new BlockHandlerCarpentersPressurePlate());
+                        carpentersPressurePlateRenderID,
+                        new BlockHandlerCarpentersPressurePlate());
             }
             if (enableSlope) {
                 carpentersSlopeRenderID = RenderingRegistry.getNextAvailableRenderId();
@@ -275,7 +268,8 @@ public class BlockRegistry {
             if (enableCollapsibleBlock) {
                 carpentersCollapsibleBlockRenderID = RenderingRegistry.getNextAvailableRenderId();
                 RenderingRegistry.registerBlockHandler(
-                        carpentersCollapsibleBlockRenderID, new BlockHandlerCarpentersCollapsibleBlock());
+                        carpentersCollapsibleBlockRenderID,
+                        new BlockHandlerCarpentersCollapsibleBlock());
             }
             if (enableTorch) {
                 carpentersTorchRenderID = RenderingRegistry.getNextAvailableRenderId();
@@ -287,8 +281,8 @@ public class BlockRegistry {
             }
             if (enableFlowerPot) {
                 carpentersFlowerPotRenderID = RenderingRegistry.getNextAvailableRenderId();
-                RenderingRegistry.registerBlockHandler(
-                        carpentersFlowerPotRenderID, new BlockHandlerCarpentersFlowerPot());
+                RenderingRegistry
+                        .registerBlockHandler(carpentersFlowerPotRenderID, new BlockHandlerCarpentersFlowerPot());
             }
         }
 
@@ -298,44 +292,34 @@ public class BlockRegistry {
     private static void registerBlocks() {
         /* Carpenter's Block is always enabled because recipes rely on it. */
 
-        blockCarpentersBlock = new BlockCarpentersBlock(Material.wood)
-                .setBlockName("blockCarpentersBlock")
-                .setHardness(0.2F)
-                .setStepSound(BlockProperties.stepSound)
-                .setCreativeTab(CarpentersBlocks.creativeTab);
+        blockCarpentersBlock = new BlockCarpentersBlock(Material.wood).setBlockName("blockCarpentersBlock")
+                .setHardness(0.2F).setStepSound(BlockProperties.stepSound).setCreativeTab(CarpentersBlocks.creativeTab);
         GameRegistry.registerBlock(blockCarpentersBlock, "blockCarpentersBlock");
         Blocks.fire.setFireInfo(blockCarpentersBlock, 5, 20);
 
         if (enableBarrier) {
-            blockCarpentersBarrier = new BlockCarpentersBarrier(Material.wood)
-                    .setBlockName("blockCarpentersBarrier")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
+            blockCarpentersBarrier = new BlockCarpentersBarrier(Material.wood).setBlockName("blockCarpentersBarrier")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersBarrier, "blockCarpentersBarrier");
             Blocks.fire.setFireInfo(blockCarpentersBarrier, 5, 20);
         }
 
         if (enableBed) {
-            blockCarpentersBed = new BlockCarpentersBed(Material.wood)
-                    .setBlockName("blockCarpentersBed")
-                    .setHardness(0.4F)
-                    .setStepSound(BlockProperties.stepSound);
+            blockCarpentersBed = new BlockCarpentersBed(Material.wood).setBlockName("blockCarpentersBed")
+                    .setHardness(0.4F).setStepSound(BlockProperties.stepSound);
 
             /*
-             * This must be set to assign burn properties to block.
-             * A side-effect of this is that mods like NEI will enable
-             * users to place the block itself, which will result in a crash.
+             * This must be set to assign burn properties to block. A side-effect of this is that mods like NEI will
+             * enable users to place the block itself, which will result in a crash.
              */
             GameRegistry.registerBlock(blockCarpentersBed, "blockCarpentersBed");
             Blocks.fire.setFireInfo(blockCarpentersBed, 5, 20);
         }
 
         if (enableButton) {
-            blockCarpentersButton = new BlockCarpentersButton(Material.circuits)
-                    .setBlockName("blockCarpentersButton")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
+            blockCarpentersButton = new BlockCarpentersButton(Material.circuits).setBlockName("blockCarpentersButton")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersButton, ItemBlockSided.class, "blockCarpentersButton");
             Blocks.fire.setFireInfo(blockCarpentersButton, 5, 20);
@@ -343,35 +327,30 @@ public class BlockRegistry {
 
         if (enableCollapsibleBlock) {
             blockCarpentersCollapsibleBlock = new BlockCarpentersCollapsibleBlock(Material.wood)
-                    .setBlockName("blockCarpentersCollapsibleBlock")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
-                    .setCreativeTab(CarpentersBlocks.creativeTab);
+                    .setBlockName("blockCarpentersCollapsibleBlock").setHardness(0.2F)
+                    .setStepSound(BlockProperties.stepSound).setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersCollapsibleBlock, "blockCarpentersCollapsibleBlock");
             Blocks.fire.setFireInfo(blockCarpentersCollapsibleBlock, 5, 20);
         }
 
         if (enableDaylightSensor) {
             blockCarpentersDaylightSensor = new BlockCarpentersDaylightSensor(Material.wood)
-                    .setBlockName("blockCarpentersDaylightSensor")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
-                    .setCreativeTab(CarpentersBlocks.creativeTab);
+                    .setBlockName("blockCarpentersDaylightSensor").setHardness(0.2F)
+                    .setStepSound(BlockProperties.stepSound).setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(
-                    blockCarpentersDaylightSensor, ItemBlockSided.class, "blockCarpentersDaylightSensor");
+                    blockCarpentersDaylightSensor,
+                    ItemBlockSided.class,
+                    "blockCarpentersDaylightSensor");
             Blocks.fire.setFireInfo(blockCarpentersDaylightSensor, 5, 20);
         }
 
         if (enableDoor) {
-            blockCarpentersDoor = new BlockCarpentersDoor(Material.wood)
-                    .setBlockName("blockCarpentersDoor")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound);
+            blockCarpentersDoor = new BlockCarpentersDoor(Material.wood).setBlockName("blockCarpentersDoor")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound);
 
             /*
-             * This must be set to assign burn properties to block.
-             * A side-effect of this is that mods like NEI will enable
-             * users to place the block itself, which will result in a crash.
+             * This must be set to assign burn properties to block. A side-effect of this is that mods like NEI will
+             * enable users to place the block itself, which will result in a crash.
              */
             GameRegistry.registerBlock(blockCarpentersDoor, "blockCarpentersDoor");
             Blocks.fire.setFireInfo(blockCarpentersDoor, 5, 20);
@@ -379,9 +358,7 @@ public class BlockRegistry {
 
         if (enableFlowerPot) {
             blockCarpentersFlowerPot = new BlockCarpentersFlowerPot(Material.circuits)
-                    .setBlockName("blockCarpentersFlowerPot")
-                    .setHardness(0.5F)
-                    .setStepSound(BlockProperties.stepSound)
+                    .setBlockName("blockCarpentersFlowerPot").setHardness(0.5F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersFlowerPot, "blockCarpentersFlowerPot");
             Blocks.fire.setFireInfo(blockCarpentersFlowerPot, 5, 20);
@@ -389,49 +366,39 @@ public class BlockRegistry {
 
         if (enableGarageDoor) {
             blockCarpentersGarageDoor = new BlockCarpentersGarageDoor(Material.wood)
-                    .setBlockName("blockCarpentersGarageDoor")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
+                    .setBlockName("blockCarpentersGarageDoor").setHardness(0.2F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersGarageDoor, "blockCarpentersGarageDoor");
             Blocks.fire.setFireInfo(blockCarpentersGarageDoor, 5, 20);
         }
 
         if (enableGate) {
-            blockCarpentersGate = new BlockCarpentersGate(Material.wood)
-                    .setBlockName("blockCarpentersGate")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
+            blockCarpentersGate = new BlockCarpentersGate(Material.wood).setBlockName("blockCarpentersGate")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersGate, "blockCarpentersGate");
             Blocks.fire.setFireInfo(blockCarpentersGate, 5, 20);
         }
 
         if (enableHatch) {
-            blockCarpentersHatch = new BlockCarpentersHatch(Material.wood)
-                    .setBlockName("blockCarpentersHatch")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
+            blockCarpentersHatch = new BlockCarpentersHatch(Material.wood).setBlockName("blockCarpentersHatch")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersHatch, "blockCarpentersHatch");
             Blocks.fire.setFireInfo(blockCarpentersHatch, 5, 20);
         }
 
         if (enableLadder) {
-            blockCarpentersLadder = new BlockCarpentersLadder(Material.wood)
-                    .setBlockName("blockCarpentersLadder")
-                    .setHardness(0.2F)
-                    .setStepSound(Blocks.ladder.stepSound)
+            blockCarpentersLadder = new BlockCarpentersLadder(Material.wood).setBlockName("blockCarpentersLadder")
+                    .setHardness(0.2F).setStepSound(Blocks.ladder.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersLadder, "blockCarpentersLadder");
             Blocks.fire.setFireInfo(blockCarpentersLadder, 5, 20);
         }
 
         if (enableLever) {
-            blockCarpentersLever = new BlockCarpentersLever(Material.circuits)
-                    .setBlockName("blockCarpentersLever")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
+            blockCarpentersLever = new BlockCarpentersLever(Material.circuits).setBlockName("blockCarpentersLever")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersLever, ItemBlockSided.class, "blockCarpentersLever");
             Blocks.fire.setFireInfo(blockCarpentersLever, 5, 20);
@@ -439,52 +406,41 @@ public class BlockRegistry {
 
         if (enablePressurePlate) {
             blockCarpentersPressurePlate = new BlockCarpentersPressurePlate(Material.circuits)
-                    .setBlockName("blockCarpentersPressurePlate")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
-                    .setCreativeTab(CarpentersBlocks.creativeTab);
-            GameRegistry.registerBlock(
-                    blockCarpentersPressurePlate, ItemBlockSided.class, "blockCarpentersPressurePlate");
+                    .setBlockName("blockCarpentersPressurePlate").setHardness(0.2F)
+                    .setStepSound(BlockProperties.stepSound).setCreativeTab(CarpentersBlocks.creativeTab);
+            GameRegistry
+                    .registerBlock(blockCarpentersPressurePlate, ItemBlockSided.class, "blockCarpentersPressurePlate");
             Blocks.fire.setFireInfo(blockCarpentersPressurePlate, 5, 20);
         }
 
         if (enableSafe) {
-            blockCarpentersSafe = new BlockCarpentersSafe(Material.wood)
-                    .setBlockName("blockCarpentersSafe")
-                    .setHardness(2.5F)
-                    .setStepSound(BlockProperties.stepSound)
+            blockCarpentersSafe = new BlockCarpentersSafe(Material.wood).setBlockName("blockCarpentersSafe")
+                    .setHardness(2.5F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersSafe, "blockCarpentersSafe");
             Blocks.fire.setFireInfo(blockCarpentersSafe, 5, 20);
         }
 
         if (enableSlope) {
-            blockCarpentersSlope = new BlockCarpentersSlope(Material.wood)
-                    .setBlockName("blockCarpentersSlope")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
+            blockCarpentersSlope = new BlockCarpentersSlope(Material.wood).setBlockName("blockCarpentersSlope")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersSlope, ItemBlockCarpentersSlope.class, "blockCarpentersSlope");
             Blocks.fire.setFireInfo(blockCarpentersSlope, 5, 20);
         }
 
         if (enableStairs) {
-            blockCarpentersStairs = new BlockCarpentersStairs(Material.wood)
-                    .setBlockName("blockCarpentersStairs")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
+            blockCarpentersStairs = new BlockCarpentersStairs(Material.wood).setBlockName("blockCarpentersStairs")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound)
                     .setCreativeTab(CarpentersBlocks.creativeTab);
             GameRegistry.registerBlock(blockCarpentersStairs, "blockCarpentersStairs");
             Blocks.fire.setFireInfo(blockCarpentersStairs, 5, 20);
         }
 
         if (enableTorch) {
-            blockCarpentersTorch = new BlockCarpentersTorch(Material.circuits)
-                    .setBlockName("blockCarpentersTorch")
-                    .setHardness(0.2F)
-                    .setStepSound(BlockProperties.stepSound)
-                    .setCreativeTab(CarpentersBlocks.creativeTab)
-                    .setLightLevel(1.0F);
+            blockCarpentersTorch = new BlockCarpentersTorch(Material.circuits).setBlockName("blockCarpentersTorch")
+                    .setHardness(0.2F).setStepSound(BlockProperties.stepSound)
+                    .setCreativeTab(CarpentersBlocks.creativeTab).setLightLevel(1.0F);
 
             if (FeatureRegistry.enableTorchWeatherEffects) {
                 blockCarpentersTorch.setTickRandomly(true);
@@ -498,129 +454,126 @@ public class BlockRegistry {
     private static void registerRecipes() {
         /* Carpenter's Block is always enabled because recipes rely on it. */
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(
-                new ItemStack(blockCarpentersBlock, recipeQuantityBlock),
-                "XXX",
-                "XYX",
-                "XXX",
-                'X',
-                "stickWood",
-                'Y',
-                "plankWood"));
+        GameRegistry.addRecipe(
+                new ShapedOreRecipe(
+                        new ItemStack(blockCarpentersBlock, recipeQuantityBlock),
+                        "XXX",
+                        "XYX",
+                        "XXX",
+                        'X',
+                        "stickWood",
+                        'Y',
+                        "plankWood"));
 
         if (enableBarrier) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(
-                    new ItemStack(blockCarpentersBarrier, recipeQuantityBarrier),
-                    " Y ",
-                    "XYX",
-                    'X',
-                    "stickWood",
-                    'Y',
-                    blockCarpentersBlock));
+            GameRegistry.addRecipe(
+                    new ShapedOreRecipe(
+                            new ItemStack(blockCarpentersBarrier, recipeQuantityBarrier),
+                            " Y ",
+                            "XYX",
+                            'X',
+                            "stickWood",
+                            'Y',
+                            blockCarpentersBlock));
         }
         if (enableButton) {
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersButton, recipeQuantityButton),
-                    new Object[] {"X", 'X', blockCarpentersBlock});
+                    new Object[] { "X", 'X', blockCarpentersBlock });
         }
         if (enableCollapsibleBlock) {
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersCollapsibleBlock, recipeQuantityCollapsibleBlock),
-                    new Object[] {"XXX", "XXX", "XXX", 'X', blockCarpentersBlock});
+                    new Object[] { "XXX", "XXX", "XXX", 'X', blockCarpentersBlock });
         }
         if (enableDaylightSensor) {
             GameRegistry.addRecipe(
-                    new ItemStack(blockCarpentersDaylightSensor, recipeQuantityDaylightSensor), new Object[] {
-                        "WWW",
-                        "XYX",
-                        "ZZZ",
-                        'W',
-                        Blocks.glass,
-                        'X',
-                        Items.redstone,
-                        'Y',
-                        new ItemStack(Items.dye, 1, 4),
-                        'Z',
-                        blockCarpentersBlock
-                    });
+                    new ItemStack(blockCarpentersDaylightSensor, recipeQuantityDaylightSensor),
+                    new Object[] { "WWW", "XYX", "ZZZ", 'W', Blocks.glass, 'X', Items.redstone, 'Y',
+                            new ItemStack(Items.dye, 1, 4), 'Z', blockCarpentersBlock });
         }
         if (enableFlowerPot) {
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersFlowerPot, recipeQuantityFlowerPot),
-                    new Object[] {"X X", " X ", 'X', blockCarpentersBlock});
+                    new Object[] { "X X", " X ", 'X', blockCarpentersBlock });
         }
         if (enableGarageDoor) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(
-                    new ItemStack(blockCarpentersGarageDoor, recipeQuantityGarageDoor),
-                    "XXX",
-                    "X X",
-                    "XXX",
-                    'X',
-                    blockCarpentersBlock));
+            GameRegistry.addRecipe(
+                    new ShapedOreRecipe(
+                            new ItemStack(blockCarpentersGarageDoor, recipeQuantityGarageDoor),
+                            "XXX",
+                            "X X",
+                            "XXX",
+                            'X',
+                            blockCarpentersBlock));
         }
         if (enableGate) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(
-                    new ItemStack(blockCarpentersGate, recipeQuantityGate),
-                    "XYX",
-                    "XYX",
-                    'X',
-                    "stickWood",
-                    'Y',
-                    blockCarpentersBlock));
+            GameRegistry.addRecipe(
+                    new ShapedOreRecipe(
+                            new ItemStack(blockCarpentersGate, recipeQuantityGate),
+                            "XYX",
+                            "XYX",
+                            'X',
+                            "stickWood",
+                            'Y',
+                            blockCarpentersBlock));
         }
         if (enableHatch) {
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersHatch, recipeQuantityHatch),
-                    new Object[] {"XXX", "XXX", 'X', blockCarpentersBlock});
+                    new Object[] { "XXX", "XXX", 'X', blockCarpentersBlock });
         }
         if (enableLadder) {
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersLadder, recipeQuantityLadder),
-                    new Object[] {"X X", "XXX", "X X", 'X', blockCarpentersBlock});
+                    new Object[] { "X X", "XXX", "X X", 'X', blockCarpentersBlock });
         }
         if (enableLever) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(
-                    new ItemStack(blockCarpentersLever, recipeQuantityLever),
-                    "X",
-                    "Y",
-                    'X',
-                    "stickWood",
-                    'Y',
-                    blockCarpentersBlock));
+            GameRegistry.addRecipe(
+                    new ShapedOreRecipe(
+                            new ItemStack(blockCarpentersLever, recipeQuantityLever),
+                            "X",
+                            "Y",
+                            'X',
+                            "stickWood",
+                            'Y',
+                            blockCarpentersBlock));
         }
         if (enablePressurePlate) {
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersPressurePlate, recipeQuantityPressurePlate),
-                    new Object[] {"XX", 'X', blockCarpentersBlock});
+                    new Object[] { "XX", 'X', blockCarpentersBlock });
         }
         if (enableSafe) {
-            GameRegistry.addRecipe(new ItemStack(blockCarpentersSafe, recipeQuantitySafe), new Object[] {
-                "XXX", "XYX", "XZX", 'X', blockCarpentersBlock, 'Y', Blocks.iron_block, 'Z', Items.redstone
-            });
+            GameRegistry.addRecipe(
+                    new ItemStack(blockCarpentersSafe, recipeQuantitySafe),
+                    new Object[] { "XXX", "XYX", "XZX", 'X', blockCarpentersBlock, 'Y', Blocks.iron_block, 'Z',
+                            Items.redstone });
         }
         if (enableSlope) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(
-                    new ItemStack(blockCarpentersSlope, recipeQuantitySlope),
-                    "  X",
-                    " XY",
-                    "XYY",
-                    'X',
-                    "stickWood",
-                    'Y',
-                    blockCarpentersBlock));
+            GameRegistry.addRecipe(
+                    new ShapedOreRecipe(
+                            new ItemStack(blockCarpentersSlope, recipeQuantitySlope),
+                            "  X",
+                            " XY",
+                            "XYY",
+                            'X',
+                            "stickWood",
+                            'Y',
+                            blockCarpentersBlock));
         }
         if (enableStairs) {
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersStairs, recipeQuantityStairs),
-                    new Object[] {"  X", " XX", "XXX", 'X', blockCarpentersBlock});
+                    new Object[] { "  X", " XX", "XXX", 'X', blockCarpentersBlock });
         }
         if (enableTorch) {
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersTorch, recipeQuantityTorch),
-                    new Object[] {"X", "Y", 'X', new ItemStack(Items.coal, 1, 0), 'Y', blockCarpentersBlock});
+                    new Object[] { "X", "Y", 'X', new ItemStack(Items.coal, 1, 0), 'Y', blockCarpentersBlock });
             GameRegistry.addRecipe(
                     new ItemStack(blockCarpentersTorch, recipeQuantityTorch),
-                    new Object[] {"X", "Y", 'X', new ItemStack(Items.coal, 1, 1), 'Y', blockCarpentersBlock});
+                    new Object[] { "X", "Y", 'X', new ItemStack(Items.coal, 1, 1), 'Y', blockCarpentersBlock });
         }
     }
 }

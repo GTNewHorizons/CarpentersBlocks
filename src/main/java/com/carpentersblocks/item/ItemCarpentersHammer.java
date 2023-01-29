@@ -1,16 +1,18 @@
 package com.carpentersblocks.item;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.api.ICarpentersHammer;
-import com.carpentersblocks.block.BlockCoverable;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.api.ICarpentersHammer;
+import com.carpentersblocks.block.BlockCoverable;
+import com.carpentersblocks.util.registry.ItemRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCarpentersHammer extends Item implements ICarpentersHammer {
 

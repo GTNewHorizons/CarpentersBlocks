@@ -1,21 +1,22 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.EntityLivingUtil;
 import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.EntityLivingUtil;
+
 public class Safe {
 
     /**
      * 16-bit data components:
      *
-     * [0000000000]  [00]        [0]   [0]    [00]
-     * Unused        Automation  Lock  State  Facing
+     * [0000000000] [00] [0] [0] [00] Unused Automation Lock State Facing
      */
     public static final byte STATE_CLOSED = 0;
 
@@ -37,8 +38,7 @@ public class Safe {
     }
 
     /**
-     * Sets facing.
-     * Stored as player facing from 0 to 3.
+     * Sets facing. Stored as player facing from 0 to 3.
      */
     public static void setFacing(TEBase TE, int facing) {
         int temp = (TE.getData() & ~0x3) | facing;
@@ -98,16 +98,15 @@ public class Safe {
             // Validate safe is open by checking nearby players
             float f = 5.0F;
             boolean isOpen = false;
-            List list = TE.getWorldObj()
-                    .getEntitiesWithinAABB(
-                            EntityPlayer.class,
-                            AxisAlignedBB.getBoundingBox(
-                                    (double) ((float) TE.xCoord - f),
-                                    (double) ((float) TE.yCoord - f),
-                                    (double) ((float) TE.zCoord - f),
-                                    (double) ((float) (TE.xCoord + 1) + f),
-                                    (double) ((float) (TE.yCoord + 1) + f),
-                                    (double) ((float) (TE.zCoord + 1) + f)));
+            List list = TE.getWorldObj().getEntitiesWithinAABB(
+                    EntityPlayer.class,
+                    AxisAlignedBB.getBoundingBox(
+                            (double) ((float) TE.xCoord - f),
+                            (double) ((float) TE.yCoord - f),
+                            (double) ((float) TE.zCoord - f),
+                            (double) ((float) (TE.xCoord + 1) + f),
+                            (double) ((float) (TE.yCoord + 1) + f),
+                            (double) ((float) (TE.zCoord + 1) + f)));
             for (EntityPlayer entityPlayer : (List<EntityPlayer>) list) {
                 if (entityPlayer.openContainer instanceof ContainerChest) {
                     IInventory iinventory = ((ContainerChest) entityPlayer.openContainer).getLowerChestInventory();

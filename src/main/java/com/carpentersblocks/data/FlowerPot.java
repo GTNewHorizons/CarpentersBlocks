@@ -7,8 +7,7 @@ public class FlowerPot {
     /**
      * 16-bit data components:
      *
-     * [0000] [0000] [00000000]
-     * Unused Angle  Unused
+     * [0000] [0000] [00000000] Unused Angle Unused
      */
     public static final byte COLOR_NATURAL = 0;
 

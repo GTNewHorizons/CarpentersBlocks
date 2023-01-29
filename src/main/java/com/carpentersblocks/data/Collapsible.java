@@ -1,16 +1,16 @@
 package com.carpentersblocks.data;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.collapsible.CollapsibleUtil;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class Collapsible implements ISided {
 
     /**
      * 32-bit data components:
      *
-     * [000000000] [00000] [00000] [00000] [00000] [000]
-     * Unused      XZNN    XZNP    XZPN    XZPP    Dir
+     * [000000000] [00000] [00000] [00000] [00000] [000] Unused XZNN XZNP XZPN XZPP Dir
      */
     public static final Collapsible INSTANCE = new Collapsible();
 
@@ -114,20 +114,16 @@ public class Collapsible implements ISided {
                 return CollapsibleUtil.isMax(TE);
             case NORTH:
                 return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNN)
-                                + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPN)
-                        == 32;
+                        + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPN) == 32;
             case SOUTH:
                 return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNP)
-                                + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPP)
-                        == 32;
+                        + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPP) == 32;
             case WEST:
                 return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNP)
-                                + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNN)
-                        == 32;
+                        + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZNN) == 32;
             case EAST:
                 return Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPN)
-                                + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPP)
-                        == 32;
+                        + Collapsible.getQuadDepth(TE, Collapsible.QUAD_XZPP) == 32;
             default:
                 return true;
         }

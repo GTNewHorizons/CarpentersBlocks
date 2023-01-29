@@ -1,16 +1,18 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.Button;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.data.Button;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
 
 public class BlockCarpentersButton extends BlockSided {
 
@@ -71,14 +73,8 @@ public class BlockCarpentersButton extends BlockSided {
     /**
      * Called upon block activation (right click on the block.)
      */
-    protected void postOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         if (!isDepressed(TE)) {
             World world = TE.getWorldObj();
             data.getDirection(TE);

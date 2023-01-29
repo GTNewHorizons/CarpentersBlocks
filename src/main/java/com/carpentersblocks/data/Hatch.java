@@ -1,16 +1,16 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+
+import com.carpentersblocks.tileentity.TEBase;
 
 public class Hatch {
 
     /**
      * 16-bit data components:
      *
-     * [00000000]  [0]    [00]  [0]    [0]       [000]
-     * Unused      Rigid  Dir   State  Position  Type
+     * [00000000] [0] [00] [0] [0] [000] Unused Rigid Dir State Position Type
      */
     public static final byte TYPE_HIDDEN = 0;
 

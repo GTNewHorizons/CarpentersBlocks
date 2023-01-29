@@ -1,19 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Slope;
-import com.carpentersblocks.data.Slope.Type;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.EntityLivingUtil;
-import com.carpentersblocks.util.handler.EventHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import com.carpentersblocks.util.slope.SlopeTransform;
-import com.carpentersblocks.util.slope.SlopeUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -31,9 +19,24 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Slope;
+import com.carpentersblocks.data.Slope.Type;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.EntityLivingUtil;
+import com.carpentersblocks.util.handler.EventHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
+import com.carpentersblocks.util.slope.SlopeTransform;
+import com.carpentersblocks.util.slope.SlopeUtil;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockCarpentersSlope extends BlockCoverable {
 
-    public static final String slopeType[] = {"wedge", "obliqueInterior", "obliqueExterior", "prism", "prismWedge"};
+    public static final String slopeType[] = { "wedge", "obliqueInterior", "obliqueExterior", "prism", "prismWedge" };
 
     public static final int META_WEDGE = 0;
     public static final int META_OBLIQUE_INT = 1;
@@ -54,17 +57,16 @@ public class BlockCarpentersSlope extends BlockCoverable {
      * is the only chance you get to register icons.
      */
     public void registerBlockIcons(IIconRegister iconRegister) {
-        IconRegistry.icon_uncovered_oblique_pos =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "slope/oblique_pos");
-        IconRegistry.icon_uncovered_oblique_neg =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "slope/oblique_neg");
+        IconRegistry.icon_uncovered_oblique_pos = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "slope/oblique_pos");
+        IconRegistry.icon_uncovered_oblique_neg = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "slope/oblique_neg");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     /**
-     * Returns a base icon that doesn't rely on blockIcon, which
-     * is set prior to texture stitch events.
+     * Returns a base icon that doesn't rely on blockIcon, which is set prior to texture stitch events.
      */
     public IIcon getIcon() {
         return IconRegistry.icon_uncovered_full;
@@ -197,8 +199,8 @@ public class BlockCarpentersSlope extends BlockCoverable {
      * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
      * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
      */
-    public void addCollisionBoxesToList(
-            World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list,
+            Entity entity) {
         TEBase TE = getTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -217,8 +219,8 @@ public class BlockCarpentersSlope extends BlockCoverable {
                     float[] dim = slopeUtil.genBounds(slope, slice, precision, pass);
 
                     if (dim != null) {
-                        box = AxisAlignedBB.getBoundingBox(
-                                x + dim[0], y + dim[1], z + dim[2], x + dim[3], y + dim[4], z + dim[5]);
+                        box = AxisAlignedBB
+                                .getBoundingBox(x + dim[0], y + dim[1], z + dim[2], x + dim[3], y + dim[4], z + dim[5]);
                     }
 
                     if (box != null && axisAlignedBB.intersectsWith(box)) {
@@ -275,8 +277,8 @@ public class BlockCarpentersSlope extends BlockCoverable {
     /**
      * Called when block is placed in world.
      */
-    public int onBlockPlaced(
-            World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
+    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ,
+            int metadata) {
         EventHandler.eventFace = side;
         EventHandler.hitX = hitX;
         EventHandler.hitY = hitY;
@@ -362,8 +364,8 @@ public class BlockCarpentersSlope extends BlockCoverable {
 
     @Override
     /**
-     * Called when the block is placed in the world.
-     * Uses cardinal direction to adjust metadata if player clicks top or bottom face of block.
+     * Called when the block is placed in the world. Uses cardinal direction to adjust metadata if player clicks top or
+     * bottom face of block.
      */
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
@@ -383,7 +385,11 @@ public class BlockCarpentersSlope extends BlockCoverable {
             switch (metadata) {
                 case META_WEDGE:
                     slopeID = getWedgeOrientation(
-                            dir, EventHandler.eventFace, EventHandler.hitX, EventHandler.hitY, EventHandler.hitZ);
+                            dir,
+                            EventHandler.eventFace,
+                            EventHandler.hitX,
+                            EventHandler.hitY,
+                            EventHandler.hitZ);
 
                     if (!entityLiving.isSneaking()) {
                         slopeID = SlopeTransform.transformWedge(world, slopeID, x, y, z);
@@ -457,8 +463,7 @@ public class BlockCarpentersSlope extends BlockCoverable {
                         case EAST:
                             slopeID = Slope.ID_PRISM_WEDGE_POS_W;
                             break;
-                        default: {
-                        }
+                        default: {}
                     }
 
                     break;
@@ -484,7 +489,7 @@ public class BlockCarpentersSlope extends BlockCoverable {
 
     @Override
     public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
-        return new ForgeDirection[] {ForgeDirection.UP, ForgeDirection.DOWN};
+        return new ForgeDirection[] { ForgeDirection.UP, ForgeDirection.DOWN };
     }
 
     @Override

@@ -1,15 +1,5 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.Lever;
-import com.carpentersblocks.data.Lever.Axis;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.EntityLivingUtil;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -21,6 +11,18 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.Lever;
+import com.carpentersblocks.data.Lever.Axis;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.EntityLivingUtil;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersLever extends BlockSided {
 
@@ -51,8 +53,7 @@ public class BlockCarpentersLever extends BlockSided {
 
     @Override
     /**
-     * Alters polarity.
-     * Handled differently for Levers since type is split into sub-components.
+     * Alters polarity. Handled differently for Levers since type is split into sub-components.
      */
     protected boolean onHammerLeftClick(TEBase TE, EntityPlayer entityPlayer) {
         int polarity = data.getPolarity(TE) == data.POLARITY_POSITIVE ? data.POLARITY_NEGATIVE : data.POLARITY_POSITIVE;
@@ -142,14 +143,8 @@ public class BlockCarpentersLever extends BlockSided {
     /**
      * Called upon block activation.
      */
-    protected void postOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         data.setState(TE, isActive(TE) ? data.STATE_OFF : data.STATE_ON, true);
 
         World world = TE.getWorldObj();

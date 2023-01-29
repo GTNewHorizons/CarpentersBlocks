@@ -1,16 +1,10 @@
 package com.carpentersblocks.tileentity;
 
-import com.carpentersblocks.block.BlockCoverable;
-import com.carpentersblocks.util.Attribute;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.handler.DesignHandler;
-import com.carpentersblocks.util.protection.IProtected;
-import com.carpentersblocks.util.protection.ProtectedObject;
-import com.carpentersblocks.util.registry.FeatureRegistry;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.init.Blocks;
@@ -26,6 +20,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import com.carpentersblocks.block.BlockCoverable;
+import com.carpentersblocks.util.Attribute;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.handler.DesignHandler;
+import com.carpentersblocks.util.protection.IProtected;
+import com.carpentersblocks.util.protection.ProtectedObject;
+import com.carpentersblocks.util.registry.FeatureRegistry;
+
 public class TEBase extends TileEntity implements IProtected {
 
     public static final String TAG_ATTR = "cbAttribute";
@@ -35,9 +37,9 @@ public class TEBase extends TileEntity implements IProtected {
     public static final String TAG_CHISEL_DESIGN = "cbChiselDesign";
     public static final String TAG_DESIGN = "cbDesign";
 
-    public static final byte[] ATTR_COVER = {0, 1, 2, 3, 4, 5, 6};
-    public static final byte[] ATTR_DYE = {7, 8, 9, 10, 11, 12, 13};
-    public static final byte[] ATTR_OVERLAY = {14, 15, 16, 17, 18, 19, 20};
+    public static final byte[] ATTR_COVER = { 0, 1, 2, 3, 4, 5, 6 };
+    public static final byte[] ATTR_DYE = { 7, 8, 9, 10, 11, 12, 13 };
+    public static final byte[] ATTR_OVERLAY = { 14, 15, 16, 17, 18, 19, 20 };
     public static final byte ATTR_ILLUMINATOR = 21;
     public static final byte ATTR_PLANT = 22;
     public static final byte ATTR_SOIL = 23;
@@ -48,7 +50,7 @@ public class TEBase extends TileEntity implements IProtected {
     protected Map<Byte, Attribute> cbAttrMap = new HashMap<Byte, Attribute>();
 
     /** Chisel design for each side and base block. */
-    protected String[] cbChiselDesign = {"", "", "", "", "", "", ""};
+    protected String[] cbChiselDesign = { "", "", "", "", "", "", "" };
 
     /** Holds specific block information like facing, states, etc. */
     protected int cbMetadata;
@@ -82,8 +84,8 @@ public class TEBase extends TileEntity implements IProtected {
                 NBTTagCompound nbt1 = nbttaglist.getCompoundTagAt(idx);
                 Attribute attribute = Attribute.loadAttributeFromNBT(nbt1);
                 if (attribute.getItemStack() != null) {
-                    attribute.getItemStack().stackSize =
-                            1; // All ItemStacks pre-3.2.7 DEV R3 stored original stack sizes, reduce them here.
+                    attribute.getItemStack().stackSize = 1; // All ItemStacks pre-3.2.7 DEV R3 stored original stack
+                                                            // sizes, reduce them here.
                     byte attrId = (byte) (nbt1.getByte(TAG_ATTR) & 255);
                     cbAttrMap.put(attrId, attribute);
                 }
@@ -157,9 +159,8 @@ public class TEBase extends TileEntity implements IProtected {
 
     @Override
     /**
-     * Called when you receive a TileEntityData packet for the location this
-     * TileEntity is currently in. On the client, the NetworkManager will always
-     * be the remote server. On the server, it will be whomever is responsible for
+     * Called when you receive a TileEntityData packet for the location this TileEntity is currently in. On the client,
+     * the NetworkManager will always be the remote server. On the server, it will be whomever is responsible for
      * sending the packet.
      *
      * @param net The NetworkManager the packet originated from
@@ -170,32 +171,29 @@ public class TEBase extends TileEntity implements IProtected {
     }
 
     /**
-     * Called from Chunk.setBlockIDWithMetadata, determines if this tile entity should be re-created when the ID, or Metadata changes.
-     * Use with caution as this will leave straggler TileEntities, or create conflicts with other TileEntities if not used properly.
+     * Called from Chunk.setBlockIDWithMetadata, determines if this tile entity should be re-created when the ID, or
+     * Metadata changes. Use with caution as this will leave straggler TileEntities, or create conflicts with other
+     * TileEntities if not used properly.
      *
-     * @param oldID The old ID of the block
-     * @param newID The new ID of the block (May be the same)
+     * @param oldID   The old ID of the block
+     * @param newID   The new ID of the block (May be the same)
      * @param oldMeta The old metadata of the block
      * @param newMeta The new metadata of the block (May be the same)
-     * @param world Current world
-     * @param x X Position
-     * @param y Y Position
-     * @param z Z Position
-     * @return True to remove the old tile entity, false to keep it in tact {and create a new one if the new values specify to}
+     * @param world   Current world
+     * @param x       X Position
+     * @param y       Y Position
+     * @param z       Z Position
+     * @return True to remove the old tile entity, false to keep it in tact {and create a new one if the new values
+     *         specify to}
      */
     @Override
-    public boolean shouldRefresh(
-            Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
+    public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y,
+            int z) {
         /*
-         * This is a curious method.
-         *
-         * Essentially, when doing most block logic server-side, changes
-         * to blocks will momentarily "flash" to their default state
-         * when rendering client-side.  This is most noticeable when adding
-         * or removing covers for the first time.
-         *
-         * Making the tile entity refresh only when the block is first created
-         * is not only reasonable, but fixes this behavior.
+         * This is a curious method. Essentially, when doing most block logic server-side, changes to blocks will
+         * momentarily "flash" to their default state when rendering client-side. This is most noticeable when adding or
+         * removing covers for the first time. Making the tile entity refresh only when the block is first created is
+         * not only reasonable, but fixes this behavior.
          */
         return oldBlock != newBlock;
     }
@@ -225,6 +223,7 @@ public class TEBase extends TileEntity implements IProtected {
     @Override
     /**
      * Determines if this TileEntity requires update calls.
+     * 
      * @return True if you want updateEntity() to be called, false if not
      */
     public boolean canUpdate() {
@@ -260,8 +259,8 @@ public class TEBase extends TileEntity implements IProtected {
      * <p>
      * Corrects log rotation, among other things.
      *
-     * @param  rand a {@link Random} reference
-     * @param  itemStack the {@link ItemStack}
+     * @param rand      a {@link Random} reference
+     * @param itemStack the {@link ItemStack}
      * @return the cover {@link ItemStack} in it's default state
      */
     private ItemStack setDefaultMetadata(ItemStack itemStack) {
@@ -331,7 +330,7 @@ public class TEBase extends TileEntity implements IProtected {
     /**
      * Initiates block drop event, which will remove attribute from tile entity.
      *
-     * @param  attrId the attribute ID
+     * @param attrId the attribute ID
      */
     public void createBlockDropEvent(byte attrId) {
         getWorldObj().addBlockEvent(xCoord, yCoord, zCoord, getBlockType(), BlockCoverable.EVENT_ID_DROP_ATTR, attrId);
@@ -445,8 +444,7 @@ public class TEBase extends TileEntity implements IProtected {
     /**
      * Sets block metadata without causing a render update.
      * <p>
-     * As part of mimicking a cover block, the metadata must be changed
-     * to better represent the cover properties.
+     * As part of mimicking a cover block, the metadata must be changed to better represent the cover properties.
      * <p>
      * This is normally followed up by calling {@link setMetadataFromCover}.
      */
@@ -481,15 +479,13 @@ public class TEBase extends TileEntity implements IProtected {
     }
 
     /**
-     * Returns the current block light value. This is the only method
-     * that will grab the tile entity to calculate lighting, which
-     * is a very expensive operation to call while rendering, as it is
-     * called often.
+     * Returns the current block light value. This is the only method that will grab the tile entity to calculate
+     * lighting, which is a very expensive operation to call while rendering, as it is called often.
      *
-     * @param  blockAccess the {@link IBlockAccess} object
-     * @param  x the x coordinate
-     * @param  y the y coordinate
-     * @param  z the z coordinate
+     * @param blockAccess the {@link IBlockAccess} object
+     * @param x           the x coordinate
+     * @param y           the y coordinate
+     * @param z           the z coordinate
      * @return a light value from 0 to 15
      */
     protected int getDynamicLightValue() {
@@ -503,8 +499,8 @@ public class TEBase extends TileEntity implements IProtected {
             Iterator it = cbAttrMap.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
-                ItemStack itemStack =
-                        BlockProperties.getCallableItemStack(((Attribute) pair.getValue()).getItemStack());
+                ItemStack itemStack = BlockProperties
+                        .getCallableItemStack(((Attribute) pair.getValue()).getItemStack());
                 Block block = BlockProperties.toBlock(itemStack);
 
                 if (block != Blocks.air) {

@@ -1,8 +1,10 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
 import java.util.Arrays;
+
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.tileentity.TEBase;
 
 public class Slab implements ISided {
 
@@ -15,7 +17,7 @@ public class Slab implements ISided {
     public static final byte SLAB_Z_POS = 6; // 3
 
     /** For compatibility with old direction values. */
-    private static final Integer[] DIR_MAP = {4, 5, 0, 1, 2, 3};
+    private static final Integer[] DIR_MAP = { 4, 5, 0, 1, 2, 3 };
 
     @Override
     public boolean setDirection(TEBase TE, ForgeDirection dir) {

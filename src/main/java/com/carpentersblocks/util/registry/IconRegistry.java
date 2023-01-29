@@ -1,14 +1,17 @@
 package com.carpentersblocks.util.registry;
 
+import java.util.ArrayList;
+
+import net.minecraft.util.IIcon;
+import net.minecraftforge.client.event.TextureStitchEvent;
+
 import com.carpentersblocks.CarpentersBlocks;
 import com.carpentersblocks.CarpentersBlocksCachedResources;
 import com.carpentersblocks.util.handler.DesignHandler;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.util.ArrayList;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.client.event.TextureStitchEvent;
 
 @SideOnly(Side.CLIENT)
 public class IconRegistry {
@@ -64,12 +67,12 @@ public class IconRegistry {
             icon_uncovered_solid = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/solid");
             icon_uncovered_full = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/full_frame");
             icon_uncovered_quartered = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "general/quartered_frame");
-            icon_overlay_fast_grass_side =
-                    event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_fast_grass_side");
+            icon_overlay_fast_grass_side = event.map
+                    .registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_fast_grass_side");
             icon_overlay_hay_side = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_hay_side");
             icon_overlay_snow_side = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_snow_side");
-            icon_overlay_mycelium_side =
-                    event.map.registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_mycelium_side");
+            icon_overlay_mycelium_side = event.map
+                    .registerIcon(CarpentersBlocks.MODID + ":" + "overlay/overlay_mycelium_side");
             icon_tile_blank = event.map.registerIcon(CarpentersBlocks.MODID + ":" + "tile/blank");
 
             icon_design_chisel.clear();

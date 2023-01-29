@@ -1,11 +1,13 @@
 package com.carpentersblocks.renderer.helper;
 
-import com.carpentersblocks.util.collapsible.CollapsibleUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.util.collapsible.CollapsibleUtil;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderHelperCollapsible extends RenderHelper {
@@ -125,8 +127,8 @@ public class RenderHelperCollapsible extends RenderHelper {
     /**
      * Renders the given texture to the North face of the block.
      */
-    public static void renderFaceZNeg(
-            RenderBlocks renderBlocks, double x, double y, double z, IIcon icon, boolean isPositive) {
+    public static void renderFaceZNeg(RenderBlocks renderBlocks, double x, double y, double z, IIcon icon,
+            boolean isPositive) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         if (isPositive) {
@@ -159,8 +161,8 @@ public class RenderHelperCollapsible extends RenderHelper {
     /**
      * Renders the given texture to the South face of the block.
      */
-    public static void renderFaceZPos(
-            RenderBlocks renderBlocks, double x, double y, double z, IIcon icon, boolean isPositive) {
+    public static void renderFaceZPos(RenderBlocks renderBlocks, double x, double y, double z, IIcon icon,
+            boolean isPositive) {
         prepareRender(renderBlocks, ForgeDirection.SOUTH, x, y, z, icon);
 
         if (isPositive) {
@@ -193,8 +195,8 @@ public class RenderHelperCollapsible extends RenderHelper {
     /**
      * Renders the given texture to the West face of the block.
      */
-    public static void renderFaceXNeg(
-            RenderBlocks renderBlocks, double x, double y, double z, IIcon icon, boolean isPositive) {
+    public static void renderFaceXNeg(RenderBlocks renderBlocks, double x, double y, double z, IIcon icon,
+            boolean isPositive) {
         prepareRender(renderBlocks, ForgeDirection.WEST, x, y, z, icon);
 
         if (isPositive) {
@@ -227,8 +229,8 @@ public class RenderHelperCollapsible extends RenderHelper {
     /**
      * Renders the given texture to the East face of the block.
      */
-    public static void renderFaceXPos(
-            RenderBlocks renderBlocks, double x, double y, double z, IIcon icon, boolean isPositive) {
+    public static void renderFaceXPos(RenderBlocks renderBlocks, double x, double y, double z, IIcon icon,
+            boolean isPositive) {
         prepareRender(renderBlocks, ForgeDirection.EAST, x, y, z, icon);
 
         if (isPositive) {

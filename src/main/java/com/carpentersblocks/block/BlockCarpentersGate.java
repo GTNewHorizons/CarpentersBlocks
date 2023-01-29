@@ -1,11 +1,5 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.Barrier;
-import com.carpentersblocks.data.Gate;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,6 +11,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Barrier;
+import com.carpentersblocks.data.Gate;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.registry.BlockRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersGate extends BlockCoverable {
 
@@ -63,14 +65,8 @@ public class BlockCarpentersGate extends BlockCoverable {
     /**
      * Opens or closes gate on right click.
      */
-    protected void postOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         if (Gate.getState(TE) == Gate.STATE_OPEN) {
 
             Gate.setState(TE, Gate.STATE_CLOSED, true);
@@ -164,8 +160,8 @@ public class BlockCarpentersGate extends BlockCoverable {
         boolean isGateAbove = world.getBlock(x, y + 1, z).equals(this);
 
         /*
-         * Will only check for gate above or below, and limit to only activating a single stacked gate.
-         * It is done this way intentionally.
+         * Will only check for gate above or below, and limit to only activating a single stacked gate. It is done this
+         * way intentionally.
          */
         if (isGateBelow) {
 
@@ -255,7 +251,7 @@ public class BlockCarpentersGate extends BlockCoverable {
     @SideOnly(Side.CLIENT)
     /**
      * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
-     * coordinates.  Args: world, x, y, z, side
+     * coordinates. Args: world, x, y, z, side
      */
     public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
         return true;
@@ -271,7 +267,7 @@ public class BlockCarpentersGate extends BlockCoverable {
 
     @Override
     public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
-        ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
+        ForgeDirection[] axises = { ForgeDirection.UP, ForgeDirection.DOWN };
         return axises;
     }
 
@@ -279,7 +275,7 @@ public class BlockCarpentersGate extends BlockCoverable {
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
-        // if Axis is UP, block rotates to the right:  north -> east -> south -> west
+        // if Axis is UP, block rotates to the right: north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TEBase) {

@@ -1,15 +1,5 @@
 package com.carpentersblocks.util.handler;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.CarpentersBlocksCachedResources;
-import com.carpentersblocks.util.ModLogger;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.FeatureRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,13 +7,28 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
 import javax.imageio.ImageIO;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
+
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.CarpentersBlocksCachedResources;
+import com.carpentersblocks.util.ModLogger;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.FeatureRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
+
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class DesignHandler {
 
@@ -50,7 +55,7 @@ public class DesignHandler {
         File filePath = new File(event.getSourceFile().getAbsolutePath());
 
         if (filePath.isDirectory()) {
-            for (File file : FileUtils.listFiles(filePath, new String[] {"png"}, true)) {
+            for (File file : FileUtils.listFiles(filePath, new String[] { "png" }, true)) {
                 processPath(file.getAbsolutePath().replace("\\", "/"));
             }
         } else {
@@ -61,15 +66,17 @@ public class DesignHandler {
                     processPath(((ZipEntry) enumeration.nextElement()).getName());
                 }
                 jarFile.close();
-            } catch (Exception e) {
-            }
+            } catch (Exception e) {}
         }
 
         ModLogger.log(
                 Level.INFO,
                 String.format(
                         "Designs found: Bed(%s), Chisel(%s), FlowerPot(%s), Tile(%s)",
-                        listBed.size(), listChisel.size(), listFlowerPot.size(), listTile.size()));
+                        listBed.size(),
+                        listChisel.size(),
+                        listFlowerPot.size(),
+                        listTile.size()));
     }
 
     private static void processPath(String path) {
@@ -95,7 +102,8 @@ public class DesignHandler {
             ArrayList<BufferedImage> tempList = getBedIcons(resourceManager, iconName);
             for (BufferedImage image : tempList) {
                 CarpentersBlocksCachedResources.INSTANCE.addResource(
-                        "/textures/blocks/designs/bed/cache/" + iconName + "_" + tempList.indexOf(image), image);
+                        "/textures/blocks/designs/bed/cache/" + iconName + "_" + tempList.indexOf(image),
+                        image);
             }
         }
     }
@@ -106,41 +114,38 @@ public class DesignHandler {
             for (String iconName : listBed) {
                 IIcon[] icons = new IIcon[8];
                 for (int count = 0; count < 8; ++count) {
-                    icons[count] = iconRegister.registerIcon(CarpentersBlocksCachedResources.INSTANCE.getModId() + ":"
-                            + PATH_BED + "cache/" + iconName + "_" + count);
+                    icons[count] = iconRegister.registerIcon(
+                            CarpentersBlocksCachedResources.INSTANCE
+                                    .getModId() + ":" + PATH_BED + "cache/" + iconName + "_" + count);
                 }
                 IconRegistry.icon_design_bed.add(icons);
             }
         }
         if (FeatureRegistry.enableChiselDesigns) {
             for (String iconName : listChisel) {
-                IconRegistry.icon_design_chisel.add(
-                        iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + PATH_CHISEL + iconName));
+                IconRegistry.icon_design_chisel
+                        .add(iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + PATH_CHISEL + iconName));
             }
         }
         if (BlockRegistry.enableFlowerPot) {
             for (String iconName : listFlowerPot) {
-                IconRegistry.icon_design_flower_pot.add(
-                        iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + PATH_FLOWER_POT + iconName));
+                IconRegistry.icon_design_flower_pot
+                        .add(iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + PATH_FLOWER_POT + iconName));
             }
         }
         if (ItemRegistry.enableTile) {
             for (String iconName : listTile) {
-                IconRegistry.icon_design_tile.add(
-                        iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + PATH_TILE + iconName));
+                IconRegistry.icon_design_tile
+                        .add(iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + PATH_TILE + iconName));
             }
         }
     }
 
     public static ArrayList<String> getListForType(String type) {
-        return (ArrayList<String>)
-                (type.equals("chisel")
-                        ? listChisel.clone()
-                        : type.equals("bed")
-                                ? listBed.clone()
-                                : type.equals("flowerpot")
-                                        ? listFlowerPot.clone()
-                                        : type.equals("tile") ? listTile.clone() : null);
+        return (ArrayList<String>) (type.equals("chisel") ? listChisel.clone()
+                : type.equals("bed") ? listBed.clone()
+                        : type.equals("flowerpot") ? listFlowerPot.clone()
+                                : type.equals("tile") ? listTile.clone() : null);
     }
 
     /**
@@ -176,10 +181,9 @@ public class DesignHandler {
         ArrayList<BufferedImage> imageList = new ArrayList<BufferedImage>();
 
         try {
-            ResourceLocation resourceLocation =
-                    new ResourceLocation(CarpentersBlocks.MODID + ":textures/blocks/designs/bed/" + atlas + ".png");
-            BufferedImage image =
-                    ImageIO.read(resourceManager.getResource(resourceLocation).getInputStream());
+            ResourceLocation resourceLocation = new ResourceLocation(
+                    CarpentersBlocks.MODID + ":textures/blocks/designs/bed/" + atlas + ".png");
+            BufferedImage image = ImageIO.read(resourceManager.getResource(resourceLocation).getInputStream());
 
             int size = image.getWidth() / 3;
             int rows = image.getHeight() / size;
@@ -227,8 +231,7 @@ public class DesignHandler {
                     }
                 }
             }
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
 
         return imageList;
     }

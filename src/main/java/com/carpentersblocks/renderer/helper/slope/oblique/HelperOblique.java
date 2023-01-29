@@ -1,12 +1,14 @@
 package com.carpentersblocks.renderer.helper.slope.oblique;
 
-import com.carpentersblocks.data.Slope;
-import com.carpentersblocks.renderer.helper.RenderHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Slope;
+import com.carpentersblocks.renderer.helper.RenderHelper;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class HelperOblique extends RenderHelper {
@@ -14,8 +16,8 @@ public class HelperOblique extends RenderHelper {
     /**
      * Renders the given texture to interior oblique on the bottom sloped face.
      */
-    public static void renderIntObliqueYNeg(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderIntObliqueYNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uMI = uTR - (uTR - uTL) / 2;
@@ -48,8 +50,8 @@ public class HelperOblique extends RenderHelper {
     /**
      * Renders the given texture to interior oblique on the top sloped face.
      */
-    public static void renderIntObliqueYPos(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderIntObliqueYPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         boolean altRot = rotation % 2 == 0;
@@ -83,8 +85,8 @@ public class HelperOblique extends RenderHelper {
     /**
      * Renders the given texture to exterior oblique bottom face on right.
      */
-    public static void renderExtObliqueYNegLeft(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderExtObliqueYNegLeft(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uTOP_MIDDLE = uTR;
@@ -120,8 +122,8 @@ public class HelperOblique extends RenderHelper {
     /**
      * Renders the given texture to exterior oblique bottom face on right.
      */
-    public static void renderExtObliqueYNegRight(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderExtObliqueYNegRight(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uTOP_MIDDLE = uTR - (uTR - uTL) / 2;
@@ -157,8 +159,8 @@ public class HelperOblique extends RenderHelper {
     /**
      * Renders the given texture to exterior oblique top face on left.
      */
-    public static void renderExtObliqueYPosLeft(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderExtObliqueYPosLeft(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uMI1 = uBR; // u middle coordinate, left triangle
@@ -194,8 +196,8 @@ public class HelperOblique extends RenderHelper {
     /**
      * Renders the given texture to exterior oblique top face on right.
      */
-    public static void renderExtObliqueYPosRight(
-            RenderBlocks renderBlocks, int slopeID, double x, double y, double z, IIcon icon) {
+    public static void renderExtObliqueYPosRight(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uBOTTOM_MIDDLE = uBR - (uBR - uBL) / 2;

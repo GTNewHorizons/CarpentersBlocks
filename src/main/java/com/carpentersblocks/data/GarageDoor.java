@@ -1,28 +1,30 @@
 package com.carpentersblocks.data;
 
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.BlockRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class GarageDoor extends AbstractMultiBlock implements ISided {
 
     /**
      * 16-bit data components:
      *
-     * [000000] [0]  [0]   [0]   [000] [0000]
-     * Unused   Host Rigid State Dir   Type
+     * [000000] [0] [0] [0] [000] [0000] Unused Host Rigid State Dir Type
      */
     public static final GarageDoor INSTANCE = new GarageDoor();
 
@@ -128,28 +130,25 @@ public class GarageDoor extends AbstractMultiBlock implements ISided {
      */
     @SideOnly(Side.CLIENT)
     class DoorPieceDistanceComparator implements Comparator<TEBase> {
+
         @Override
         public int compare(TEBase tileEntity1, TEBase tileEntity2) {
-            double dist1 = Minecraft.getMinecraft()
-                    .thePlayer
+            double dist1 = Minecraft.getMinecraft().thePlayer
                     .getDistance(tileEntity1.xCoord, tileEntity1.yCoord, tileEntity1.zCoord);
-            double dist2 = Minecraft.getMinecraft()
-                    .thePlayer
+            double dist2 = Minecraft.getMinecraft().thePlayer
                     .getDistance(tileEntity2.xCoord, tileEntity2.yCoord, tileEntity2.zCoord);
             return dist1 < dist2 ? -1 : 1;
         }
     }
 
     /**
-     * When passed a TEBase, will play state change sound
-     * if piece is nearest to player out of all connecting
-     * door pieces.
+     * When passed a TEBase, will play state change sound if piece is nearest to player out of all connecting door
+     * pieces.
      * <p>
-     * The server would normally handle this and send notification
-     * to all nearby players, but sound source will be dependent
-     * on each player's location.
+     * The server would normally handle this and send notification to all nearby players, but sound source will be
+     * dependent on each player's location.
      *
-     * @param list an {@link ArrayList<TEBase>} of door pieces
+     * @param list         an {@link ArrayList<TEBase>} of door pieces
      * @param entityPlayer the source {@link EntityPlayer}
      * @return the {@link TEBase} nearest to {@link EntityPlayer}
      */
@@ -166,22 +165,21 @@ public class GarageDoor extends AbstractMultiBlock implements ISided {
     }
 
     /**
-     * Helper function for determining properties based on a
-     * nearby garage door piece around the given coordinates.
+     * Helper function for determining properties based on a nearby garage door piece around the given coordinates.
      *
      * @param world the {@link World}
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param z the z coordinate
+     * @param x     the x coordinate
+     * @param y     the y coordinate
+     * @param z     the z coordinate
      * @return a {@link TEBase} with relevant properties
      */
     public TEBase findReferencePiece(World world, int x, int y, int z, ForgeDirection axis) {
         ForgeDirection dir = axis.getRotation(ForgeDirection.UP);
         do {
-            TEBase temp1 = BlockProperties.getTileEntity(
-                    BlockRegistry.blockCarpentersGarageDoor, world, x + dir.offsetX, y, z + dir.offsetZ);
-            TEBase temp2 = BlockProperties.getTileEntity(
-                    BlockRegistry.blockCarpentersGarageDoor, world, x - dir.offsetX, y, z - dir.offsetZ);
+            TEBase temp1 = BlockProperties
+                    .getTileEntity(BlockRegistry.blockCarpentersGarageDoor, world, x + dir.offsetX, y, z + dir.offsetZ);
+            TEBase temp2 = BlockProperties
+                    .getTileEntity(BlockRegistry.blockCarpentersGarageDoor, world, x - dir.offsetX, y, z - dir.offsetZ);
             if (temp1 != null && getDirection(temp1).equals(axis)) {
                 return temp1;
             } else if (temp2 != null && getDirection(temp2).equals(axis)) {
@@ -193,10 +191,9 @@ public class GarageDoor extends AbstractMultiBlock implements ISided {
     }
 
     /**
-     * Copies relevant properties and owner from source tile
-     * entity to destination tile entity.
+     * Copies relevant properties and owner from source tile entity to destination tile entity.
      *
-     * @param src the source {@link TEBase}
+     * @param src  the source {@link TEBase}
      * @param dest the destination {@link TEBase}
      */
     public void replicate(final TEBase src, TEBase dest) {
@@ -220,19 +217,18 @@ public class GarageDoor extends AbstractMultiBlock implements ISided {
     /**
      * Weather panel is the bottommost.
      *
-     * @param  TE the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return true if panel is the bottommost
      */
     public boolean isBottommost(TEBase TE) {
-        return !TE.getWorldObj()
-                .getBlock(TE.xCoord, TE.yCoord - 1, TE.zCoord)
+        return !TE.getWorldObj().getBlock(TE.xCoord, TE.yCoord - 1, TE.zCoord)
                 .equals(BlockRegistry.blockCarpentersGarageDoor);
     }
 
     /**
      * Gets the topmost garage door tile entity.
      *
-     * @param  TE the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return the {@link TEBase}
      */
     public TEBase getTopmost(World world, int x, int y, int z) {
@@ -246,7 +242,7 @@ public class GarageDoor extends AbstractMultiBlock implements ISided {
     /**
      * Gets the bottommost garage door tile entity.
      *
-     * @param  TE the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return the {@link TEBase}
      */
     public TEBase getBottommost(World world, int x, int y, int z) {
@@ -260,10 +256,9 @@ public class GarageDoor extends AbstractMultiBlock implements ISided {
     /**
      * Whether block is visible.
      * <p>
-     * If a block is open and not in the topmost position,
-     * it cannot be selected or collided with.
+     * If a block is open and not in the topmost position, it cannot be selected or collided with.
      *
-     * @param  TE the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return true if visible
      */
     public boolean isVisible(TEBase TE) {
@@ -282,7 +277,7 @@ public class GarageDoor extends AbstractMultiBlock implements ISided {
     @Override
     public ForgeDirection[] getLocateDirs(TEBase TE) {
         ForgeDirection dirPlane = getDirection(TE).getRotation(ForgeDirection.UP);
-        ForgeDirection[] dirs = {ForgeDirection.UP, ForgeDirection.DOWN, dirPlane, dirPlane.getOpposite()};
+        ForgeDirection[] dirs = { ForgeDirection.UP, ForgeDirection.DOWN, dirPlane, dirPlane.getOpposite() };
 
         return dirs;
     }

@@ -1,11 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.Ladder;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.EntityLivingUtil;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.FeatureRegistry;
 import java.util.Arrays;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,9 +11,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.data.Ladder;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.EntityLivingUtil;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.FeatureRegistry;
+
 public class BlockCarpentersLadder extends BlockSided {
 
-    public static final String type[] = {"default", "rail", "pole"};
+    public static final String type[] = { "default", "rail", "pole" };
     private static Ladder data = new Ladder();
 
     public BlockCarpentersLadder(Material material) {
@@ -86,8 +88,7 @@ public class BlockCarpentersLadder extends BlockSided {
 
         if (!result && side < 2) {
             ForgeDirection dir = ForgeDirection.getOrientation(side);
-            result = world.getBlock(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ)
-                    .equals(this);
+            result = world.getBlock(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ).equals(this);
         }
 
         return result;
@@ -108,9 +109,9 @@ public class BlockCarpentersLadder extends BlockSided {
      * Gets placement direction when first placed in world.
      *
      * @param world the {@link World}
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param z the z coordinate
+     * @param x     the x coordinate
+     * @param y     the y coordinate
+     * @param z     the z coordinate
      * @return the {@link ForgeDirection}
      */
     protected ForgeDirection getPlacementDirection(World world, int x, int y, int z, EntityLivingBase entityLiving) {
@@ -169,7 +170,7 @@ public class BlockCarpentersLadder extends BlockSided {
 
     @Override
     public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
-        ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
+        ForgeDirection[] axises = { ForgeDirection.UP, ForgeDirection.DOWN };
         return axises;
     }
 

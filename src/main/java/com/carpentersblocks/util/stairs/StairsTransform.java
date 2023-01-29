@@ -1,11 +1,12 @@
 package com.carpentersblocks.util.stairs;
 
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.carpentersblocks.block.BlockCarpentersStairs;
 import com.carpentersblocks.data.Stairs;
 import com.carpentersblocks.data.Stairs.Type;
 import com.carpentersblocks.tileentity.TEBase;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class StairsTransform {
 
@@ -56,14 +57,12 @@ public class StairsTransform {
             if (stairs_XN != null) {
                 if (stairs_ZN.facings.contains(ForgeDirection.WEST)
                         && stairs_XN.facings.contains(ForgeDirection.NORTH)) {
-                    return stairs_XN.isPositive && stairs_ZN.isPositive
-                            ? Stairs.ID_NORMAL_INT_POS_NW
+                    return stairs_XN.isPositive && stairs_ZN.isPositive ? Stairs.ID_NORMAL_INT_POS_NW
                             : Stairs.ID_NORMAL_INT_NEG_NW;
                 }
                 if (stairs_ZN.facings.contains(ForgeDirection.EAST)
                         && stairs_XN.facings.contains(ForgeDirection.SOUTH)) {
-                    return stairs_XN.isPositive && stairs_ZN.isPositive
-                            ? Stairs.ID_NORMAL_EXT_POS_SE
+                    return stairs_XN.isPositive && stairs_ZN.isPositive ? Stairs.ID_NORMAL_EXT_POS_SE
                             : Stairs.ID_NORMAL_EXT_NEG_SE;
                 }
             }
@@ -71,14 +70,12 @@ public class StairsTransform {
             if (stairs_XP != null) {
                 if (stairs_ZN.facings.contains(ForgeDirection.EAST)
                         && stairs_XP.facings.contains(ForgeDirection.NORTH)) {
-                    return stairs_XP.isPositive && stairs_ZN.isPositive
-                            ? Stairs.ID_NORMAL_INT_POS_NE
+                    return stairs_XP.isPositive && stairs_ZN.isPositive ? Stairs.ID_NORMAL_INT_POS_NE
                             : Stairs.ID_NORMAL_INT_NEG_NE;
                 }
                 if (stairs_ZN.facings.contains(ForgeDirection.WEST)
                         && stairs_XP.facings.contains(ForgeDirection.SOUTH)) {
-                    return stairs_XP.isPositive && stairs_ZN.isPositive
-                            ? Stairs.ID_NORMAL_EXT_POS_SW
+                    return stairs_XP.isPositive && stairs_ZN.isPositive ? Stairs.ID_NORMAL_EXT_POS_SW
                             : Stairs.ID_NORMAL_EXT_NEG_SW;
                 }
             }
@@ -89,14 +86,12 @@ public class StairsTransform {
             if (stairs_XN != null) {
                 if (stairs_ZP.facings.contains(ForgeDirection.WEST)
                         && stairs_XN.facings.contains(ForgeDirection.SOUTH)) {
-                    return stairs_XN.isPositive && stairs_ZP.isPositive
-                            ? Stairs.ID_NORMAL_INT_POS_SW
+                    return stairs_XN.isPositive && stairs_ZP.isPositive ? Stairs.ID_NORMAL_INT_POS_SW
                             : Stairs.ID_NORMAL_INT_NEG_SW;
                 }
                 if (stairs_ZP.facings.contains(ForgeDirection.EAST)
                         && stairs_XN.facings.contains(ForgeDirection.NORTH)) {
-                    return stairs_XN.isPositive && stairs_ZP.isPositive
-                            ? Stairs.ID_NORMAL_EXT_POS_NE
+                    return stairs_XN.isPositive && stairs_ZP.isPositive ? Stairs.ID_NORMAL_EXT_POS_NE
                             : Stairs.ID_NORMAL_EXT_NEG_NE;
                 }
             }
@@ -104,14 +99,12 @@ public class StairsTransform {
             if (stairs_XP != null) {
                 if (stairs_ZP.facings.contains(ForgeDirection.EAST)
                         && stairs_XP.facings.contains(ForgeDirection.SOUTH)) {
-                    return stairs_XP.isPositive && stairs_ZP.isPositive
-                            ? Stairs.ID_NORMAL_INT_POS_SE
+                    return stairs_XP.isPositive && stairs_ZP.isPositive ? Stairs.ID_NORMAL_INT_POS_SE
                             : Stairs.ID_NORMAL_INT_NEG_SE;
                 }
                 if (stairs_ZP.facings.contains(ForgeDirection.WEST)
                         && stairs_XP.facings.contains(ForgeDirection.NORTH)) {
-                    return stairs_XP.isPositive && stairs_ZP.isPositive
-                            ? Stairs.ID_NORMAL_EXT_POS_NW
+                    return stairs_XP.isPositive && stairs_ZP.isPositive ? Stairs.ID_NORMAL_EXT_POS_NW
                             : Stairs.ID_NORMAL_EXT_NEG_NW;
                 }
             }

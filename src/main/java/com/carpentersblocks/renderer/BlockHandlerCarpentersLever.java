@@ -1,5 +1,13 @@
 package com.carpentersblocks.renderer;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
+
 import com.carpentersblocks.block.BlockCarpentersLever;
 import com.carpentersblocks.block.BlockCoverable;
 import com.carpentersblocks.data.Lever;
@@ -8,15 +16,9 @@ import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import com.carpentersblocks.util.registry.IconRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.Vec3;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersLever extends BlockHandlerBase {
@@ -80,24 +82,19 @@ public class BlockHandlerCarpentersLever extends BlockHandlerBase {
         boolean toggleState = data.getState(TE) == data.STATE_ON;
         boolean rotateLever = data.getAxis(TE) == Axis.X;
 
-        IIcon icon =
-                renderBlocks.hasOverrideBlockTexture() ? renderBlocks.overrideBlockTexture : IconRegistry.icon_lever;
+        IIcon icon = renderBlocks.hasOverrideBlockTexture() ? renderBlocks.overrideBlockTexture
+                : IconRegistry.icon_lever;
 
         double uMin = icon.getMinU();
         double uMax = icon.getMaxU();
         double vMin = icon.getMinV();
         double vMax = icon.getMaxV();
 
-        Vec3[] vector = {
-            Vec3.createVectorHelper(-0.0625F, 0.0D, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.0D, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.0D, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.0D, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.625F, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.625F, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.625F, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.625F, 0.0625F)
-        };
+        Vec3[] vector = { Vec3.createVectorHelper(-0.0625F, 0.0D, -0.0625F),
+                Vec3.createVectorHelper(0.0625F, 0.0D, -0.0625F), Vec3.createVectorHelper(0.0625F, 0.0D, 0.0625F),
+                Vec3.createVectorHelper(-0.0625F, 0.0D, 0.0625F), Vec3.createVectorHelper(-0.0625F, 0.625F, -0.0625F),
+                Vec3.createVectorHelper(0.0625F, 0.625F, -0.0625F), Vec3.createVectorHelper(0.0625F, 0.625F, 0.0625F),
+                Vec3.createVectorHelper(-0.0625F, 0.625F, 0.0625F) };
 
         /* Set up lever handle rotation. */
 
@@ -148,8 +145,7 @@ public class BlockHandlerCarpentersLever extends BlockHandlerBase {
                     case EAST:
                         vector[vecCount].rotateAroundY(-((float) Math.PI / 2F));
                         break;
-                    default: {
-                    }
+                    default: {}
                 }
 
                 vector[vecCount].xCoord += x + 0.5D;

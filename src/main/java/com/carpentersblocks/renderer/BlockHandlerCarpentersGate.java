@@ -1,13 +1,15 @@
 package com.carpentersblocks.renderer;
 
-import com.carpentersblocks.data.Gate;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Gate;
+
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISimpleBlockRenderingHandler {
@@ -65,10 +67,8 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
         type = Gate.getType(TE);
         isOpen = Gate.getState(TE) == Gate.STATE_OPEN;
 
-        gate = new boolean[] {
-            renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock),
-            renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock)
-        };
+        gate = new boolean[] { renderBlocks.blockAccess.getBlock(x, y - 1, z).equals(srcBlock),
+                renderBlocks.blockAccess.getBlock(x, y + 1, z).equals(srcBlock) };
 
         if (Gate.getFacing(TE) == Gate.FACING_ON_Z) {
             dir = Gate.getDirOpen(TE) == Gate.DIR_NEG ? ForgeDirection.NORTH : ForgeDirection.SOUTH;

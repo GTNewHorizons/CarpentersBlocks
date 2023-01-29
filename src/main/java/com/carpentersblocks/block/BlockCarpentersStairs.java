@@ -1,15 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.Stairs;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import com.carpentersblocks.util.registry.ItemRegistry;
-import com.carpentersblocks.util.stairs.StairsTransform;
-import com.carpentersblocks.util.stairs.StairsUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,6 +17,17 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.data.Stairs;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+import com.carpentersblocks.util.registry.ItemRegistry;
+import com.carpentersblocks.util.stairs.StairsTransform;
+import com.carpentersblocks.util.stairs.StairsUtil;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockCarpentersStairs extends BlockCoverable {
 
     public BlockCarpentersStairs(Material material) {
@@ -34,8 +37,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
     @Override
     @SideOnly(Side.CLIENT)
     /**
-     * Returns a base icon that doesn't rely on blockIcon, which
-     * is set prior to texture stitch events.
+     * Returns a base icon that doesn't rely on blockIcon, which is set prior to texture stitch events.
      */
     public IIcon getIcon() {
         return IconRegistry.icon_uncovered_quartered;
@@ -195,8 +197,8 @@ public class BlockCarpentersStairs extends BlockCoverable {
      * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
      * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
      */
-    public void addCollisionBoxesToList(
-            World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list,
+            Entity entity) {
         TEBase TE = getTileEntity(world, x, y, z);
 
         if (TE != null) {
@@ -212,7 +214,12 @@ public class BlockCarpentersStairs extends BlockCoverable {
 
                 if (bounds != null) {
                     colBox = AxisAlignedBB.getBoundingBox(
-                            x + bounds[0], y + bounds[1], z + bounds[2], x + bounds[3], y + bounds[4], z + bounds[5]);
+                            x + bounds[0],
+                            y + bounds[1],
+                            z + bounds[2],
+                            x + bounds[3],
+                            y + bounds[4],
+                            z + bounds[5]);
                 }
                 if (colBox != null && axisAlignedBB.intersectsWith(colBox)) {
                     list.add(colBox);
@@ -239,16 +246,13 @@ public class BlockCarpentersStairs extends BlockCoverable {
 
     @Override
     /**
-     * Called when block is placed in world.
-     * Sets stairs angle depending on click coordinates on block face.
+     * Called when block is placed in world. Sets stairs angle depending on click coordinates on block face.
      *
-     *    Metadata values:
-     *      0 - 11    -    Identifies stairs angle in x, y, z space.
-     *     12 - 13    -    Top or bottom side of block clicked.  onBlockPlacedBy() determines
-     *                 direction and sets interpolated value from 0 - 11.
+     * Metadata values: 0 - 11 - Identifies stairs angle in x, y, z space. 12 - 13 - Top or bottom side of block
+     * clicked. onBlockPlacedBy() determines direction and sets interpolated value from 0 - 11.
      */
-    public int onBlockPlaced(
-            World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
+    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ,
+            int metadata) {
         // Normalize face coordinates
         switch (side) {
             case 2:
@@ -283,8 +287,8 @@ public class BlockCarpentersStairs extends BlockCoverable {
 
     @Override
     /**
-     * Called when the block is placed in the world.
-     * Uses cardinal direction to adjust metadata if player clicks top or bottom face of block.
+     * Called when the block is placed in the world. Uses cardinal direction to adjust metadata if player clicks top or
+     * bottom face of block.
      */
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
@@ -344,7 +348,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
 
     @Override
     public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
-        ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
+        ForgeDirection[] axises = { ForgeDirection.UP, ForgeDirection.DOWN };
         return axises;
     }
 
@@ -352,7 +356,7 @@ public class BlockCarpentersStairs extends BlockCoverable {
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
-        // if Axis is UP, block rotates to the right:  north -> east -> south -> west
+        // if Axis is UP, block rotates to the right: north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TEBase) {

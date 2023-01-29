@@ -1,18 +1,8 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.CarpentersBlocks;
-import com.carpentersblocks.data.GarageDoor;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.tileentity.TECarpentersGarageDoor;
-import com.carpentersblocks.util.EntityLivingUtil;
-import com.carpentersblocks.util.handler.ChatHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.FeatureRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -30,9 +20,22 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.CarpentersBlocks;
+import com.carpentersblocks.data.GarageDoor;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.tileentity.TECarpentersGarageDoor;
+import com.carpentersblocks.util.EntityLivingUtil;
+import com.carpentersblocks.util.handler.ChatHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.FeatureRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockCarpentersGarageDoor extends BlockCoverable {
 
-    public static final String type[] = {"default", "glassTop", "glass", "siding", "hidden"};
+    public static final String type[] = { "default", "glassTop", "glass", "siding", "hidden" };
     private static GarageDoor data = new GarageDoor();
 
     public BlockCarpentersGarageDoor(Material material) {
@@ -46,8 +49,8 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
      * is the only chance you get to register icons.
      */
     public void registerBlockIcons(IIconRegister iconRegister) {
-        IconRegistry.icon_garage_glass_top =
-                iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "garagedoor/glass_top");
+        IconRegistry.icon_garage_glass_top = iconRegister
+                .registerIcon(CarpentersBlocks.MODID + ":" + "garagedoor/glass_top");
         IconRegistry.icon_garage_glass = iconRegister.registerIcon(CarpentersBlocks.MODID + ":" + "garagedoor/glass");
     }
 
@@ -164,18 +167,18 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
      * Location sensitive version of getExplosionRestance
      *
      * @param par1Entity The entity that caused the explosion
-     * @param world The current world
-     * @param x X Position
-     * @param y Y Position
-     * @param z Z Position
+     * @param world      The current world
+     * @param x          X Position
+     * @param y          Y Position
+     * @param z          Z Position
      * @param explosionX Explosion source X Position
      * @param explosionY Explosion source X Position
      * @param explosionZ Explosion source X Position
      * @return The amount of the explosion absorbed.
      */
     @Override
-    public float getExplosionResistance(
-            Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ) {
+    public float getExplosionResistance(Entity entity, World world, int x, int y, int z, double explosionX,
+            double explosionY, double explosionZ) {
         TEBase TE = getTileEntity(world, x, y, z);
         if (TE != null) {
             if (data.isOpen(TE) && !data.isHost(TE)) {
@@ -253,13 +256,12 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
     }
 
     /**
-     * Allows a tile entity called during block activation to be changed before
-     * altering attributes like cover, dye, overlay, etc.
+     * Allows a tile entity called during block activation to be changed before altering attributes like cover, dye,
+     * overlay, etc.
      * <p>
-     * Primarily offered for the garage door, when open, to swap the top piece
-     * with the bottom piece for consistency.
+     * Primarily offered for the garage door, when open, to swap the top piece with the bottom piece for consistency.
      *
-     * @param  TE the originating {@link TEBase}
+     * @param TE the originating {@link TEBase}
      * @return a swapped in {@link TEBase}, or the passed in {@link TEBase}
      */
     @Override
@@ -268,18 +270,11 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
     }
 
     /**
-     * Called if cover and decoration checks have been performed but
-     * returned no changes.
+     * Called if cover and decoration checks have been performed but returned no changes.
      */
     @Override
-    protected void postOnBlockActivated(
-            TEBase TE,
-            EntityPlayer entityPlayer,
-            int side,
-            float hitX,
-            float hitY,
-            float hitZ,
-            ActionResult actionResult) {
+    protected void postOnBlockActivated(TEBase TE, EntityPlayer entityPlayer, int side, float hitX, float hitY,
+            float hitZ, ActionResult actionResult) {
         if (!data.isRigid(TE)) {
             int state = data.getState(TE) == GarageDoor.STATE_OPEN ? GarageDoor.STATE_CLOSED : GarageDoor.STATE_OPEN;
 
@@ -303,13 +298,11 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
             TEBase TE = getTileEntity(world, x, y, z);
             if (TE != null) {
                 if (data.isHost(TE)
-                        && !(canPlaceBlockOnSide(world, x, y, z, 0)
-                                || world.getBlock(x, y + 1, z).equals(this))) {
+                        && !(canPlaceBlockOnSide(world, x, y, z, 0) || world.getBlock(x, y + 1, z).equals(this))) {
                     destroy(world, x, y, z, true);
                 } else {
                     // Check for new door state (open or closed)
-                    int powerState = world.isBlockIndirectlyGettingPowered(x, y, z)
-                            ? GarageDoor.STATE_OPEN
+                    int powerState = world.isBlockIndirectlyGettingPowered(x, y, z) ? GarageDoor.STATE_OPEN
                             : GarageDoor.STATE_CLOSED;
                     if (block != null && block.canProvidePower() && powerState != data.getState(TE)) {
                         int old_state = data.getState(TE);
@@ -356,23 +349,20 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
     }
 
     /**
-     * Called when a player removes a block.  This is responsible for
-     * actually destroying the block, and the block is intact at time of call.
-     * This is called regardless of whether the player can harvest the block or
-     * not.
+     * Called when a player removes a block. This is responsible for actually destroying the block, and the block is
+     * intact at time of call. This is called regardless of whether the player can harvest the block or not.
      *
      * Return true if the block is actually destroyed.
      *
-     * Note: When used in multiplayer, this is called on both client and
-     * server sides!
+     * Note: When used in multiplayer, this is called on both client and server sides!
      *
-     * @param world The current world
-     * @param player The player damaging the block, may be null
-     * @param x X Position
-     * @param y Y position
-     * @param z Z position
-     * @param willHarvest True if Block.harvestBlock will be called after this, if the return in true.
-     *        Can be useful to delay the destruction of tile entities till after harvestBlock
+     * @param world       The current world
+     * @param player      The player damaging the block, may be null
+     * @param x           X Position
+     * @param y           Y position
+     * @param z           Z position
+     * @param willHarvest True if Block.harvestBlock will be called after this, if the return in true. Can be useful to
+     *                    delay the destruction of tile entities till after harvestBlock
      * @return True if the block is actually destroyed.
      */
     @Override
@@ -388,12 +378,12 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
     /**
      * This returns a complete list of items dropped from this block.
      *
-     * @param world The current world
-     * @param x X Position
-     * @param y Y Position
-     * @param z Z Position
+     * @param world    The current world
+     * @param x        X Position
+     * @param y        Y Position
+     * @param z        Z Position
      * @param metadata Current metadata
-     * @param fortune Breakers fortune level
+     * @param fortune  Breakers fortune level
      * @return A ArrayList containing all items this block drops
      */
     @Override
@@ -423,8 +413,7 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
     @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z) {
         if (super.canPlaceBlockAt(world, x, y, z)) {
-            return canPlaceBlockOnSide(world, x, y, z, 0)
-                    || world.getBlock(x, y + 1, z).equals(this);
+            return canPlaceBlockOnSide(world, x, y, z, 0) || world.getBlock(x, y + 1, z).equals(this);
         } else {
             return false;
         }
@@ -464,7 +453,7 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
 
     @Override
     public ForgeDirection[] getValidRotations(World worldObj, int x, int y, int z) {
-        ForgeDirection[] axises = {ForgeDirection.UP, ForgeDirection.DOWN};
+        ForgeDirection[] axises = { ForgeDirection.UP, ForgeDirection.DOWN };
         return axises;
     }
 
@@ -472,7 +461,7 @@ public class BlockCarpentersGarageDoor extends BlockCoverable {
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
         // to correctly support archimedes' ships mod:
         // if Axis is DOWN, block rotates to the left, north -> west -> south -> east
-        // if Axis is UP, block rotates to the right:  north -> east -> south -> west
+        // if Axis is UP, block rotates to the right: north -> east -> south -> west
 
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TEBase) {

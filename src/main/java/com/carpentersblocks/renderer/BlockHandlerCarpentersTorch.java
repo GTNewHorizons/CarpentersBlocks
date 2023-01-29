@@ -1,12 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import com.carpentersblocks.data.Torch;
-import com.carpentersblocks.renderer.helper.RenderHelper;
-import com.carpentersblocks.renderer.helper.VertexHelper;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
@@ -14,6 +7,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Torch;
+import com.carpentersblocks.renderer.helper.RenderHelper;
+import com.carpentersblocks.renderer.helper.VertexHelper;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
@@ -88,20 +90,14 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
             case UNLIT:
                 icon = IconRegistry.icon_torch_head_unlit;
                 break;
-            default: {
-            }
+            default: {}
         }
 
-        vec3 = new Vec3[] {
-            Vec3.createVectorHelper(-0.0625F, 0.5D, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.5D, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.5D, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.5D, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.625F, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.625F, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.625F, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.625F, 0.0625F)
-        };
+        vec3 = new Vec3[] { Vec3.createVectorHelper(-0.0625F, 0.5D, -0.0625F),
+                Vec3.createVectorHelper(0.0625F, 0.5D, -0.0625F), Vec3.createVectorHelper(0.0625F, 0.5D, 0.0625F),
+                Vec3.createVectorHelper(-0.0625F, 0.5D, 0.0625F), Vec3.createVectorHelper(-0.0625F, 0.625F, -0.0625F),
+                Vec3.createVectorHelper(0.0625F, 0.625F, -0.0625F), Vec3.createVectorHelper(0.0625F, 0.625F, 0.0625F),
+                Vec3.createVectorHelper(-0.0625F, 0.625F, 0.0625F) };
 
         setVanillaRotations(data.getDirection(TE), vec3, x, y, z);
 
@@ -113,16 +109,11 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
 
         /* Render torch handle. */
 
-        vec3 = new Vec3[] {
-            Vec3.createVectorHelper(-0.0625F, 0.0D, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.0D, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.0D, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.0D, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.5F, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.5F, -0.0625F),
-            Vec3.createVectorHelper(0.0625F, 0.5F, 0.0625F),
-            Vec3.createVectorHelper(-0.0625F, 0.5F, 0.0625F)
-        };
+        vec3 = new Vec3[] { Vec3.createVectorHelper(-0.0625F, 0.0D, -0.0625F),
+                Vec3.createVectorHelper(0.0625F, 0.0D, -0.0625F), Vec3.createVectorHelper(0.0625F, 0.0D, 0.0625F),
+                Vec3.createVectorHelper(-0.0625F, 0.0D, 0.0625F), Vec3.createVectorHelper(-0.0625F, 0.5F, -0.0625F),
+                Vec3.createVectorHelper(0.0625F, 0.5F, -0.0625F), Vec3.createVectorHelper(0.0625F, 0.5F, 0.0625F),
+                Vec3.createVectorHelper(-0.0625F, 0.5F, 0.0625F) };
 
         setVanillaRotations(data.getDirection(TE), vec3, x, y, z);
 
@@ -227,8 +218,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
                         case EAST:
                             vec3[vecCount].rotateAroundY(-((float) Math.PI / 2F));
                             break;
-                        default: {
-                        }
+                        default: {}
                     }
 
                     vec3[vecCount].xCoord += x + 0.5D;
@@ -243,9 +233,9 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
     /**
      * Renders vanilla torch components using vectors.
      *
-     * @param  side the block face
-     * @param  icon the {@link IIcon}
-     * @param  isHandle <code>true</code> if handle is drawing
+     * @param side     the block face
+     * @param icon     the {@link IIcon}
+     * @param isHandle <code>true</code> if handle is drawing
      */
     private void renderVectors(int side, IIcon icon, boolean isHandle) {
         double uMin, uMax, vMin, vMax;

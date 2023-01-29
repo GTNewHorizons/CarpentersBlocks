@@ -1,10 +1,12 @@
 package com.carpentersblocks.util;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
 import org.apache.logging.log4j.Level;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 /**
  * Stores attribute and unique identifier for validation purposes.
@@ -19,8 +21,7 @@ public class Attribute {
     public Attribute(ItemStack itemStack) {
         if (itemStack != null && itemStack.getItem() != null) {
             this._itemStack = itemStack;
-            _uniqueId =
-                    GameRegistry.findUniqueIdentifierFor(itemStack.getItem()).toString();
+            _uniqueId = GameRegistry.findUniqueIdentifierFor(itemStack.getItem()).toString();
         }
     }
 

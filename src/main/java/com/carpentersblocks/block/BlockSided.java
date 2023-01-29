@@ -1,8 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.ISided;
-import com.carpentersblocks.tileentity.TEBase;
 import java.util.Arrays;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,6 +10,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.ISided;
+import com.carpentersblocks.tileentity.TEBase;
 
 public class BlockSided extends BlockCoverable {
 
@@ -49,8 +51,8 @@ public class BlockSided extends BlockCoverable {
     /**
      * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z, side, hitX, hitY, hitZ, block metadata
      */
-    public int onBlockPlaced(
-            World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
+    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ,
+            int metadata) {
         return side;
     }
 
@@ -74,9 +76,9 @@ public class BlockSided extends BlockCoverable {
      * Gets placement direction when first placed in world.
      *
      * @param world the {@link World}
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param z the z coordinate
+     * @param x     the x coordinate
+     * @param y     the y coordinate
+     * @param z     the z coordinate
      * @return the {@link ForgeDirection}
      */
     protected ForgeDirection getPlacementDirection(World world, int x, int y, int z, EntityLivingBase entityLiving) {
@@ -99,8 +101,8 @@ public class BlockSided extends BlockCoverable {
     @Override
     public void onPostBlockPlaced(World world, int x, int y, int z, int metadata) {
         /*
-         * Part of world.setBlock() involves updating neighbors.  Since we
-         * prevent this in ItemBlockSided, we'll invoke it here.
+         * Part of world.setBlock() involves updating neighbors. Since we prevent this in ItemBlockSided, we'll invoke
+         * it here.
          */
 
         world.notifyBlocksOfNeighborChange(x, y, z, this);
@@ -124,10 +126,7 @@ public class BlockSided extends BlockCoverable {
 
         if (!world.isRemote) {
             TEBase TE = getTileEntity(world, x, y, z);
-            if (TE != null
-                    && !canPlaceBlockOnSide(
-                            world, x, y, z, data.getDirection(TE).ordinal())
-                    && !canFloat()) {
+            if (TE != null && !canPlaceBlockOnSide(world, x, y, z, data.getDirection(TE).ordinal()) && !canFloat()) {
                 destroyBlock(world, x, y, z, true);
             }
         }
@@ -136,10 +135,10 @@ public class BlockSided extends BlockCoverable {
     /**
      * Notifies relevant blocks of a change in power output.
      *
-     * @param  world
-     * @param  x
-     * @param  y
-     * @param  z
+     * @param world
+     * @param x
+     * @param y
+     * @param z
      * @return nothing
      */
     public void notifyBlocksOfPowerChange(World world, int x, int y, int z) {
@@ -225,7 +224,7 @@ public class BlockSided extends BlockCoverable {
     /**
      * Gets block-specific power level from 0 to 15.
      *
-     * @param  TE  the {@link TEBase}
+     * @param TE the {@link TEBase}
      * @return the power output
      */
     public int getPowerOutput(TEBase TE) {
@@ -235,7 +234,7 @@ public class BlockSided extends BlockCoverable {
     /**
      * Whether block can be attached to specified side of another block.
      *
-     * @param  side the side
+     * @param side the side
      * @return whether side is supported
      */
     public boolean canAttachToSide(int side) {
@@ -270,6 +269,6 @@ public class BlockSided extends BlockCoverable {
      * @return an array of {@link ForgeDirection} enums.
      */
     protected ForgeDirection[] getRotationAxes() {
-        return new ForgeDirection[] {ForgeDirection.DOWN, ForgeDirection.UP};
+        return new ForgeDirection[] { ForgeDirection.DOWN, ForgeDirection.UP };
     }
 }

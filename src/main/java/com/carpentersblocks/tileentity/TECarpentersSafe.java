@@ -1,6 +1,5 @@
 package com.carpentersblocks.tileentity;
 
-import com.carpentersblocks.data.Safe;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -8,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+
+import com.carpentersblocks.data.Safe;
 
 public class TECarpentersSafe extends TEBase implements ISidedInventory {
 
@@ -30,6 +31,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
     @Override
     /**
      * Determines if this TileEntity requires update calls.
+     * 
      * @return True if you want updateEntity() to be called, false if not
      */
     public boolean canUpdate() {
@@ -211,13 +213,23 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
     @Override
     public void openInventory() {
         worldObj.addBlockEvent(
-                this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), EVENT_ID_STATE_CHANGE, Safe.STATE_OPEN);
+                this.xCoord,
+                this.yCoord,
+                this.zCoord,
+                this.getBlockType(),
+                EVENT_ID_STATE_CHANGE,
+                Safe.STATE_OPEN);
     }
 
     @Override
     public void closeInventory() {
         worldObj.addBlockEvent(
-                this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), EVENT_ID_STATE_CHANGE, Safe.STATE_CLOSED);
+                this.xCoord,
+                this.yCoord,
+                this.zCoord,
+                this.getBlockType(),
+                EVENT_ID_STATE_CHANGE,
+                Safe.STATE_CLOSED);
     }
 
     @Override

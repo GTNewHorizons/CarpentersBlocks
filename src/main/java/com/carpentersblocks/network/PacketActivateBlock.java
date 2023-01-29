@@ -1,12 +1,15 @@
 package com.carpentersblocks.network;
 
-import com.carpentersblocks.util.EntityLivingUtil;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
 import java.io.IOException;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+
+import com.carpentersblocks.util.EntityLivingUtil;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
 
 public class PacketActivateBlock extends TilePacket {
 
@@ -26,9 +29,7 @@ public class PacketActivateBlock extends TilePacket {
         ItemStack itemStack = entityPlayer.getHeldItem();
         side = bbis.readInt();
 
-        boolean result = entityPlayer
-                .worldObj
-                .getBlock(x, y, z)
+        boolean result = entityPlayer.worldObj.getBlock(x, y, z)
                 .onBlockActivated(entityPlayer.worldObj, x, y, z, entityPlayer, side, 1.0F, 1.0F, 1.0F);
 
         if (!result) {

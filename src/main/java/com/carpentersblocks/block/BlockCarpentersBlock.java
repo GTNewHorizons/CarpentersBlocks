@@ -1,13 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.Slab;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.handler.EventHandler;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import com.carpentersblocks.util.registry.IconRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,18 +13,26 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.carpentersblocks.data.Slab;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.handler.EventHandler;
+import com.carpentersblocks.util.registry.BlockRegistry;
+import com.carpentersblocks.util.registry.IconRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockCarpentersBlock extends BlockSided {
 
     private static Slab data = new Slab();
 
-    private static float[][] bounds = {
-        {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}, // FULL BLOCK
-        {0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F}, // SLAB WEST
-        {0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F}, // SLAB EAST
-        {0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F}, // SLAB DOWN
-        {0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F}, // SLAB UP
-        {0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F}, // SLAB NORTH
-        {0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F} // SLAB SOUTH
+    private static float[][] bounds = { { 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F }, // FULL BLOCK
+            { 0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F }, // SLAB WEST
+            { 0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F }, // SLAB EAST
+            { 0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F }, // SLAB DOWN
+            { 0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F }, // SLAB UP
+            { 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F }, // SLAB NORTH
+            { 0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F } // SLAB SOUTH
     };
 
     public BlockCarpentersBlock(Material material) {
@@ -40,8 +42,7 @@ public class BlockCarpentersBlock extends BlockSided {
     @Override
     @SideOnly(Side.CLIENT)
     /**
-     * Returns a base icon that doesn't rely on blockIcon, which
-     * is set prior to texture stitch events.
+     * Returns a base icon that doesn't rely on blockIcon, which is set prior to texture stitch events.
      */
     public IIcon getIcon() {
         return IconRegistry.icon_uncovered_quartered;
@@ -49,8 +50,7 @@ public class BlockCarpentersBlock extends BlockSided {
 
     private boolean onHammerInteraction(TEBase TE) {
         if (data.isFullCube(TE)) {
-            ForgeDirection side =
-                    ForgeDirection.getOrientation(EventHandler.eventFace).getOpposite();
+            ForgeDirection side = ForgeDirection.getOrientation(EventHandler.eventFace).getOpposite();
             data.setDirection(TE, side);
         } else {
             data.setFullCube(TE);
@@ -101,8 +101,8 @@ public class BlockCarpentersBlock extends BlockSided {
      * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
      * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
      */
-    public void addCollisionBoxesToList(
-            World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list,
+            Entity entity) {
         setBlockBoundsBasedOnState(world, x, y, z);
         super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, list, entity);
     }
@@ -182,12 +182,14 @@ public class BlockCarpentersBlock extends BlockSided {
     }
 
     /**
-     * Called to determine whether to allow the a block to handle its own indirect power rather than using the default rules.
+     * Called to determine whether to allow the a block to handle its own indirect power rather than using the default
+     * rules.
+     * 
      * @param world The world
-     * @param x The x position of this block instance
-     * @param y The y position of this block instance
-     * @param z The z position of this block instance
-     * @param side The INPUT side of the block to be powered - ie the opposite of this block's output side
+     * @param x     The x position of this block instance
+     * @param y     The y position of this block instance
+     * @param z     The z position of this block instance
+     * @param side  The INPUT side of the block to be powered - ie the opposite of this block's output side
      * @return Whether Block#isProvidingWeakPower should be called when determining indirect power
      */
     @Override
@@ -204,62 +206,49 @@ public class BlockCarpentersBlock extends BlockSided {
 
     @Override
     /**
-     * Compares dimensions and coordinates of two opposite
-     * sides to determine whether they share faces.
+     * Compares dimensions and coordinates of two opposite sides to determine whether they share faces.
      */
     protected boolean shareFaces(TEBase TE_adj, TEBase TE_src, ForgeDirection side_adj, ForgeDirection side_src) {
         if (TE_adj.getBlockType() == this) {
 
             setBlockBoundsBasedOnState(TE_src.getWorldObj(), TE_src.xCoord, TE_src.yCoord, TE_src.zCoord);
-            double[] bnds_src = {
-                getBlockBoundsMinX(),
-                getBlockBoundsMinY(),
-                getBlockBoundsMinZ(),
-                getBlockBoundsMaxX(),
-                getBlockBoundsMaxY(),
-                getBlockBoundsMaxZ()
-            };
+            double[] bnds_src = { getBlockBoundsMinX(), getBlockBoundsMinY(), getBlockBoundsMinZ(),
+                    getBlockBoundsMaxX(), getBlockBoundsMaxY(), getBlockBoundsMaxZ() };
             setBlockBoundsBasedOnState(TE_adj.getWorldObj(), TE_adj.xCoord, TE_adj.yCoord, TE_adj.zCoord);
 
             switch (side_src) {
                 case DOWN:
-                    return maxY == 1.0D
-                            && bnds_src[1] == 0.0D
+                    return maxY == 1.0D && bnds_src[1] == 0.0D
                             && minX == bnds_src[0]
                             && maxX == bnds_src[3]
                             && minZ == bnds_src[2]
                             && maxZ == bnds_src[5];
                 case UP:
-                    return minY == 0.0D
-                            && bnds_src[4] == 1.0D
+                    return minY == 0.0D && bnds_src[4] == 1.0D
                             && minX == bnds_src[0]
                             && maxX == bnds_src[3]
                             && minZ == bnds_src[2]
                             && maxZ == bnds_src[5];
                 case NORTH:
-                    return maxZ == 1.0D
-                            && bnds_src[2] == 0.0D
+                    return maxZ == 1.0D && bnds_src[2] == 0.0D
                             && minX == bnds_src[0]
                             && maxX == bnds_src[3]
                             && minY == bnds_src[1]
                             && maxY == bnds_src[4];
                 case SOUTH:
-                    return minZ == 0.0D
-                            && bnds_src[5] == 1.0D
+                    return minZ == 0.0D && bnds_src[5] == 1.0D
                             && minX == bnds_src[0]
                             && maxX == bnds_src[3]
                             && minY == bnds_src[1]
                             && maxY == bnds_src[4];
                 case WEST:
-                    return maxX == 1.0D
-                            && bnds_src[0] == 0.0D
+                    return maxX == 1.0D && bnds_src[0] == 0.0D
                             && minY == bnds_src[1]
                             && maxY == bnds_src[4]
                             && minZ == bnds_src[2]
                             && maxZ == bnds_src[5];
                 case EAST:
-                    return minX == 0.0D
-                            && bnds_src[3] == 1.0D
+                    return minX == 0.0D && bnds_src[3] == 1.0D
                             && minY == bnds_src[1]
                             && maxY == bnds_src[4]
                             && minZ == bnds_src[2]

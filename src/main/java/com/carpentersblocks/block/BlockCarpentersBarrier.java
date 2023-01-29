@@ -1,12 +1,7 @@
 package com.carpentersblocks.block;
 
-import com.carpentersblocks.data.Barrier;
-import com.carpentersblocks.data.Gate;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.registry.BlockRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -17,6 +12,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import com.carpentersblocks.data.Barrier;
+import com.carpentersblocks.data.Gate;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.registry.BlockRegistry;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCarpentersBarrier extends BlockCoverable {
 
@@ -105,8 +108,8 @@ public class BlockCarpentersBarrier extends BlockCoverable {
      * Adds all intersecting collision boxes to a list. (Be sure to only add boxes to the list if they intersect the
      * mask.) Parameters: World, X, Y, Z, mask, list, colliding entity
      */
-    public void addCollisionBoxesToList(
-            World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list, Entity entity) {
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List list,
+            Entity entity) {
         boolean connect_ZN = canConnectBarrierTo(world, x, y, z - 1, ForgeDirection.SOUTH);
         boolean connect_ZP = canConnectBarrierTo(world, x, y, z + 1, ForgeDirection.NORTH);
         boolean connect_XN = canConnectBarrierTo(world, x - 1, y, z, ForgeDirection.EAST);
@@ -253,10 +256,10 @@ public class BlockCarpentersBarrier extends BlockCoverable {
      * Checks if the block is a solid face on the given side, used by placement logic.
      *
      * @param blockAccess The current world
-     * @param x X Position
-     * @param y Y position
-     * @param z Z position
-     * @param side The side to check
+     * @param x           X Position
+     * @param y           Y position
+     * @param z           Z position
+     * @param side        The side to check
      * @return True if the block is solid on the specified side.
      */
     @Override
@@ -276,7 +279,7 @@ public class BlockCarpentersBarrier extends BlockCoverable {
     @SideOnly(Side.CLIENT)
     /**
      * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
-     * coordinates.  Args: world, x, y, z, side
+     * coordinates. Args: world, x, y, z, side
      */
     public boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side) {
         return true;
