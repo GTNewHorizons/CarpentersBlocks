@@ -92,13 +92,16 @@ public class EventHandler {
         }
     }
 
+    // An event to ignore on player interactions, because otherwise the mod will cancel its own event.
+    public static PlayerInteractEvent IGNORE_INTERACT_EVENT;
+
     @SubscribeEvent
     /**
      * Used to store side clicked and also forces onBlockActivated event when entityPlayer is sneaking and activates
      * block with the Carpenter's Hammer.
      */
     public void onPlayerInteractEvent(PlayerInteractEvent event) {
-        if (event.isCanceled()) {
+        if (event.isCanceled() || (event == IGNORE_INTERACT_EVENT)) {
             return;
         }
 
