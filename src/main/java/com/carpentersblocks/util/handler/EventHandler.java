@@ -51,9 +51,6 @@ public class EventHandler {
     /** Stores face for onBlockClicked(). */
     public static int eventFace;
 
-    /** Stores entity that hit block. */
-    public static EntityPlayer eventEntityPlayer;
-
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     /**
@@ -110,7 +107,7 @@ public class EventHandler {
         if (block instanceof BlockCoverable) {
 
             eventFace = event.face;
-            eventEntityPlayer = event.entityPlayer;
+            EntityPlayer eventEntityPlayer = event.entityPlayer;
 
             ItemStack itemStack = eventEntityPlayer.getHeldItem();
 
