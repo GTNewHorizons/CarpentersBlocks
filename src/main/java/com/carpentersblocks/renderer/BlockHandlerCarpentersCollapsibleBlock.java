@@ -120,11 +120,13 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
         VertexHelper.startDrawing(GL11.GL_TRIANGLES);
         isSideSloped = true;
         if (Collapsible.INSTANCE.isPositive(TE)) {
-            if (srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y + 1, z, UP) || !CollapsibleUtil.isMax(TE)) {
+            if (srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y + 1, z, UP)
+                    || !CollapsibleUtil.isMax(TE)) {
                 prepareTopFace(itemStack, x, y, z);
             }
         } else {
-            if (srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y - 1, z, DOWN) || !CollapsibleUtil.isMax(TE)) {
+            if (srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y - 1, z, DOWN)
+                    || !CollapsibleUtil.isMax(TE)) {
                 prepareBottomFace(itemStack, x, y, z);
             }
         }
