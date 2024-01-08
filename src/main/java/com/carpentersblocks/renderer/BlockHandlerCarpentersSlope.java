@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -543,27 +544,27 @@ public class BlockHandlerCarpentersSlope extends BlockHandlerSloped {
         /* Render non-sloped faces. */
 
         if (slope.hasSide(ForgeDirection.DOWN)
-                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(TE.getWorldObj(), x, y - 1, z, DOWN))) {
+                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y - 1, z, DOWN))) {
             prepareFaceYNeg(itemStack, slope, x, y, z);
         }
         if (slope.hasSide(ForgeDirection.UP)
-                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(TE.getWorldObj(), x, y + 1, z, UP))) {
+                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y + 1, z, UP))) {
             prepareFaceYPos(itemStack, slope, x, y, z);
         }
         if (slope.hasSide(ForgeDirection.NORTH)
-                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(TE.getWorldObj(), x, y, z - 1, NORTH))) {
+                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y, z - 1, NORTH))) {
             prepareFaceZNeg(itemStack, slope, x, y, z);
         }
         if (slope.hasSide(ForgeDirection.SOUTH)
-                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(TE.getWorldObj(), x, y, z + 1, SOUTH))) {
+                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y, z + 1, SOUTH))) {
             prepareFaceZPos(itemStack, slope, x, y, z);
         }
         if (slope.hasSide(ForgeDirection.WEST)
-                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(TE.getWorldObj(), x - 1, y, z, WEST))) {
+                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x - 1, y, z, WEST))) {
             prepareFaceXNeg(itemStack, slope, x, y, z);
         }
         if (slope.hasSide(ForgeDirection.EAST)
-                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(TE.getWorldObj(), x + 1, y, z, EAST))) {
+                && (ignoreSideRenderChecks || srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x + 1, y, z, EAST))) {
             prepareFaceXPos(itemStack, slope, x, y, z);
         }
 
@@ -796,10 +797,10 @@ public class BlockHandlerCarpentersSlope extends BlockHandlerSloped {
     private void setWedgeLighting(ItemStack itemStack, Slope slope, int x, int y, int z) {
         prepareLighting(itemStack, x, y, z);
 
-        World world = TE.getWorldObj();
+        IBlockAccess world = renderBlocks.blockAccess;
 
-        boolean solid_YP = world.isSideSolid(TE.xCoord, TE.yCoord + 1, TE.zCoord, ForgeDirection.DOWN);
-        boolean solid_YN = world.isSideSolid(TE.xCoord, TE.yCoord - 1, TE.zCoord, ForgeDirection.UP);
+        boolean solid_YP = world.isSideSolid(TE.xCoord, TE.yCoord + 1, TE.zCoord, ForgeDirection.DOWN, false);
+        boolean solid_YN = world.isSideSolid(TE.xCoord, TE.yCoord - 1, TE.zCoord, ForgeDirection.UP, false);
 
         switch (slope.slopeID) {
             case Slope.ID_WEDGE_NW:
@@ -1115,10 +1116,10 @@ public class BlockHandlerCarpentersSlope extends BlockHandlerSloped {
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
         prepareLighting(itemStack, x, y, z);
 
-        World world = TE.getWorldObj();
+        IBlockAccess world = renderBlocks.blockAccess;
 
-        boolean solid_YP = world.isSideSolid(TE.xCoord, TE.yCoord + 1, TE.zCoord, ForgeDirection.DOWN);
-        boolean solid_YN = world.isSideSolid(TE.xCoord, TE.yCoord - 1, TE.zCoord, ForgeDirection.UP);
+        boolean solid_YP = world.isSideSolid(TE.xCoord, TE.yCoord + 1, TE.zCoord, ForgeDirection.DOWN, false);
+        boolean solid_YN = world.isSideSolid(TE.xCoord, TE.yCoord - 1, TE.zCoord, ForgeDirection.UP, false);
 
         if (renderBlocks.enableAO) {
 
@@ -1237,10 +1238,10 @@ public class BlockHandlerCarpentersSlope extends BlockHandlerSloped {
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
         prepareLighting(itemStack, x, y, z);
 
-        World world = TE.getWorldObj();
+        IBlockAccess world = renderBlocks.blockAccess;
 
-        boolean solid_YP = world.isSideSolid(TE.xCoord, TE.yCoord + 1, TE.zCoord, ForgeDirection.DOWN);
-        boolean solid_YN = world.isSideSolid(TE.xCoord, TE.yCoord - 1, TE.zCoord, ForgeDirection.UP);
+        boolean solid_YP = world.isSideSolid(TE.xCoord, TE.yCoord + 1, TE.zCoord, ForgeDirection.DOWN, false);
+        boolean solid_YN = world.isSideSolid(TE.xCoord, TE.yCoord - 1, TE.zCoord, ForgeDirection.UP, false);
 
         if (renderBlocks.enableAO) {
 

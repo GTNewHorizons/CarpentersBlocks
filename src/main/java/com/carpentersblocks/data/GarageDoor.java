@@ -9,6 +9,7 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -245,7 +246,7 @@ public class GarageDoor extends AbstractMultiBlock implements ISided {
      * @param TE the {@link TEBase}
      * @return the {@link TEBase}
      */
-    public TEBase getBottommost(World world, int x, int y, int z) {
+    public TEBase getBottommost(IBlockAccess world, int x, int y, int z) {
         do {
             --y;
         } while (world.getBlock(x, y, z).equals(BlockRegistry.blockCarpentersGarageDoor));

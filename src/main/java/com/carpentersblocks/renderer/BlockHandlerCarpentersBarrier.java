@@ -78,8 +78,8 @@ public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
         if (Barrier.getPost(TE) == Barrier.HAS_POST) {
             for (int side = 2; side < 6; ++side) {
                 ForgeDirection dir = ForgeDirection.getOrientation(side);
-                Block block = TE.getWorldObj().getBlock(x - dir.offsetX, y, z - dir.offsetZ);
-                if (block.isSideSolid(TE.getWorldObj(), x - dir.offsetX, y, z - dir.offsetZ, dir.getOpposite())) {
+                Block block = renderBlocks.blockAccess.getBlock(x - dir.offsetX, y, z - dir.offsetZ);
+                if (block.isSideSolid(renderBlocks.blockAccess, x - dir.offsetX, y, z - dir.offsetZ, dir.getOpposite())) {
                     connect[dir.getOpposite().ordinal()] = false;
                 }
             }
