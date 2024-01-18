@@ -3,11 +3,20 @@ package com.carpentersblocks.renderer;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerHinged extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerHinged> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerHinged::new);
+
+    public IThreadSafeISBRH getThreadLocal() {
+        return (IThreadSafeISBRH) threadRenderer.get();
+    }
 
     /** Side block renders against. */
     protected ForgeDirection side;

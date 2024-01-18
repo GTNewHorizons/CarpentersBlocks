@@ -11,12 +11,20 @@ import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.handler.DyeHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBed extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersBed> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersBed::new);
+
+    public IThreadSafeISBRH getThreadLocal() {
+        return (IThreadSafeISBRH) threadRenderer.get();
+    }
 
     private IIcon[] icon_design;
 
@@ -160,7 +168,7 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
      * Renders blanket.
      */
     private void renderBlanket(ItemStack itemStack, int x, int y, int z) {
-        VertexHelper.setFloatingIconLock();
+        VertexHelper.get().setFloatingIconLock();
 
         if (hasDesign) {
             int[] idxHead = { 2, 2, 2, 7, 1, 3 };
@@ -205,7 +213,7 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
 
         itemStack.setItemDamage(15);
         clearIconOverride(6);
-        VertexHelper.clearFloatingIconLock();
+        VertexHelper.get().clearFloatingIconLock();
     }
 
     /**

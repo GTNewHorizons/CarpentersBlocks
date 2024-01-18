@@ -10,12 +10,20 @@ import com.carpentersblocks.block.BlockCarpentersBarrier;
 import com.carpentersblocks.data.Barrier;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.registry.BlockRegistry;
+import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersBarrier> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersBarrier::new);
+
+    public IThreadSafeISBRH getThreadLocal() {
+        return (IThreadSafeISBRH) threadRenderer.get();
+    }
 
     private boolean[] barrier;
     private boolean[] connect;

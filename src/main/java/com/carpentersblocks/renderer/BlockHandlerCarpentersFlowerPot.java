@@ -8,18 +8,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 import com.carpentersblocks.block.BlockCoverable;
-import com.carpentersblocks.renderer.helper.RenderHelperFlowerPot;
+import com.carpentersblocks.renderer.helper.RenderHelper;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.flowerpot.FlowerPotHandler;
 import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
 import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersFlowerPot> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersFlowerPot::new);
+
+    public IThreadSafeISBRH getThreadLocal() {
+        return (IThreadSafeISBRH) threadRenderer.get();
+    }
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
@@ -143,37 +151,38 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
             itemStack.setItemDamage(7);
         }
 
+        final RenderHelper.RenderHelperFlowerPot renderHelperFlowerPot = RenderHelper.get().getRenderHelperFlowerPot();
         Tessellator tessellator = Tessellator.instance;
         tessellator.addTranslation(0.0F, 0.25F, 0.0F);
 
-        RenderHelperFlowerPot.setPlantColor(this, itemStack, x, y, z);
+        renderHelperFlowerPot.setPlantColor(this, itemStack, x, y, z);
 
         IIcon icon = block.getIcon(2, itemStack.getItemDamage());
 
         switch (FlowerPotHandler.getPlantProfile(itemStack)) {
             case DOUBLEPLANT:
-                RenderHelperFlowerPot.renderBlockDoublePlant(TE, renderBlocks, itemStack, x, y, z, false);
+                renderHelperFlowerPot.renderBlockDoublePlant(TE, renderBlocks, itemStack, x, y, z, false);
                 break;
             case THIN_DOUBLEPLANT:
-                RenderHelperFlowerPot.renderBlockDoublePlant(TE, renderBlocks, itemStack, x, y, z, true);
+                renderHelperFlowerPot.renderBlockDoublePlant(TE, renderBlocks, itemStack, x, y, z, true);
                 break;
             case REDUCED_SCALE_YP:
-                RenderHelperFlowerPot.renderPlantCrossedSquares(renderBlocks, block, icon, x, y, z, 0.75F, false);
+                renderHelperFlowerPot.renderPlantCrossedSquares(renderBlocks, block, icon, x, y, z, 0.75F, false);
                 break;
             case REDUCED_SCALE_YN:
-                RenderHelperFlowerPot.renderPlantCrossedSquares(renderBlocks, block, icon, x, y, z, 0.75F, true);
+                renderHelperFlowerPot.renderPlantCrossedSquares(renderBlocks, block, icon, x, y, z, 0.75F, true);
                 break;
             case TRUE_SCALE:
-                RenderHelperFlowerPot.renderPlantCrossedSquares(renderBlocks, block, icon, x, y, z, 1.0F, false);
+                renderHelperFlowerPot.renderPlantCrossedSquares(renderBlocks, block, icon, x, y, z, 1.0F, false);
                 break;
             case THIN_YP:
-                RenderHelperFlowerPot.renderPlantThinCrossedSquares(renderBlocks, block, icon, x, y, z, false);
+                renderHelperFlowerPot.renderPlantThinCrossedSquares(renderBlocks, block, icon, x, y, z, false);
                 break;
             case THIN_YN:
-                RenderHelperFlowerPot.renderPlantThinCrossedSquares(renderBlocks, block, icon, x, y, z, true);
+                renderHelperFlowerPot.renderPlantThinCrossedSquares(renderBlocks, block, icon, x, y, z, true);
                 break;
             case CACTUS:
-                RenderHelperFlowerPot.drawPlantCactus(lightingHelper, renderBlocks, itemStack, x, y, z);
+                renderHelperFlowerPot.drawPlantCactus(lightingHelper, renderBlocks, itemStack, x, y, z);
                 break;
             case LEAVES:
                 drawStackedBlocks(itemStack, x, y, z);

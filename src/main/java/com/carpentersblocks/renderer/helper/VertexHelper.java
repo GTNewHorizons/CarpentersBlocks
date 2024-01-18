@@ -11,6 +11,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class VertexHelper {
 
+    private static final ThreadLocal<VertexHelper> threadRenderer = ThreadLocal.withInitial(VertexHelper::new);
+
+    public static VertexHelper get() {
+        return threadRenderer.get();
+    }
+
     public static final int TOP_LEFT = 0;
     public static final int BOTTOM_LEFT = 1;
     public static final int BOTTOM_RIGHT = 2;
@@ -26,21 +32,21 @@ public class VertexHelper {
     public static final int LEFT_CENTER = 6;
     public static final int RIGHT_CENTER = 7;
 
-    private static boolean clearFloat = false;
-    protected static boolean floatingIcon = false;
+    private boolean clearFloat = false;
+    protected boolean floatingIcon = false;
 
-    private static int drawMode;
+    private int drawMode;
 
     /** Keeps track of vertices drawn per pass. */
-    public static int vertexCount = 0;
+    public int vertexCount = 0;
 
     /** Keeps track of vertex draws when in triangle mode. */
-    private static int triVertexCount = 0;
+    private int triVertexCount = 0;
 
     /**
      * Offset used for faces.
      */
-    protected static double offset = 0.0D;
+    protected double offset = 0.0D;
 
     /**
      * Sets draw mode internally.
@@ -50,7 +56,7 @@ public class VertexHelper {
      * transform {@link GL11#GL11_GL_TRIANGLES Triangles} to {@link GL11#GL11_GL_QUADS Quads} instead in method
      * {@link #setupVertex}.
      */
-    public static void startDrawing(int inDrawMode) {
+    public void startDrawing(int inDrawMode) {
         drawMode = inDrawMode;
     }
 
@@ -61,7 +67,7 @@ public class VertexHelper {
      *
      * @return <code>true</code> if icon is floating
      */
-    public static boolean hasFloatingIcon() {
+    public boolean hasFloatingIcon() {
         return floatingIcon;
     }
 
@@ -70,42 +76,42 @@ public class VertexHelper {
      * <p>
      * To keep it enabled, call {@link #setFloatingIconLock()} instead.
      */
-    public static void setFloatingIcon() {
+    public void setFloatingIcon() {
         floatingIcon = clearFloat = true;
     }
 
     /**
      * Locks floating icon flag.
      */
-    public static void setFloatingIconLock() {
+    public void setFloatingIconLock() {
         floatingIcon = true;
     }
 
     /**
      * Clears floating icon flag.
      */
-    public static void clearFloatingIconLock() {
+    public void clearFloatingIconLock() {
         floatingIcon = false;
     }
 
     /**
      * Sets offset for drawing face.
      */
-    public static void setOffset(double render_offset) {
+    public void setOffset(double render_offset) {
         offset = render_offset;
     }
 
     /**
      * Clears offset.
      */
-    public static void clearOffset() {
+    public void clearOffset() {
         offset = 0.0D;
     }
 
     /**
      * Prepare helper for next face draw.
      */
-    public static void postRender() {
+    public void postRender() {
         if (clearFloat) {
             floatingIcon = clearFloat = false;
         }
@@ -114,7 +120,7 @@ public class VertexHelper {
     /**
      * Adds vertex to Tessellator and increments draw count.
      */
-    public static void drawVertex(RenderBlocks renderBlocks, double x, double y, double z, double u, double v) {
+    public void drawVertex(RenderBlocks renderBlocks, double x, double y, double z, double u, double v) {
         Tessellator.instance.addVertexWithUV(x, y, z, u, v);
         ++vertexCount;
     }
@@ -134,8 +140,7 @@ public class VertexHelper {
      * @param vertex       the vertex corner
      * @see {@link #startDrawing(int)}
      */
-    public static void setupVertex(RenderBlocks renderBlocks, double x, double y, double z, double u, double v,
-            int vertex) {
+    public void setupVertex(RenderBlocks renderBlocks, double x, double y, double z, double u, double v, int vertex) {
         Tessellator tessellator = Tessellator.instance;
 
         if (renderBlocks != null && renderBlocks.enableAO) {

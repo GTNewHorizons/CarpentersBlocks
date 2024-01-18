@@ -9,12 +9,20 @@ import net.minecraftforge.common.util.ForgeDirection;
 import com.carpentersblocks.block.BlockCarpentersDaylightSensor;
 import com.carpentersblocks.data.DaylightSensor;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersDaylightSensor> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersDaylightSensor::new);
+
+    public IThreadSafeISBRH getThreadLocal() {
+        return (IThreadSafeISBRH) threadRenderer.get();
+    }
 
     private static ItemStack lapis = new ItemStack(Blocks.lapis_block);
     private static ItemStack redstone = new ItemStack(Blocks.redstone_block);

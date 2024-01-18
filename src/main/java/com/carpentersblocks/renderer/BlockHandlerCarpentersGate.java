@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Gate;
+import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -13,6 +14,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISimpleBlockRenderingHandler {
+
+    private static final ThreadLocal<BlockHandlerCarpentersGate> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersGate::new);
+
+    public IThreadSafeISBRH getThreadLocal() {
+        return (IThreadSafeISBRH) threadRenderer.get();
+    }
 
     private boolean[] gate;
     private ForgeDirection dir;

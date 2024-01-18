@@ -1,1 +1,3 @@
-dependencies {}
+dependencies {
+    compileOnly("com.github.GTNewHorizons:Angelica:1.0.0-alpha14:dev")
+}

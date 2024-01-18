@@ -16,12 +16,20 @@ import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersLever extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersLever> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersLever::new);
+
+    public IThreadSafeISBRH getThreadLocal() {
+        return (IThreadSafeISBRH) threadRenderer.get();
+    }
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
@@ -215,10 +223,11 @@ public class BlockHandlerCarpentersLever extends BlockHandlerBase {
                     break;
             }
 
-            VertexHelper.drawVertex(renderBlocks, vertex1.xCoord, vertex1.yCoord, vertex1.zCoord, uMin, vMax);
-            VertexHelper.drawVertex(renderBlocks, vertex2.xCoord, vertex2.yCoord, vertex2.zCoord, uMax, vMax);
-            VertexHelper.drawVertex(renderBlocks, vertex3.xCoord, vertex3.yCoord, vertex3.zCoord, uMax, vMin);
-            VertexHelper.drawVertex(renderBlocks, vertex4.xCoord, vertex4.yCoord, vertex4.zCoord, uMin, vMin);
+            final VertexHelper vertexHelper = VertexHelper.get();
+            vertexHelper.drawVertex(renderBlocks, vertex1.xCoord, vertex1.yCoord, vertex1.zCoord, uMin, vMax);
+            vertexHelper.drawVertex(renderBlocks, vertex2.xCoord, vertex2.yCoord, vertex2.zCoord, uMax, vMax);
+            vertexHelper.drawVertex(renderBlocks, vertex3.xCoord, vertex3.yCoord, vertex3.zCoord, uMax, vMin);
+            vertexHelper.drawVertex(renderBlocks, vertex4.xCoord, vertex4.yCoord, vertex4.zCoord, uMin, vMin);
         }
     }
 }

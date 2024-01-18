@@ -19,15 +19,26 @@ import org.lwjgl.opengl.GL11;
 
 import com.carpentersblocks.data.Collapsible;
 import com.carpentersblocks.renderer.helper.RenderHelper;
-import com.carpentersblocks.renderer.helper.RenderHelperCollapsible;
 import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.util.collapsible.CollapsibleUtil;
+import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
+
+    private static final ThreadLocal<BlockHandlerCarpentersCollapsibleBlock> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersCollapsibleBlock::new);
+
+    public IThreadSafeISBRH getThreadLocal() {
+        return (IThreadSafeISBRH) threadRenderer.get();
+    }
+
+    public static BlockHandlerCarpentersCollapsibleBlock getInstance() {
+        return threadRenderer.get();
+    }
 
     /* RENDER IDS */
 
@@ -57,52 +68,54 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
      * Renders side.
      */
     protected void renderBaseSide(int x, int y, int z, int side, IIcon icon) {
+        final RenderHelper renderHelper = RenderHelper.get();
+
         switch (renderID) {
             case NORMAL_YN:
-                RenderHelper.renderFaceYNeg(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceYNeg(renderBlocks, x, y, z, icon);
                 break;
             case NORMAL_YP:
-                RenderHelper.renderFaceYPos(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceYPos(renderBlocks, x, y, z, icon);
                 break;
             case NORMAL_ZN:
-                RenderHelperCollapsible
+                renderHelper.getRenderHelperCollapsible()
                         .renderFaceZNeg(renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
                 break;
             case NORMAL_ZP:
-                RenderHelperCollapsible
+                renderHelper.getRenderHelperCollapsible()
                         .renderFaceZPos(renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
                 break;
             case NORMAL_XN:
-                RenderHelperCollapsible
+                renderHelper.getRenderHelperCollapsible()
                         .renderFaceXNeg(renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
                 break;
             case NORMAL_XP:
-                RenderHelperCollapsible
+                renderHelper.getRenderHelperCollapsible()
                         .renderFaceXPos(renderBlocks, x, y, z, icon, Collapsible.INSTANCE.isPositive(TE));
                 break;
             case SLOPE_YZNN:
-                RenderHelperCollapsible.renderSlopeYNegZNeg(renderBlocks, x, y, z, icon);
+                renderHelper.getRenderHelperCollapsible().renderSlopeYNegZNeg(renderBlocks, x, y, z, icon);
                 break;
             case SLOPE_YZNP:
-                RenderHelperCollapsible.renderSlopeYNegZPos(renderBlocks, x, y, z, icon);
+                renderHelper.getRenderHelperCollapsible().renderSlopeYNegZPos(renderBlocks, x, y, z, icon);
                 break;
             case SLOPE_YZPN:
-                RenderHelperCollapsible.renderSlopeYPosZNeg(renderBlocks, x, y, z, icon);
+                renderHelper.getRenderHelperCollapsible().renderSlopeYPosZNeg(renderBlocks, x, y, z, icon);
                 break;
             case SLOPE_YZPP:
-                RenderHelperCollapsible.renderSlopeYPosZPos(renderBlocks, x, y, z, icon);
+                renderHelper.getRenderHelperCollapsible().renderSlopeYPosZPos(renderBlocks, x, y, z, icon);
                 break;
             case SLOPE_XYNN:
-                RenderHelperCollapsible.renderSlopeXNegYNeg(renderBlocks, x, y, z, icon);
+                renderHelper.getRenderHelperCollapsible().renderSlopeXNegYNeg(renderBlocks, x, y, z, icon);
                 break;
             case SLOPE_XYPN:
-                RenderHelperCollapsible.renderSlopeXPosYNeg(renderBlocks, x, y, z, icon);
+                renderHelper.getRenderHelperCollapsible().renderSlopeXPosYNeg(renderBlocks, x, y, z, icon);
                 break;
             case SLOPE_XYNP:
-                RenderHelperCollapsible.renderSlopeXNegYPos(renderBlocks, x, y, z, icon);
+                renderHelper.getRenderHelperCollapsible().renderSlopeXNegYPos(renderBlocks, x, y, z, icon);
                 break;
             case SLOPE_XYPP:
-                RenderHelperCollapsible.renderSlopeXPosYPos(renderBlocks, x, y, z, icon);
+                renderHelper.getRenderHelperCollapsible().renderSlopeXPosYPos(renderBlocks, x, y, z, icon);
                 break;
         }
     }
@@ -116,8 +129,8 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
         CollapsibleUtil.computeOffsets(TE);
 
         // Render sloped top or bottom face
-
-        VertexHelper.startDrawing(GL11.GL_TRIANGLES);
+        final VertexHelper vertexHelper = VertexHelper.get();
+        vertexHelper.startDrawing(GL11.GL_TRIANGLES);
         isSideSloped = true;
         if (Collapsible.INSTANCE.isPositive(TE)) {
             if (srcBlock.shouldSideBeRendered(renderBlocks.blockAccess, x, y + 1, z, UP)
@@ -134,7 +147,7 @@ public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
 
         // Render all other faces
 
-        VertexHelper.startDrawing(GL11.GL_QUADS);
+        vertexHelper.startDrawing(GL11.GL_QUADS);
         renderBlocks.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
         prepareLighting(itemStack, x, y, z);
 
