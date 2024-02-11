@@ -11,7 +11,7 @@ import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.handler.DyeHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,8 +22,8 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
     private static final ThreadLocal<BlockHandlerCarpentersBed> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersBed::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     private IIcon[] icon_design;

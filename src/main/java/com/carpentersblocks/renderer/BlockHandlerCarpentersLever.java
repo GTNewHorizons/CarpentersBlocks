@@ -16,7 +16,7 @@ import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import com.carpentersblocks.util.registry.IconRegistry;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,8 +27,8 @@ public class BlockHandlerCarpentersLever extends BlockHandlerBase {
     private static final ThreadLocal<BlockHandlerCarpentersLever> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersLever::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     @Override

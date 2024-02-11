@@ -14,7 +14,7 @@ import com.carpentersblocks.util.flowerpot.FlowerPotHandler;
 import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
 import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,8 +25,8 @@ public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
     private static final ThreadLocal<BlockHandlerCarpentersFlowerPot> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersFlowerPot::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     @Override

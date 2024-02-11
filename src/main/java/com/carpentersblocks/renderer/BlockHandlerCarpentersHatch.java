@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Hatch;
 import com.carpentersblocks.util.registry.IconRegistry;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,8 +19,8 @@ public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
     private static final ThreadLocal<BlockHandlerCarpentersHatch> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersHatch::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     private ForgeDirection baseDir;

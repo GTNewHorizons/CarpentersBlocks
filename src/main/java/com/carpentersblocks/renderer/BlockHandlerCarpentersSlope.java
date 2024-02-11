@@ -32,7 +32,7 @@ import com.carpentersblocks.renderer.helper.RenderHelper;
 import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.IconRegistry;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,8 +43,8 @@ public class BlockHandlerCarpentersSlope extends BlockHandlerSloped {
     private static final ThreadLocal<BlockHandlerCarpentersSlope> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersSlope::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     public static BlockHandlerCarpentersSlope getInstance() {

@@ -3,7 +3,7 @@ package com.carpentersblocks.renderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,8 +14,8 @@ public class BlockHandlerCarpentersBlock extends BlockHandlerBase {
     private static final ThreadLocal<BlockHandlerCarpentersBlock> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersBlock::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     @Override

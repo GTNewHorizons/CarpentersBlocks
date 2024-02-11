@@ -32,7 +32,7 @@ import com.carpentersblocks.util.handler.OverlayHandler;
 import com.carpentersblocks.util.handler.OverlayHandler.Overlay;
 import com.carpentersblocks.util.registry.FeatureRegistry;
 import com.carpentersblocks.util.registry.IconRegistry;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.common.Optional;
@@ -40,8 +40,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Optional.Interface(modid = "angelica", iface = "com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH")
-public abstract class BlockHandlerBase implements ISimpleBlockRenderingHandler, IThreadSafeISBRH {
+@Optional.Interface(modid = "angelica", iface = "com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory")
+public abstract class BlockHandlerBase implements ISimpleBlockRenderingHandler, ThreadSafeISBRHFactory {
 
     public static final int PASS_OPAQUE = 0;
     public static final int PASS_ALPHA = 1;

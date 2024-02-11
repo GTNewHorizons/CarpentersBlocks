@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Gate;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -18,8 +18,8 @@ public class BlockHandlerCarpentersGate extends BlockHandlerBase implements ISim
     private static final ThreadLocal<BlockHandlerCarpentersGate> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersGate::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     private boolean[] gate;

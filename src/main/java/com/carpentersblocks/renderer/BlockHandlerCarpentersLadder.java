@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Ladder;
 import com.carpentersblocks.tileentity.TEBase;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,8 +20,8 @@ public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
     private static final ThreadLocal<BlockHandlerCarpentersLadder> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersLadder::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     private Ladder data = new Ladder();

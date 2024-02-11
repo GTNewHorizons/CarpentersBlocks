@@ -8,7 +8,7 @@ import com.carpentersblocks.block.BlockCarpentersStairs;
 import com.carpentersblocks.data.Stairs;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import com.carpentersblocks.util.stairs.StairsUtil;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,8 +19,8 @@ public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
     private static final ThreadLocal<BlockHandlerCarpentersStairs> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersStairs::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     @Override

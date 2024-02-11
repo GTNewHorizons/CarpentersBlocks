@@ -9,15 +9,15 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.GarageDoor;
 import com.carpentersblocks.util.registry.IconRegistry;
-import com.gtnewhorizons.angelica.interfaces.IThreadSafeISBRH;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 public class BlockHandlerCarpentersGarageDoor extends BlockHandlerBase {
 
     private static final ThreadLocal<BlockHandlerCarpentersGarageDoor> threadRenderer = ThreadLocal
             .withInitial(BlockHandlerCarpentersGarageDoor::new);
 
-    public IThreadSafeISBRH getThreadLocal() {
-        return (IThreadSafeISBRH) threadRenderer.get();
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
     }
 
     private GarageDoor data = new GarageDoor();
