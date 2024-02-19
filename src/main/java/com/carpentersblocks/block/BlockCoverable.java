@@ -196,7 +196,7 @@ public class BlockCoverable extends BlockContainer {
      * ItemStack.
      * <p>
      * In order for external classes to call the protected method
-     * {@link Block#dropBlockAsItem(World,int,int,int,ItemStack) dropBlockAsItem}, they create a block event with
+     * {@link Block#dropBlockAsItem(World, int, int, int, ItemStack) dropBlockAsItem}, they create a block event with
      * parameters itemId and metadata, allowing the {@link ItemStack} to be recreated and dropped.
      *
      * @param world    the {@link World}
@@ -1235,13 +1235,14 @@ public class BlockCoverable extends BlockContainer {
                 TEBase TE_src = (TEBase) blockAccess
                         .getTileEntity(x + side_adj.offsetX, y + side_adj.offsetY, z + side_adj.offsetZ);
 
-                if (TE_adj.getBlockType().isSideSolid(blockAccess, x, y, z, side_adj)
-                        == TE_src.getBlockType().isSideSolid(
-                                blockAccess,
-                                x + side_adj.offsetX,
-                                y + side_adj.offsetY,
-                                z + side_adj.offsetZ,
-                                ForgeDirection.getOrientation(side))) {
+                if (TE_adj != null && TE_src != null
+                        && TE_adj.getBlockType().isSideSolid(blockAccess, x, y, z, side_adj)
+                                == TE_src.getBlockType().isSideSolid(
+                                        blockAccess,
+                                        x + side_adj.offsetX,
+                                        y + side_adj.offsetY,
+                                        z + side_adj.offsetZ,
+                                        ForgeDirection.getOrientation(side))) {
 
                     if (shareFaces(TE_adj, TE_src, side_adj, side_src)) {
 
@@ -1301,8 +1302,9 @@ public class BlockCoverable extends BlockContainer {
      * Returns whether two blocks share faces. Primarily for slopes, stairs and slabs.
      */
     protected boolean shareFaces(TEBase TE_adj, TEBase TE_src, ForgeDirection side_adj, ForgeDirection side_src) {
-        return TE_adj.getBlockType()
-                .isSideSolid(TE_adj.getWorldObj(), TE_adj.xCoord, TE_adj.yCoord, TE_adj.zCoord, side_adj)
+        return TE_adj != null && TE_src != null
+                && TE_adj.getBlockType()
+                        .isSideSolid(TE_adj.getWorldObj(), TE_adj.xCoord, TE_adj.yCoord, TE_adj.zCoord, side_adj)
                 && TE_src.getBlockType()
                         .isSideSolid(TE_src.getWorldObj(), TE_src.xCoord, TE_src.yCoord, TE_src.zCoord, side_src);
     }
