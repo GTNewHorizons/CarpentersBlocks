@@ -1,9 +1,9 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,7 +11,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBlock extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersBlock> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersBlock::new);
+    private static final ThreadLocal<BlockHandlerCarpentersBlock> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersBlock::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

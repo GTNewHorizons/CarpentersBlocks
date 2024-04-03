@@ -1,6 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
@@ -10,10 +9,9 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Torch;
-import com.carpentersblocks.renderer.helper.RenderHelper;
-import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +19,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersTorch> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersTorch::new);
+    private static final ThreadLocal<BlockHandlerCarpentersTorch> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersTorch::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

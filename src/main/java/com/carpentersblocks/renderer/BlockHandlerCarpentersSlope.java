@@ -12,8 +12,6 @@ import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_RIGHT;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.material.Material;
@@ -32,6 +30,7 @@ import com.carpentersblocks.data.Slope;
 import com.carpentersblocks.data.Slope.Type;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +38,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersSlope extends BlockHandlerSloped {
 
-    private static final ThreadLocal<BlockHandlerCarpentersSlope> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersSlope::new);
+    private static final ThreadLocal<BlockHandlerCarpentersSlope> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersSlope::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

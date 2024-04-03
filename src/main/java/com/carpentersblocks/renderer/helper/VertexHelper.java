@@ -134,8 +134,7 @@ public class VertexHelper {
      * @param vertex       the vertex corner
      * @see {@link #startDrawing(int)}
      */
-    public void setupVertex(RenderBlocks renderBlocks, double x, double y, double z, double u, double v,
-            int vertex) {
+    public void setupVertex(RenderBlocks renderBlocks, double x, double y, double z, double u, double v, int vertex) {
         Tessellator tessellator = Tessellator.instance;
 
         if (renderBlocks != null && renderBlocks.enableAO) {

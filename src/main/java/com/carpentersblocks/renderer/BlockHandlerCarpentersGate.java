@@ -1,12 +1,12 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Gate;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,7 +14,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersGate extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersGate> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersGate::new);
+    private static final ThreadLocal<BlockHandlerCarpentersGate> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersGate::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

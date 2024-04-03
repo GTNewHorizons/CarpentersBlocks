@@ -1,6 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
@@ -9,6 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Hatch;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,12 +16,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersHatch extends BlockHandlerHinged {
 
-    private static final ThreadLocal<BlockHandlerCarpentersHatch> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersHatch::new);
+    private static final ThreadLocal<BlockHandlerCarpentersHatch> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersHatch::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();
     }
-
 
     private ForgeDirection baseDir;
     private boolean isHigh;

@@ -9,7 +9,6 @@ import static com.carpentersblocks.renderer.helper.VertexHelper.SOUTHWEST;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_LEFT;
 import static com.carpentersblocks.renderer.helper.VertexHelper.TOP_RIGHT;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
@@ -20,6 +19,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.carpentersblocks.data.Collapsible;
 import com.carpentersblocks.util.collapsible.CollapsibleUtil;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,7 +27,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersCollapsibleBlock extends BlockHandlerSloped {
 
-    private static final ThreadLocal<BlockHandlerCarpentersCollapsibleBlock> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersCollapsibleBlock::new);
+    private static final ThreadLocal<BlockHandlerCarpentersCollapsibleBlock> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersCollapsibleBlock::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

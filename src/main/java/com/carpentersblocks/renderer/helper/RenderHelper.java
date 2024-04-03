@@ -1,12 +1,5 @@
 package com.carpentersblocks.renderer.helper;
 
-import com.carpentersblocks.data.FlowerPot;
-import com.carpentersblocks.data.Slope;
-import com.carpentersblocks.renderer.BlockHandlerBase;
-import com.carpentersblocks.tileentity.TEBase;
-import com.carpentersblocks.util.BlockProperties;
-import com.carpentersblocks.util.collapsible.CollapsibleUtil;
-import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockGrass;
@@ -16,7 +9,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.carpentersblocks.renderer.BlockHandlerSloped;
+import com.carpentersblocks.data.FlowerPot;
+import com.carpentersblocks.data.Slope;
+import com.carpentersblocks.renderer.BlockHandlerBase;
+import com.carpentersblocks.tileentity.TEBase;
+import com.carpentersblocks.util.BlockProperties;
+import com.carpentersblocks.util.collapsible.CollapsibleUtil;
+import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -105,35 +104,35 @@ public class RenderHelper extends VertexHelper {
 
         // Sloppy way to help prevent z-fighting on sloped faces.
         // Working on a better solution...
-//        if (BlockHandlerSloped.isSideSloped) {
-//            switch (side) {
-//                case DOWN:
-//                    yMin -= renderOffset;
-//                    yMax -= renderOffset;
-//                    break;
-//                case UP:
-//                    yMin += renderOffset;
-//                    yMax += renderOffset;
-//                    break;
-//                case NORTH:
-//                    zMin -= renderOffset;
-//                    zMax -= renderOffset;
-//                    break;
-//                case SOUTH:
-//                    zMin += renderOffset;
-//                    zMax += renderOffset;
-//                    break;
-//                case WEST:
-//                    xMin -= renderOffset;
-//                    xMax -= renderOffset;
-//                    break;
-//                case EAST:
-//                    xMin += renderOffset;
-//                    xMax += renderOffset;
-//                    break;
-//                default: {}
-//            }
-//        }
+        // if (BlockHandlerSloped.isSideSloped) {
+        // switch (side) {
+        // case DOWN:
+        // yMin -= renderOffset;
+        // yMax -= renderOffset;
+        // break;
+        // case UP:
+        // yMin += renderOffset;
+        // yMax += renderOffset;
+        // break;
+        // case NORTH:
+        // zMin -= renderOffset;
+        // zMax -= renderOffset;
+        // break;
+        // case SOUTH:
+        // zMin += renderOffset;
+        // zMax += renderOffset;
+        // break;
+        // case WEST:
+        // xMin -= renderOffset;
+        // xMax -= renderOffset;
+        // break;
+        // case EAST:
+        // xMin += renderOffset;
+        // xMax += renderOffset;
+        // break;
+        // default: {}
+        // }
+        // }
 
         /* Set u, v for icon with rotation. */
 
@@ -608,7 +607,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the bottom face of the block.
      */
     public void orthoWedgeRenderFaceYNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                      IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.DOWN, x, y, z, icon);
 
         switch (slopeID) {
@@ -647,7 +646,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the top face of the block.
      */
     public void orthoWedgeRenderFaceYPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                      IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.UP, x, y, z, icon);
 
         switch (slopeID) {
@@ -686,7 +685,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the North face of the block.
      */
     public void orthoWedgeRenderFaceZNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                      IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         Slope slope = Slope.getSlopeById(slopeID);
@@ -718,7 +717,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the South face of the block.
      */
     public void orthoWedgeRenderFaceZPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                      IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.SOUTH, x, y, z, icon);
 
         Slope slope = Slope.getSlopeById(slopeID);
@@ -750,7 +749,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the West face of the block.
      */
     public void orthoWedgeRenderFaceXNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                      IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.WEST, x, y, z, icon);
 
         Slope slope = Slope.getSlopeById(slopeID);
@@ -782,7 +781,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the East face of the block.
      */
     public void orthoWedgeRenderFaceXPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                      IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.EAST, x, y, z, icon);
 
         Slope slope = Slope.getSlopeById(slopeID);
@@ -1014,7 +1013,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the North sloped face of the block. Args: slope, x, y, z, texture
      */
     public void oblWedgeRenderSlopeZNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                       IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         switch (slopeID) {
@@ -1049,7 +1048,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the South sloped face of the block. Args: slope, x, y, z, texture
      */
     public void oblWedgeRenderSlopeZPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                       IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.SOUTH, x, y, z, icon);
 
         switch (slopeID) {
@@ -1084,7 +1083,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the West sloped face of the block. Args: slope, x, y, z, texture
      */
     public void oblWedgeRenderSlopeXNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                       IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.WEST, x, y, z, icon);
 
         switch (slopeID) {
@@ -1107,7 +1106,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the East sloped face of the block. Args: slope, x, y, z, texture
      */
     public void oblWedgeRenderSlopeXPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                       IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.EAST, x, y, z, icon);
 
         switch (slopeID) {
@@ -1158,7 +1157,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to interior oblique on the bottom sloped face.
      */
     public void obliqueRenderIntObliqueYNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                            IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uMI = uTR - (uTR - uTL) / 2;
@@ -1192,7 +1191,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to interior oblique on the top sloped face.
      */
     public void obliqueRenderIntObliqueYPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                            IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         boolean altRot = rotation % 2 == 0;
@@ -1227,7 +1226,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to exterior oblique bottom face on right.
      */
     public void obliqueRenderExtObliqueYNegLeft(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                                IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uTOP_MIDDLE = uTR;
@@ -1264,7 +1263,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to exterior oblique bottom face on right.
      */
     public void obliqueRenderExtObliqueYNegRight(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                                 IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uTOP_MIDDLE = uTR - (uTR - uTL) / 2;
@@ -1301,7 +1300,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to exterior oblique top face on left.
      */
     public void obliqueRenderExtObliqueYPosLeft(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                                IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uMI1 = uBR; // u middle coordinate, left triangle
@@ -1338,7 +1337,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to exterior oblique top face on right.
      */
     public void obliqueRenderExtObliqueYPosRight(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                                 IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         double uBOTTOM_MIDDLE = uBR - (uBR - uBL) / 2;
@@ -1375,7 +1374,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the North sloped face of the block.
      */
     public void cornerRenderSlopeZNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                       IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         switch (slopeID) {
@@ -1426,7 +1425,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the South sloped face of the block.
      */
     public void cornerRenderSlopeZPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                       IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.SOUTH, x, y, z, icon);
 
         switch (slopeID) {
@@ -1477,7 +1476,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the West sloped face of the block.
      */
     public void cornerRenderSlopeXNeg(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                       IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.WEST, x, y, z, icon);
 
         switch (slopeID) {
@@ -1528,7 +1527,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the East sloped face of the block.
      */
     public void cornerRenderSlopeXPos(RenderBlocks renderBlocks, int slopeID, double x, double y, double z,
-                                       IIcon icon) {
+            IIcon icon) {
         prepareRender(renderBlocks, ForgeDirection.EAST, x, y, z, icon);
 
         switch (slopeID) {
@@ -1691,7 +1690,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the North face of the block.
      */
     public void collapsibleRenderFaceZNeg(RenderBlocks renderBlocks, double x, double y, double z, IIcon icon,
-                                      boolean isPositive) {
+            boolean isPositive) {
         prepareRender(renderBlocks, ForgeDirection.NORTH, x, y, z, icon);
 
         if (isPositive) {
@@ -1725,7 +1724,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the South face of the block.
      */
     public void collapsibleRenderFaceZPos(RenderBlocks renderBlocks, double x, double y, double z, IIcon icon,
-                                      boolean isPositive) {
+            boolean isPositive) {
         prepareRender(renderBlocks, ForgeDirection.SOUTH, x, y, z, icon);
 
         if (isPositive) {
@@ -1759,7 +1758,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the West face of the block.
      */
     public void collapsibleRenderFaceXNeg(RenderBlocks renderBlocks, double x, double y, double z, IIcon icon,
-                                      boolean isPositive) {
+            boolean isPositive) {
         prepareRender(renderBlocks, ForgeDirection.WEST, x, y, z, icon);
 
         if (isPositive) {
@@ -1793,7 +1792,7 @@ public class RenderHelper extends VertexHelper {
      * Renders the given texture to the East face of the block.
      */
     public void collapsibleRenderFaceXPos(RenderBlocks renderBlocks, double x, double y, double z, IIcon icon,
-                                      boolean isPositive) {
+            boolean isPositive) {
         prepareRender(renderBlocks, ForgeDirection.EAST, x, y, z, icon);
 
         if (isPositive) {
@@ -1831,7 +1830,7 @@ public class RenderHelper extends VertexHelper {
         Tessellator tessellator = Tessellator.instance;
 
         float[] rgb = LightingHelper
-            .getRGB(blockHandler.getBlockColor(block, itemStack.getItemDamage(), x, y, z, 1, null));
+                .getRGB(blockHandler.getBlockColor(block, itemStack.getItemDamage(), x, y, z, 1, null));
         blockHandler.lightingHelper.applyAnaglyph(rgb);
 
         tessellator.setColorOpaque_F(rgb[0], rgb[1], rgb[2]);
@@ -1846,8 +1845,8 @@ public class RenderHelper extends VertexHelper {
     /**
      * Renders a vanilla double tall plant.
      */
-    public boolean renderBlockDoublePlant(TEBase TE, RenderBlocks renderBlocks, ItemStack itemStack, int x,
-                                                 int y, int z, boolean thin) {
+    public boolean renderBlockDoublePlant(TEBase TE, RenderBlocks renderBlocks, ItemStack itemStack, int x, int y,
+            int z, boolean thin) {
         BlockDoublePlant block = (BlockDoublePlant) FlowerPotProperties.toBlock(itemStack);
 
         Tessellator tessellator = Tessellator.instance;
@@ -1927,8 +1926,8 @@ public class RenderHelper extends VertexHelper {
     /**
      * Renders plant using crossed squares.
      */
-    public boolean renderPlantCrossedSquares(RenderBlocks renderBlocks, Block block, IIcon icon, int x, int y,
-                                                    int z, float scale, boolean flip_vertical) {
+    public boolean renderPlantCrossedSquares(RenderBlocks renderBlocks, Block block, IIcon icon, int x, int y, int z,
+            float scale, boolean flip_vertical) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y, z));
 
@@ -1971,8 +1970,8 @@ public class RenderHelper extends VertexHelper {
     /**
      * Renders thin plant using crossed squares.
      */
-    public void renderPlantThinCrossedSquares(RenderBlocks renderBlocks, Block block, IIcon icon, int x, int y,
-                                                     int z, boolean flip_vertical) {
+    public void renderPlantThinCrossedSquares(RenderBlocks renderBlocks, Block block, IIcon icon, int x, int y, int z,
+            boolean flip_vertical) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(block.getMixedBrightnessForBlock(renderBlocks.blockAccess, x, y, z));
 
@@ -2039,8 +2038,8 @@ public class RenderHelper extends VertexHelper {
     /**
      * Renders vanilla cactus using "prickly" method.
      */
-    public void drawPlantCactus(LightingHelper lightingHelper, RenderBlocks renderBlocks, ItemStack itemStack,
-                                       int x, int y, int z) {
+    public void drawPlantCactus(LightingHelper lightingHelper, RenderBlocks renderBlocks, ItemStack itemStack, int x,
+            int y, int z) {
         Block block = BlockProperties.toBlock(itemStack);
         IIcon icon = block.getBlockTextureFromSide(2);
 

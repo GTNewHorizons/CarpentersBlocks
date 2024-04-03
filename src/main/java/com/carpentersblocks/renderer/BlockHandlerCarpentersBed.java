@@ -1,17 +1,16 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Bed;
-import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.handler.DyeHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,7 +18,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBed extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersBed> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersBed::new);
+    private static final ThreadLocal<BlockHandlerCarpentersBed> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersBed::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

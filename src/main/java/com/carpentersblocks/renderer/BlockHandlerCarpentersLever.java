@@ -1,6 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
@@ -13,10 +12,10 @@ import com.carpentersblocks.block.BlockCarpentersLever;
 import com.carpentersblocks.block.BlockCoverable;
 import com.carpentersblocks.data.Lever;
 import com.carpentersblocks.data.Lever.Axis;
-import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,7 +23,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersLever extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersLever> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersLever::new);
+    private static final ThreadLocal<BlockHandlerCarpentersLever> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersLever::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();
