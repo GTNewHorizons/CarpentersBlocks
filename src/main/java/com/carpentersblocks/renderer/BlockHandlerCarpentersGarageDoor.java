@@ -1,6 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
@@ -10,10 +9,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.GarageDoor;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 public class BlockHandlerCarpentersGarageDoor extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersGarageDoor> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersGarageDoor::new);
+    private static final ThreadLocal<BlockHandlerCarpentersGarageDoor> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersGarageDoor::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

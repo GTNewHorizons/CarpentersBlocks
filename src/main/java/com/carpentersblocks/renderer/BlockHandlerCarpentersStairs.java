@@ -1,7 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRH;
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
@@ -10,6 +8,7 @@ import com.carpentersblocks.block.BlockCarpentersStairs;
 import com.carpentersblocks.data.Stairs;
 import com.carpentersblocks.util.registry.BlockRegistry;
 import com.carpentersblocks.util.stairs.StairsUtil;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,7 +16,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersStairs extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersStairs> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersStairs::new);
+    private static final ThreadLocal<BlockHandlerCarpentersStairs> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersStairs::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

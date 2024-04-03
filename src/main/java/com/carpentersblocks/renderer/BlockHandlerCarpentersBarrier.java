@@ -1,6 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -11,6 +10,7 @@ import com.carpentersblocks.block.BlockCarpentersBarrier;
 import com.carpentersblocks.data.Barrier;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.registry.BlockRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,7 +18,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBarrier extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersBarrier> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersBarrier::new);
+    private static final ThreadLocal<BlockHandlerCarpentersBarrier> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersBarrier::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();

@@ -1,6 +1,5 @@
 package com.carpentersblocks.renderer;
 
-import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.client.renderer.Tessellator;
@@ -14,6 +13,7 @@ import com.carpentersblocks.util.flowerpot.FlowerPotHandler;
 import com.carpentersblocks.util.flowerpot.FlowerPotProperties;
 import com.carpentersblocks.util.handler.DesignHandler;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +21,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersFlowerPot extends BlockHandlerBase {
 
-    private static final ThreadLocal<BlockHandlerCarpentersFlowerPot> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersFlowerPot::new);
+    private static final ThreadLocal<BlockHandlerCarpentersFlowerPot> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersFlowerPot::new);
 
     public ThreadSafeISBRHFactory newInstance() {
         return threadRenderer.get();
