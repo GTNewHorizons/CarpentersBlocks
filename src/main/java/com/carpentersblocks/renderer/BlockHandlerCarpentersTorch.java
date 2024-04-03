@@ -1,5 +1,6 @@
 package com.carpentersblocks.renderer;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
@@ -19,6 +20,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersTorch> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersTorch::new);
+
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
+    }
 
     private Vec3[] vec3 = new Vec3[8];
     private static Torch data = new Torch();
@@ -77,7 +84,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
                 srcBlock.getMixedBrightnessForBlock(renderBlocks.blockAccess, TE.xCoord, TE.yCoord, TE.zCoord));
         tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 
-        RenderHelper.setFloatingIconLock();
+        renderHelper.setFloatingIconLock();
 
         IIcon icon = null;
         switch (data.getState(TE)) {
@@ -105,7 +112,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
             renderVectors(side, icon, false);
         }
 
-        RenderHelper.clearFloatingIconLock();
+        renderHelper.clearFloatingIconLock();
 
         /* Render torch handle. */
 
@@ -168,13 +175,13 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
         /* Render torch head piece. */
 
         suppressChiselDesign = suppressDyeColor = suppressOverlay = true;
-        RenderHelper.setFloatingIconLock();
+        renderHelper.setFloatingIconLock();
         setIconOverride(6, IconRegistry.icon_torch_head_lit);
         lightingHelper.setMaximumLuminosity();
         renderBlockWithRotation(new ItemStack(Blocks.dirt), x, y, z, 0.4375D, 0.375D, 0.4375D, 0.5625D, 0.5D, 0.5625D);
         lightingHelper.clearMaximumLuminosity();
         clearIconOverride(6);
-        RenderHelper.clearFloatingIconLock();
+        renderHelper.clearFloatingIconLock();
         suppressChiselDesign = suppressDyeColor = suppressOverlay = false;
     }
 
@@ -253,7 +260,7 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
         } else {
             uMin = icon.getInterpolatedU(7.0D);
             uMax = icon.getInterpolatedU(9.0D);
-            if (VertexHelper.hasFloatingIcon()) {
+            if (renderHelper.hasFloatingIcon()) {
                 vMin = icon.getMinV();
                 vMax = icon.getInterpolatedV(2.0D);
             } else {
@@ -306,9 +313,9 @@ public class BlockHandlerCarpentersTorch extends BlockHandlerBase {
                 break;
         }
 
-        VertexHelper.drawVertex(renderBlocks, vertex1.xCoord, vertex1.yCoord, vertex1.zCoord, uMin, vMax);
-        VertexHelper.drawVertex(renderBlocks, vertex2.xCoord, vertex2.yCoord, vertex2.zCoord, uMax, vMax);
-        VertexHelper.drawVertex(renderBlocks, vertex3.xCoord, vertex3.yCoord, vertex3.zCoord, uMax, vMin);
-        VertexHelper.drawVertex(renderBlocks, vertex4.xCoord, vertex4.yCoord, vertex4.zCoord, uMin, vMin);
+        renderHelper.drawVertex(renderBlocks, vertex1.xCoord, vertex1.yCoord, vertex1.zCoord, uMin, vMax);
+        renderHelper.drawVertex(renderBlocks, vertex2.xCoord, vertex2.yCoord, vertex2.zCoord, uMax, vMax);
+        renderHelper.drawVertex(renderBlocks, vertex3.xCoord, vertex3.yCoord, vertex3.zCoord, uMax, vMin);
+        renderHelper.drawVertex(renderBlocks, vertex4.xCoord, vertex4.yCoord, vertex4.zCoord, uMin, vMin);
     }
 }

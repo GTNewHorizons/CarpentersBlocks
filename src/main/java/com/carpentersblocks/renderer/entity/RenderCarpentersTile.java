@@ -49,20 +49,22 @@ public class RenderCarpentersTile extends Render {
 
         IIcon icon = entity.getIcon();
 
-        RenderHelper.setTextureRotationOverride(entity.getRotation());
+        RenderHelper renderHelper = new RenderHelper();
+
+        renderHelper.setTextureRotationOverride(entity.getRotation());
         tessellator.setNormal(0.0F, -1.0F, 0.0F);
-        RenderHelper.renderFaceYNeg(renderBlocks, 0, 0, 0, icon);
+        renderHelper.renderFaceYNeg(renderBlocks, 0, 0, 0, icon);
         tessellator.setNormal(0.0F, 1.0F, 0.0F);
-        RenderHelper.renderFaceYPos(renderBlocks, 0, 0, 0, icon);
+        renderHelper.renderFaceYPos(renderBlocks, 0, 0, 0, icon);
         tessellator.setNormal(0.0F, 0.0F, -1.0F);
-        RenderHelper.renderFaceZNeg(renderBlocks, 0, 0, 0, icon);
+        renderHelper.renderFaceZNeg(renderBlocks, 0, 0, 0, icon);
         tessellator.setNormal(0.0F, 0.0F, 1.0F);
-        RenderHelper.renderFaceZPos(renderBlocks, 0, 0, 0, icon);
+        renderHelper.renderFaceZPos(renderBlocks, 0, 0, 0, icon);
         tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-        RenderHelper.renderFaceXNeg(renderBlocks, 0, 0, 0, icon);
+        renderHelper.renderFaceXNeg(renderBlocks, 0, 0, 0, icon);
         tessellator.setNormal(1.0F, 0.0F, 0.0F);
-        RenderHelper.renderFaceXPos(renderBlocks, 0, 0, 0, icon);
-        RenderHelper.clearTextureRotationOverride();
+        renderHelper.renderFaceXPos(renderBlocks, 0, 0, 0, icon);
+        renderHelper.clearTextureRotationOverride();
 
         tessellator.draw();
     }

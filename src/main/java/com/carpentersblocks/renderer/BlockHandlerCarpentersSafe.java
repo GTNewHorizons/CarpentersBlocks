@@ -3,6 +3,7 @@ package com.carpentersblocks.renderer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
@@ -20,6 +21,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersSafe> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersSafe::new);
+
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
+    }
 
     private ForgeDirection dir;
     private boolean isOpen;

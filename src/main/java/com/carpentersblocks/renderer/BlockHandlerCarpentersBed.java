@@ -1,5 +1,6 @@
 package com.carpentersblocks.renderer;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -17,6 +18,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersBed extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersBed> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersBed::new);
+
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
+    }
 
     private IIcon[] icon_design;
 
@@ -160,7 +167,7 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
      * Renders blanket.
      */
     private void renderBlanket(ItemStack itemStack, int x, int y, int z) {
-        VertexHelper.setFloatingIconLock();
+        renderHelper.setFloatingIconLock();
 
         if (hasDesign) {
             int[] idxHead = { 2, 2, 2, 7, 1, 3 };
@@ -205,7 +212,7 @@ public class BlockHandlerCarpentersBed extends BlockHandlerBase {
 
         itemStack.setItemDamage(15);
         clearIconOverride(6);
-        VertexHelper.clearFloatingIconLock();
+        renderHelper.clearFloatingIconLock();
     }
 
     /**

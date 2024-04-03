@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class BlockHandlerHinged extends BlockHandlerBase {
+public abstract class BlockHandlerHinged extends BlockHandlerBase {
 
     /** Side block renders against. */
     protected ForgeDirection side;

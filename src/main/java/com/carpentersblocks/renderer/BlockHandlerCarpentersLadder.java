@@ -1,5 +1,6 @@
 package com.carpentersblocks.renderer;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
@@ -15,6 +16,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersLadder extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersLadder> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersLadder::new);
+
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
+    }
+
 
     private Ladder data = new Ladder();
     private ItemStack iron = new ItemStack(Blocks.iron_block);

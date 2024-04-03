@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class BlockHandlerSloped extends BlockHandlerBase {
 
     /** Returns whether side is sloped face. */
-    public static boolean isSideSloped;
+    public boolean isSideSloped;
 
     /** Identifies which render helper to use. */
     protected int renderID = 0;

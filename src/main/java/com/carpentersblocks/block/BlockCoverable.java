@@ -1235,7 +1235,7 @@ public class BlockCoverable extends BlockContainer {
                 TEBase TE_src = (TEBase) blockAccess
                         .getTileEntity(x + side_adj.offsetX, y + side_adj.offsetY, z + side_adj.offsetZ);
 
-                if (TE_adj.getBlockType().isSideSolid(blockAccess, x, y, z, side_adj)
+                if (TE_adj != null && TE_src != null && TE_adj.getBlockType().isSideSolid(blockAccess, x, y, z, side_adj)
                         == TE_src.getBlockType().isSideSolid(
                                 blockAccess,
                                 x + side_adj.offsetX,
@@ -1301,7 +1301,7 @@ public class BlockCoverable extends BlockContainer {
      * Returns whether two blocks share faces. Primarily for slopes, stairs and slabs.
      */
     protected boolean shareFaces(TEBase TE_adj, TEBase TE_src, ForgeDirection side_adj, ForgeDirection side_src) {
-        return TE_adj.getBlockType()
+        return TE_adj != null && TE_src != null && TE_adj.getBlockType()
                 .isSideSolid(TE_adj.getWorldObj(), TE_adj.xCoord, TE_adj.yCoord, TE_adj.zCoord, side_adj)
                 && TE_src.getBlockType()
                         .isSideSolid(TE_src.getWorldObj(), TE_src.xCoord, TE_src.yCoord, TE_src.zCoord, side_src);

@@ -1,5 +1,6 @@
 package com.carpentersblocks.renderer;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.init.Blocks;
@@ -15,6 +16,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersDaylightSensor extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersDaylightSensor> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersDaylightSensor::new);
+
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
+    }
 
     private static ItemStack lapis = new ItemStack(Blocks.lapis_block);
     private static ItemStack redstone = new ItemStack(Blocks.redstone_block);

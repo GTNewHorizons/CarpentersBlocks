@@ -1,5 +1,6 @@
 package com.carpentersblocks.renderer;
 
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -12,6 +13,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersDoor extends BlockHandlerHinged {
+
+    private static final ThreadLocal<BlockHandlerCarpentersDoor> threadRenderer = ThreadLocal.withInitial(BlockHandlerCarpentersDoor::new);
+
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
+    }
 
     private boolean hingeLeft;
     private boolean isOpen;
