@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
@@ -119,7 +119,7 @@ public abstract class BlockHandlerBase implements ISimpleBlockRenderingHandler, 
     public boolean renderWorldBlock(IBlockAccess blockAccess, int x, int y, int z, Block block, int modelID,
             RenderBlocks renderBlocks) {
         renderHelper.vertexCount = 0;
-        renderPass = MinecraftForgeClient.getRenderPass();
+        renderPass = ForgeHooksClient.getWorldRenderPass();
         TileEntity TE_default = blockAccess.getTileEntity(x, y, z);
 
         if (TE_default instanceof TEBase) {
@@ -681,8 +681,8 @@ public abstract class BlockHandlerBase implements ISimpleBlockRenderingHandler, 
 
         TE.setMetadata(metadata);
         int color = OptifineHandler.enableOptifineIntegration
-                ? OptifineHandler.getColorMultiplier(block, TE.getWorldObj(), x, y, z)
-                : block.colorMultiplier(TE.getWorldObj(), x, y, z);
+                ? OptifineHandler.getColorMultiplier(block, renderBlocks.blockAccess, x, y, z)
+                : block.colorMultiplier(renderBlocks.blockAccess, x, y, z);
         TE.restoreMetadata();
 
         if (block.equals(Blocks.grass) && !isPositiveFace(side) && !icon.equals(BlockGrass.getIconSideOverlay())) {
