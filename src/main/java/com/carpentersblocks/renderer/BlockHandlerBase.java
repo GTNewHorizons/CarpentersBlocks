@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
@@ -22,7 +22,6 @@ import com.carpentersblocks.data.Slope;
 import com.carpentersblocks.renderer.helper.LightingHelper;
 import com.carpentersblocks.renderer.helper.RenderHelper;
 import com.carpentersblocks.renderer.helper.RoutableFluidsHelper;
-import com.carpentersblocks.renderer.helper.VertexHelper;
 import com.carpentersblocks.tileentity.TEBase;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.handler.DesignHandler;
@@ -32,13 +31,16 @@ import com.carpentersblocks.util.handler.OverlayHandler;
 import com.carpentersblocks.util.handler.OverlayHandler.Overlay;
 import com.carpentersblocks.util.registry.FeatureRegistry;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
+@Optional.Interface(modid = "angelica", iface = "com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory")
+public abstract class BlockHandlerBase implements ISimpleBlockRenderingHandler, ThreadSafeISBRHFactory {
 
     public static final int PASS_OPAQUE = 0;
     public static final int PASS_ALPHA = 1;
@@ -50,7 +52,6 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
     public static final int WEST = 4;
     public static final int EAST = 5;
 
-    public Tessellator tessellator = Tessellator.instance;
     public RenderBlocks renderBlocks;
     public LightingHelper lightingHelper;
     public Block srcBlock;
@@ -67,6 +68,8 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
 
     /** 0-5 are side covers, with 6 being the block itself. */
     public int coverRendering = 6;
+
+    public RenderHelper renderHelper = new RenderHelper();
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderBlocks) {
@@ -115,11 +118,11 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess blockAccess, int x, int y, int z, Block block, int modelID,
             RenderBlocks renderBlocks) {
-        VertexHelper.vertexCount = 0;
-        renderPass = MinecraftForgeClient.getRenderPass();
+        renderHelper.vertexCount = 0;
+        renderPass = ForgeHooksClient.getWorldRenderPass();
         TileEntity TE_default = blockAccess.getTileEntity(x, y, z);
 
-        if (TE_default != null && TE_default instanceof TEBase) {
+        if (TE_default instanceof TEBase) {
 
             TE = (TEBase) TE_default;
             srcBlock = block;
@@ -130,7 +133,7 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
             renderSideBlocks(x, y, z);
 
             if (FeatureRegistry.enableRoutableFluids) {
-                VertexHelper.vertexCount += RoutableFluidsHelper.render(TE, renderBlocks, x, y, z) ? 4 : 0;
+                renderHelper.vertexCount += RoutableFluidsHelper.render(TE, renderBlocks, x, y, z) ? 4 : 0;
             }
 
             if (FeatureRegistry.enableRailSlopes) {
@@ -164,7 +167,7 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
             }
         }
 
-        return VertexHelper.vertexCount > 0;
+        return renderHelper.vertexCount > 0;
     }
 
     @Override
@@ -579,15 +582,15 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
         suppressDyeColor = true;
 
         if (hasDesign && !suppressChiselDesign && renderPass == PASS_ALPHA) {
-            RenderHelper.setOffset(RenderHelper.OFFSET_MIN);
+            renderHelper.setOffset(RenderHelper.OFFSET_MIN);
             renderChiselDesign(x, y, z, side);
-            RenderHelper.clearOffset();
+            renderHelper.clearOffset();
         }
 
         if (hasOverlay && !suppressOverlay && renderPass == PASS_OPAQUE) {
-            RenderHelper.setOffset(overlayOffset);
+            renderHelper.setOffset(overlayOffset);
             renderOverlay(x, y, z, side);
-            RenderHelper.clearOffset();
+            renderHelper.clearOffset();
         }
 
         suppressDyeColor = temp_dye_state;
@@ -656,7 +659,7 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
 
         lightingHelper.setupColor(x, y, z, side, color, icon);
         render(x, y, z, side, icon);
-        VertexHelper.postRender();
+        renderHelper.postRender();
     }
 
     /**
@@ -678,8 +681,8 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
 
         TE.setMetadata(metadata);
         int color = OptifineHandler.enableOptifineIntegration
-                ? OptifineHandler.getColorMultiplier(block, TE.getWorldObj(), x, y, z)
-                : block.colorMultiplier(TE.getWorldObj(), x, y, z);
+                ? OptifineHandler.getColorMultiplier(block, renderBlocks.blockAccess, x, y, z)
+                : block.colorMultiplier(renderBlocks.blockAccess, x, y, z);
         TE.restoreMetadata();
 
         if (block.equals(Blocks.grass) && !isPositiveFace(side) && !icon.equals(BlockGrass.getIconSideOverlay())) {
@@ -715,22 +718,22 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
     protected void render(int x, int y, int z, int side, IIcon icon) {
         switch (side) {
             case DOWN:
-                RenderHelper.renderFaceYNeg(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceYNeg(renderBlocks, x, y, z, icon);
                 break;
             case UP:
-                RenderHelper.renderFaceYPos(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceYPos(renderBlocks, x, y, z, icon);
                 break;
             case NORTH:
-                RenderHelper.renderFaceZNeg(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceZNeg(renderBlocks, x, y, z, icon);
                 break;
             case SOUTH:
-                RenderHelper.renderFaceZPos(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceZPos(renderBlocks, x, y, z, icon);
                 break;
             case WEST:
-                RenderHelper.renderFaceXNeg(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceXNeg(renderBlocks, x, y, z, icon);
                 break;
             case EAST:
-                RenderHelper.renderFaceXPos(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceXPos(renderBlocks, x, y, z, icon);
                 break;
         }
     }
@@ -773,32 +776,32 @@ public class BlockHandlerBase implements ISimpleBlockRenderingHandler {
             case DOWN:
                 lightingHelper.setupLightingYNeg(itemStack, x, y, z);
                 lightingHelper.setupColor(x, y, z, facing.ordinal(), blockColor, null);
-                RenderHelper.renderFaceYNeg(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceYNeg(renderBlocks, x, y, z, icon);
                 break;
             case UP:
                 lightingHelper.setupLightingYPos(itemStack, x, y, z);
                 lightingHelper.setupColor(x, y, z, facing.ordinal(), blockColor, null);
-                RenderHelper.renderFaceYPos(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceYPos(renderBlocks, x, y, z, icon);
                 break;
             case NORTH:
                 lightingHelper.setupLightingZNeg(itemStack, x, y, z);
                 lightingHelper.setupColor(x, y, z, facing.ordinal(), blockColor, null);
-                RenderHelper.renderFaceZNeg(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceZNeg(renderBlocks, x, y, z, icon);
                 break;
             case SOUTH:
                 lightingHelper.setupLightingZPos(itemStack, x, y, z);
                 lightingHelper.setupColor(x, y, z, facing.ordinal(), blockColor, null);
-                RenderHelper.renderFaceZPos(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceZPos(renderBlocks, x, y, z, icon);
                 break;
             case WEST:
                 lightingHelper.setupLightingXNeg(itemStack, x, y, z);
                 lightingHelper.setupColor(x, y, z, facing.ordinal(), blockColor, null);
-                RenderHelper.renderFaceXNeg(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceXNeg(renderBlocks, x, y, z, icon);
                 break;
             case EAST:
                 lightingHelper.setupLightingXPos(itemStack, x, y, z);
                 lightingHelper.setupColor(x, y, z, facing.ordinal(), blockColor, null);
-                RenderHelper.renderFaceXPos(renderBlocks, x, y, z, icon);
+                renderHelper.renderFaceXPos(renderBlocks, x, y, z, icon);
                 break;
             default: {}
         }

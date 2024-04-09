@@ -62,7 +62,7 @@ public class TEBase extends TileEntity implements IProtected {
     protected String cbOwner = "";
 
     /** Indicates lighting calculations are underway. **/
-    protected static boolean calcLighting = false;
+    protected boolean calcLighting = false;
 
     /** Holds last stored metadata. **/
     private int tempMetadata;
@@ -223,7 +223,7 @@ public class TEBase extends TileEntity implements IProtected {
     @Override
     /**
      * Determines if this TileEntity requires update calls.
-     * 
+     *
      * @return True if you want updateEntity() to be called, false if not
      */
     public boolean canUpdate() {

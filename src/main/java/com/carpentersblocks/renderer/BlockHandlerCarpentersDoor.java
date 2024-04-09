@@ -6,12 +6,20 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.carpentersblocks.data.Hinge;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersDoor extends BlockHandlerHinged {
+
+    private static final ThreadLocal<BlockHandlerCarpentersDoor> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersDoor::new);
+
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
+    }
 
     private boolean hingeLeft;
     private boolean isOpen;

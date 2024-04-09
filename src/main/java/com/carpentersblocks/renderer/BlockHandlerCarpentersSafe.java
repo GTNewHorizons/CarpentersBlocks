@@ -14,12 +14,20 @@ import com.carpentersblocks.data.Safe;
 import com.carpentersblocks.tileentity.TECarpentersSafe;
 import com.carpentersblocks.util.BlockProperties;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockHandlerCarpentersSafe extends BlockHandlerBase {
+
+    private static final ThreadLocal<BlockHandlerCarpentersSafe> threadRenderer = ThreadLocal
+            .withInitial(BlockHandlerCarpentersSafe::new);
+
+    public ThreadSafeISBRHFactory newInstance() {
+        return threadRenderer.get();
+    }
 
     private ForgeDirection dir;
     private boolean isOpen;
