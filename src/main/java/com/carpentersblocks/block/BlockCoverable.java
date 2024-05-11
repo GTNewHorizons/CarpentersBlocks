@@ -1275,7 +1275,6 @@ public class BlockCoverable extends BlockContainer {
      * Determines if this block should render in this pass.
      */
     public boolean canRenderInPass(int pass) {
-        ForgeHooksClient.setRenderPass(pass);
         return true;
     }
 
