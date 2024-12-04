@@ -1,5 +1,7 @@
 package com.carpentersblocks.renderer;
 
+import static com.carpentersblocks.api.compat.Mods.CHISEL;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockRailBase;
@@ -31,6 +33,7 @@ import com.carpentersblocks.util.handler.OverlayHandler;
 import com.carpentersblocks.util.handler.OverlayHandler.Overlay;
 import com.carpentersblocks.util.registry.FeatureRegistry;
 import com.carpentersblocks.util.registry.IconRegistry;
+import com.cricketcraft.chisel.api.ICarvable;
 import com.gtnewhorizons.angelica.api.ThreadSafeISBRHFactory;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -538,6 +541,18 @@ public abstract class BlockHandlerBase implements ISimpleBlockRenderingHandler, 
         return icon;
     }
 
+    protected IIcon getIcon(ItemStack itemStack, int side, IBlockAccess world, int x, int y, int z) {
+        BlockProperties.prepareItemStackForRendering(itemStack);
+        IIcon icon = renderBlocks.getIconSafe(
+                getUniqueIcon(itemStack, side, BlockProperties.toBlock(itemStack).getIcon(world, x, y, z, side)));
+
+        if (hasIconOverride[side]) {
+            icon = renderBlocks.getIconSafe(iconOverride[side]);
+        }
+
+        return icon;
+    }
+
     /**
      * Renders multiple textures to side.
      */
@@ -564,7 +579,18 @@ public abstract class BlockHandlerBase implements ISimpleBlockRenderingHandler, 
             if (BlockProperties.blockRotates(itemStack)) {
                 setTextureRotationForDirectionalBlock(side);
             }
-            setColorAndRender(itemStack, x, y, z, side, getIcon(itemStack, side));
+            if (CHISEL.isModLoaded() && Block.getBlockFromItem(itemStack.getItem()) instanceof ICarvable) {
+                setColorAndRender(
+                        itemStack,
+                        x,
+                        y,
+                        z,
+                        side,
+                        getIcon(itemStack, side, renderBlocks.blockAccess, x, y, z));
+            } else {
+                setColorAndRender(itemStack, x, y, z, side, getIcon(itemStack, side));
+            }
+
             setTextureRotation(side, tempRotation);
         }
 

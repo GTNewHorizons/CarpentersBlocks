@@ -1,6 +1,7 @@
 package com.carpentersblocks.proxy;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 
 import com.carpentersblocks.CarpentersBlocksCachedResources;
 import com.carpentersblocks.entity.item.EntityCarpentersTile;
@@ -11,12 +12,22 @@ import com.carpentersblocks.util.registry.IconRegistry;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
+
+    @Override
+    public void preInit(FMLPreInitializationEvent event, Configuration config) {
+        super.preInit(event, config);
+        if (Loader.isModLoaded("Chisel")) {
+
+        }
+    }
 
     @Override
     public void init(FMLInitializationEvent event) {
