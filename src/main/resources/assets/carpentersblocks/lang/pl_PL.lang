@@ -27,6 +27,9 @@ tile.blockCarpentersTorch.name=Ciesielska pochodnia
 tile.blockCarpentersSafe.name=Ciesielski sejf
 tile.blockCarpentersFlowerPot.name=Ciesielska doniczka
 
+#GUI
+gui.tile.blockCarpentersSafe.title=Ciesielski sejf
+
 # MESSAGES
 message.polarity_pos.name=POLARYZACJA: Proste wyjście redstone.
 message.polarity_neg.name=POLARYZACJA: Odwrócone wyjście redstone.

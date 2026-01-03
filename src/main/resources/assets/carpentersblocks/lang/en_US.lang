@@ -35,6 +35,9 @@ tile.blockCarpentersTorch.name=Carpenter's Torch
 tile.blockCarpentersSafe.name=Carpenter's Safe
 tile.blockCarpentersFlowerPot.name=Carpenter's Flower Pot
 
+#GUI
+gui.tile.blockCarpentersSafe.title=Carpenter's Safe
+
 # ENTITIES
 entity.CarpentersTile.name=Carpenter's Tile
 

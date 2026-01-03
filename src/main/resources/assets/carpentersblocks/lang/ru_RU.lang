@@ -34,6 +34,9 @@ tile.blockCarpentersTorch.name=Факел плотника
 tile.blockCarpentersSafe.name=Сейф плотника
 tile.blockCarpentersFlowerPot.name=Цветочный горшок плотника
 
+#GUI
+gui.tile.blockCarpentersSafe.title=Сейф плотника
+
 # ENTITIES
 entity.CarpentersTile.name=Плитка плотника
 
