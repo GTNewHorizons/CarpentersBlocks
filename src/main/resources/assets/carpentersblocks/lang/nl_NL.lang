@@ -33,6 +33,9 @@ tile.blockCarpentersTorch.name=Timmermans Fakkel
 tile.blockCarpentersSafe.name=Timmermans Kluis
 tile.blockCarpentersFlowerPot.name=Timmermans Bloempot
 
+#GUI
+gui.tile.blockCarpentersSafe.title=Timmermans Kluis
+
 # ENTITIES
 entity.CarpentersTile.name=Timmermans Tegel
 

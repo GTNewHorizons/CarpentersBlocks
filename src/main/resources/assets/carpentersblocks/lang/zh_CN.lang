@@ -34,6 +34,9 @@ tile.blockCarpentersTorch.name=木匠火把
 tile.blockCarpentersSafe.name=木匠保险箱
 tile.blockCarpentersFlowerPot.name=木匠花盆
 
+#GUI
+gui.tile.blockCarpentersSafe.title=木匠保险箱
+
 # ENTITIES
 entity.CarpentersTile.name=木匠瓷砖
 

@@ -33,6 +33,9 @@ tile.blockCarpentersTorch.name=Snickarens Fackla
 tile.blockCarpentersSafe.name=Snickarens Kassaskåp
 tile.blockCarpentersFlowerPot.name=Snickarens Blomkruka
 
+#GUI
+gui.tile.blockCarpentersSafe.title=Snickarens Kassaskåp
+
 # ENTITIES
 entity.CarpentersTile.name=Snickarens Kakelplatta
 
