@@ -36,6 +36,7 @@ tile.blockCarpentersFlowerPot.name=Vaso da fiori del carpentiere
 
 # ENTITIES
 entity.CarpentersTile.name=Facciata del carpentiere
+entity.CarpentersBlocks.CarpentersTile.name=Facciata del carpentiere
 
 # MESSAGES
 message.polarity_pos.name=POLARITA': Segnale di pietrarossa normale.

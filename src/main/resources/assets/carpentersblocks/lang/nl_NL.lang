@@ -35,6 +35,7 @@ tile.blockCarpentersFlowerPot.name=Timmermans Bloempot
 
 # ENTITIES
 entity.CarpentersTile.name=Timmermans Tegel
+entity.CarpentersBlocks.CarpentersTile.name=Timmermans Tegel
 
 # MESSAGES
 message.polarity_pos.name=POLARITEIT: Normaal redstone signaal.

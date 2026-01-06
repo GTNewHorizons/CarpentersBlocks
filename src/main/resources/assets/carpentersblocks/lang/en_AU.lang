@@ -35,6 +35,7 @@ tile.blockCarpentersFlowerPot.name=Carpenter's Vase
 
 # ENTITIES
 entity.CarpentersTile.name=Carpenter's Tile
+entity.CarpentersBlocks.CarpentersTile.name=Carpenter's Tile
 
 # MESSAGES
 message.polarity_pos.name=POLARITY: Normal redstone output.

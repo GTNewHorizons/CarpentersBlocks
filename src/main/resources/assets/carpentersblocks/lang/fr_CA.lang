@@ -36,6 +36,7 @@ tile.blockCarpentersFlowerPot.name=Pot de fleurs de charpentier
 
 # ENTITIES
 entity.CarpentersTile.name=Tuile de charpentier
+entity.CarpentersBlocks.CarpentersTile.name=Tuile de charpentier
 
 # MESSAGES
 message.polarity_pos.name=POLARITÉ : sortie normale de redstone.

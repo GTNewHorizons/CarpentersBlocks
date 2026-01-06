@@ -36,6 +36,7 @@ tile.blockCarpentersFlowerPot.name=Tesařův květináč
 
 # ENTITIES
 entity.CarpentersTile.name=Tesařova dlaždice
+entity.CarpentersBlocks.CarpentersTile.name=Tesařova dlaždice
 
 # MESSAGES
 message.polarity_pos.name=POLARITA: Normální ruditový výstup.
