@@ -33,6 +33,9 @@ tile.blockCarpentersTorch.name=목수의 횃불
 tile.blockCarpentersSafe.name=목수의 금고
 tile.blockCarpentersFlowerPot.name=목수의 화분
 
+#GUI
+gui.tile.blockCarpentersSafe.title=목수의 금고
+
 # ENTITIES
 entity.CarpentersTile.name=목수의 타일
 entity.CarpentersBlocks.CarpentersTile.name=목수의 타일
