@@ -38,7 +38,7 @@ tile.blockCarpentersFlowerPot.name=Цветочный горшок плотни�
 gui.tile.blockCarpentersSafe.title=Сейф плотника
 
 # ENTITIES
-entity.CarpentersTile.name=Плитка плотника
+entity.CarpentersBlocks.CarpentersTile.name=Плитка плотника
 
 # MESSAGES
 message.polarity_pos.name=ПОЛЯРНОСТЬ: Нормальный выходной сингнал красного камня.

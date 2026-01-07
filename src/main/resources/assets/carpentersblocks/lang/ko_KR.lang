@@ -37,7 +37,7 @@ tile.blockCarpentersFlowerPot.name=목수의 화분
 gui.tile.blockCarpentersSafe.title=목수의 금고
 
 # ENTITIES
-entity.CarpentersTile.name=목수의 타일
+entity.CarpentersBlocks.CarpentersTile.name=목수의 타일
 
 # MESSAGES
 message.polarity_pos.name=레드스톤: 보통

@@ -38,7 +38,7 @@ tile.blockCarpentersFlowerPot.name=Blumentopf des Zimmermanns
 gui.tile.blockCarpentersSafe.title=Tresor des Zimmermanns
 
 # ENTITIES
-entity.CarpentersTile.name=Fliese des Zimmermanns
+entity.CarpentersBlocks.CarpentersTile.name=Fliese des Zimmermanns
 
 # MESSAGES
 message.polarity_pos.name=POLARITÄT: Normaler Redstone-Output.

@@ -37,7 +37,7 @@ tile.blockCarpentersFlowerPot.name=Snickarens Blomkruka
 gui.tile.blockCarpentersSafe.title=Snickarens Kassaskåp
 
 # ENTITIES
-entity.CarpentersTile.name=Snickarens Kakelplatta
+entity.CarpentersBlocks.CarpentersTile.name=Snickarens Kakelplatta
 
 # MESSAGES
 message.polarity_pos.name=POLARITET: Normal rödstens-utsignal.

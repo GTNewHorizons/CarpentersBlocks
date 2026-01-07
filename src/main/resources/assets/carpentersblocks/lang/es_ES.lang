@@ -38,7 +38,7 @@ tile.blockCarpentersFlowerPot.name=Maceta de flores de carpintero
 gui.tile.blockCarpentersSafe.title=Seguro de carpintero
 
 # ENTITIES
-entity.CarpentersTile.name=Tile de carpintero
+entity.CarpentersBlocks.CarpentersTile.name=Tile de carpintero
 
 # MESSAGES
 message.polarity_pos.name=POLARIDAD: Salida normal de redstone.
