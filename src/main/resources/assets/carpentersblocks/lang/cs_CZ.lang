@@ -38,7 +38,6 @@ tile.blockCarpentersFlowerPot.name=Tesařův květináč
 gui.tile.blockCarpentersSafe.title=Tesařův sejf
 
 # ENTITIES
-entity.CarpentersTile.name=Tesařova dlaždice
 entity.CarpentersBlocks.CarpentersTile.name=Tesařova dlaždice
 
 # MESSAGES

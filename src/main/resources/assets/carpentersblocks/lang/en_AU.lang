@@ -37,7 +37,6 @@ tile.blockCarpentersFlowerPot.name=Carpenter's Vase
 gui.tile.blockCarpentersSafe.title=Carpenter's Safe
 
 # ENTITIES
-entity.CarpentersTile.name=Carpenter's Tile
 entity.CarpentersBlocks.CarpentersTile.name=Carpenter's Tile
 
 # MESSAGES

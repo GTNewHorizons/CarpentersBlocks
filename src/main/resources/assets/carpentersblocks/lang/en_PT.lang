@@ -37,7 +37,6 @@ tile.blockCarpentersFlowerPot.name=Stumpcutter's Dirt Vase
 gui.tile.blockCarpentersSafe.title=Stumpcutter's Booty Box
 
 # ENTITIES
-entity.CarpentersTile.name=Stumpcutter's Shiny Plate
 entity.CarpentersBlocks.CarpentersTile.name=Stumpcutter's Shiny Plate
 
 # MESSAGES

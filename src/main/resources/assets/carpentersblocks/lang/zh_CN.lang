@@ -38,7 +38,6 @@ tile.blockCarpentersFlowerPot.name=木匠花盆
 gui.tile.blockCarpentersSafe.title=木匠保险箱
 
 # ENTITIES
-entity.CarpentersTile.name=木匠瓷砖
 entity.CarpentersBlocks.CarpentersTile.name=木匠瓷砖
 
 # MESSAGES
