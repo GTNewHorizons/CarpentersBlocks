@@ -234,7 +234,7 @@ public class TECarpentersSafe extends TEBase implements ISidedInventory {
 
     @Override
     public String getInventoryName() {
-        return "gui.tile.blockCarpentersSafe.title";
+        return "gui.tile.carpentersSafe.title";
     }
 
     @Override

@@ -35,7 +35,7 @@ tile.blockCarpentersSafe.name=Seguro de carpintero
 tile.blockCarpentersFlowerPot.name=Maceta de flores de carpintero
 
 #GUI
-gui.tile.blockCarpentersSafe.title=Seguro de carpintero
+gui.tile.carpentersSafe.title=Seguro de carpintero
 
 # ENTITIES
 entity.CarpentersBlocks.CarpentersTile.name=Tile de carpintero
