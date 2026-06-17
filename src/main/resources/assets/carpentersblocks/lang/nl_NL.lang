@@ -34,7 +34,7 @@ tile.blockCarpentersSafe.name=Timmermans Kluis
 tile.blockCarpentersFlowerPot.name=Timmermans Bloempot
 
 #GUI
-gui.tile.blockCarpentersSafe.title=Timmermans Kluis
+gui.tile.carpentersSafe.title=Timmermans Kluis
 
 # ENTITIES
 entity.CarpentersBlocks.CarpentersTile.name=Timmermans Tegel

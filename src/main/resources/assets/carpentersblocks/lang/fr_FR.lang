@@ -35,7 +35,7 @@ tile.blockCarpentersSafe.name=Coffre-fort du charpentier
 tile.blockCarpentersFlowerPot.name=Pot de fleur du charpentier
 
 #GUI
-gui.tile.blockCarpentersSafe.title=Coffre-fort du charpentier
+gui.tile.carpentersSafe.title=Coffre-fort du charpentier
 
 # ENTITIES
 entity.CarpentersBlocks.CarpentersTile.name=Tuile du charpentier

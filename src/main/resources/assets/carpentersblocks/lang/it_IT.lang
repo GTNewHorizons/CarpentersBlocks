@@ -35,7 +35,7 @@ tile.blockCarpentersSafe.name=Cassaforte del carpentiere
 tile.blockCarpentersFlowerPot.name=Vaso da fiori del carpentiere
 
 #GUI
-gui.tile.blockCarpentersSafe.title=Cassaforte del carpentiere
+gui.tile.carpentersSafe.title=Cassaforte del carpentiere
 
 # ENTITIES
 entity.CarpentersBlocks.CarpentersTile.name=Facciata del carpentiere

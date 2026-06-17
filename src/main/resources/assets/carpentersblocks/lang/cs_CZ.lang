@@ -35,7 +35,7 @@ tile.blockCarpentersSafe.name=Tesařův sejf
 tile.blockCarpentersFlowerPot.name=Tesařův květináč
 
 #GUI
-gui.tile.blockCarpentersSafe.title=Tesařův sejf
+gui.tile.carpentersSafe.title=Tesařův sejf
 
 # ENTITIES
 entity.CarpentersBlocks.CarpentersTile.name=Tesařova dlaždice

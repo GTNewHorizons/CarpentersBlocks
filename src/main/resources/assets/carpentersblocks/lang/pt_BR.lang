@@ -34,7 +34,7 @@ tile.blockCarpentersSafe.name=Cofre do Carpinteiro
 tile.blockCarpentersFlowerPot.name=Vaso do Carpinteiro
 
 #GUI
-gui.tile.blockCarpentersSafe.title=Cofre do Carpinteiro
+gui.tile.carpentersSafe.title=Cofre do Carpinteiro
 
 # ENTITIES
 entity.CarpentersBlocks.CarpentersTile.name=Ladrilho do Carpinteiro

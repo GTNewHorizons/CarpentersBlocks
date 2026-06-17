@@ -35,7 +35,7 @@ tile.blockCarpentersSafe.name=Tresor des Zimmermanns
 tile.blockCarpentersFlowerPot.name=Blumentopf des Zimmermanns
 
 #GUI
-gui.tile.blockCarpentersSafe.title=Tresor des Zimmermanns
+gui.tile.carpentersSafe.title=Tresor des Zimmermanns
 
 # ENTITIES
 entity.CarpentersBlocks.CarpentersTile.name=Fliese des Zimmermanns

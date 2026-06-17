@@ -34,7 +34,7 @@ tile.blockCarpentersSafe.name=Snickarens Kassaskåp
 tile.blockCarpentersFlowerPot.name=Snickarens Blomkruka
 
 #GUI
-gui.tile.blockCarpentersSafe.title=Snickarens Kassaskåp
+gui.tile.carpentersSafe.title=Snickarens Kassaskåp
 
 # ENTITIES
 entity.CarpentersBlocks.CarpentersTile.name=Snickarens Kakelplatta
